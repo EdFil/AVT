@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Object>
+  <Torso>
+    <VertexInfo position = "0.0, 0.0, 0.0, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "0.8, 0.0, 0.0, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "0.0, 0.8, 0.0, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
+  </Torso>
+  <Head>
+    <VertexInfo position = "0.0, 0.0, 0.0, 1.0" color = "1.0, 0.5, 0.5, 1.0"></VertexInfo>
+    <VertexInfo position = "0.4, 0.0, 0.0, 1.0" color = "1.0, 0.5, 0.5, 1.0"></VertexInfo>
+    <VertexInfo position = "0.0, 0.4, 0.0, 1.0" color = "1.0, 0.5, 0.5, 1.0"></VertexInfo>
+  </Head>
+  <Neck>
+    <VertexInfo position = "0.0, 0.0, 0.0, 1.0" color = "0.0, 1.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = "0.4, 0.0, 0.0, 1.0" color = "0.0, 1.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = "0.4, 0.4, 0.0, 1.0" color = "0.0, 1.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = "0.0, 0.4, 0.0, 1.0" color = "0.0, 1.0, 0.0, 1.0"></VertexInfo>
+  </Neck>
+  <LeftLeg>
+    <VertexInfo position = "0.0, 0.0, 0.0, 1.0" color = "0.7, 1.0, 0.5, 1.0"></VertexInfo>
+    <VertexInfo position = "0.4, 0.0, 0.0, 1.0" color = "0.7, 1.0, 0.5, 1.0"></VertexInfo>
+    <VertexInfo position = "0.4, 0.4, 0.0, 1.0" color = "0.7, 1.0, 0.5, 1.0"></VertexInfo>
+    <VertexInfo position = "0.8, 0.4, 0.0, 1.0" color = "0.7, 1.0, 0.5, 1.0"></VertexInfo>
+  </LeftLeg>
+  <RightLeg>
+    <VertexInfo position = "0.0, 0.0, 0.0, 1.0" color = "0.0, 0.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = "0.4, 0.0, 0.0, 1.0" color = "0.0, 0.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = "0.0, 0.4, 0.0, 1.0" color = "0.0, 0.0, 0.0, 1.0"></VertexInfo>
+  </RightLeg>
+  <Tail>
+    <VertexInfo position = "0.0, 0.0, 0.0, 1.0" color = "1.0, 0.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = "0.58, 0.0, 0.0, 1.0" color = "1.0, 0.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = "0.0, 0.58, 0.0, 1.0" color = "1.0, 0.0, 0.0, 1.0"></VertexInfo>
+  </Tail>
+  <Back>
+    <VertexInfo position = "0.0, 0.0, 0.0, 1.0" color = "0.3, 0.2, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "0.8, 0.0, 0.0, 1.0" color = "0.3, 0.2, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "0.0, 0.8, 0.0, 1.0" color = "0.3, 0.2, 1.0, 1.0"></VertexInfo>
+  </Back>
+</Object>
