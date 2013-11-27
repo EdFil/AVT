@@ -38,6 +38,7 @@ Camera::Camera(){
     
 	_orientation = Quaternion::IDENTITY;
 
+
 	_viewMatrix = Matrix4();
 	_projMatrix = Matrix4();
 }
