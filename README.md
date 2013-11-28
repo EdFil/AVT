@@ -12,11 +12,10 @@ Installation
 * Code to load external meshes/materials from an existing format (1.0) **Edgar**
 * A photorealistic lighting/shading model, e.g. Phong or Blinn-Phong model (0.5) **Edgar**
 * Using one's own mathematical libraries, e.g. vectors, matrices, quaternions (0.5) **Edgar**
-
+* A non-photorealistic lighting/shading model with silhouette in modern OpenGL, e.g. Cel or Gooch shading (1.0) **Catia**
+* A realistic or stylized solid material for the objects of your scene, e.g. wood, stone, marble (1.0)**Catia**
 * Generic scene graph handling hierarchical drawing (e.g. matrices, shaders, textures)  (1.5)
 * Matrix stack for hierarchical drawing and its use in the scene (0.5)
-* A non-photorealistic lighting/shading model with silhouette in modern OpenGL, e.g. Cel or Gooch shading (1.0)
-* A realistic or stylized solid material for the objects of your scene, e.g. wood, stone, marble (1.0)
 * A realistic or stylized material with transparencies, e.g. glass, crytal (1.5)
 * Buffer based special effects such as reflections or planar shadows (1.0)
 * Shader based special effects, e.g. normal or displacement mapping (1.0)
