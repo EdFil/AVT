@@ -6,13 +6,9 @@
 
 class Mesh {
 
-private:
-
-
-
 public:
 
-	Mesh();
+	Mesh(char* fileName);
 	
-
+}
 #endif
