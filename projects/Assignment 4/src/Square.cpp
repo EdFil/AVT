@@ -2,7 +2,14 @@
 
 Square::Square(){
 	// Empty
+
+
+
+
+
+
 }
+
 
 void Square::createBufferObjects(GLuint* vaoId,GLuint* vboId){
 	glBindVertexArray(vaoId[_vaoId]);
