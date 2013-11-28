@@ -4,15 +4,33 @@ AVT
 Installation
 ------------
 
+###Temas.
+
+* Picking and manipulating objects with mouse and keyboard (1.0) **Sena**
+* Saving a snapshot of the application to a known image file format (0.5) **Sena**
+* Creating a format allowing to save, load the full scene, and resume the interaction (1.0) **Sena**
+* Code to load external meshes/materials from an existing format (1.0) **Edgar**
+* A photorealistic lighting/shading model, e.g. Phong or Blinn-Phong model (0.5) **Edgar**
+* Using one's own mathematical libraries, e.g. vectors, matrices, quaternions (0.5) **Edgar**
+* A non-photorealistic lighting/shading model with silhouette in modern OpenGL, e.g. Cel or Gooch shading (1.0) **Catia**
+* A realistic or stylized solid material for the objects of your scene, e.g. wood, stone, marble (1.0)**Catia**
+* Generic scene graph handling hierarchical drawing (e.g. matrices, shaders, textures)  (1.5)
+* Matrix stack for hierarchical drawing and its use in the scene (0.5)
+* A realistic or stylized material with transparencies, e.g. glass, crytal (1.5)
+* Buffer based special effects such as reflections or planar shadows (1.0)
+* Shader based special effects, e.g. normal or displacement mapping (1.0)
+* Scene post processing, e.g. using image filters (1.0)
+
+
 ###Git para o Visual Studio.
 
-	* Se o Visual Studio for **2012 ou superior** instalar **[Visual Studio Tools for Git][GitVS2012]**
-	* Se o Visual Studio **menor que 2012** instalar **[Git Source Control Provider][GitVS2010]**
+* Se o Visual Studio for **2012 ou superior** instalar **[Visual Studio Tools for Git][GitVS2012]**
+* Se o Visual Studio **menor que 2012** instalar **[Git Source Control Provider][GitVS2010]**
 
 ###Fazer clone do proj para uma pasta *(consola)*
 
-	* Ir para a pasta desejada
-	* Fazer `git clone https://github.com/EdFil/AVT.git`
+* Ir para a pasta desejada
+* Fazer `git clone https://github.com/EdFil/AVT.git`
 
 ###Copiar ficheiros do visual studio para a pasta do git
 
