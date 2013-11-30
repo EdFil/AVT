@@ -121,13 +121,13 @@ void mouse(int button, int state, int x, int y) {
 }
 
 void mouseMotion(int x, int y) {
-	if(mousePressed){
-		RotationAngleX = float(y - LastMousePositionY);
-		RotationAngleY = float(x - LastMousePositionX);
-		LastMousePositionX = x;
-		LastMousePositionY = y;
-		camera.rotate(RotationAngleX/10, RotationAngleY/10);
-	}
+	//if(mousePressed){
+	//	RotationAngleX = float(y - LastMousePositionY);
+	//	RotationAngleY = float(x - LastMousePositionX);
+	//	LastMousePositionX = x;
+	//	LastMousePositionY = y;
+	//	camera.rotate(RotationAngleX/10, RotationAngleY/10);
+	//}
 }
 
 void cleanup(){
@@ -227,17 +227,17 @@ void init(int argc, char* argv[]){
 	shaderManager.addProgram("../src/OtherVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.createShaderProgram();
 	camera = Camera();
-	camera.lookAt(Vector3(0,5,5), Vector3(0,0,0), Vector3(0,1,0));
-	camera.perspective(30, 4/3, 0.1f, 20.0f);
+	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
+	camera.perspective(30, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(shaderManager.getSelectedUniformId(), shaderManager.getSelectedProgram());
 	objectManager.addObject(new Grid(4,0.2f));
-	objectManager.addObject(new Torso());
-	objectManager.addObject(new Back());
-	objectManager.addObject(new Tail());
-	objectManager.addObject(new RightLeg());
-	objectManager.addObject(new Neck());
-	objectManager.addObject(new Head());
-	objectManager.addObject(new LeftLeg());
+	//objectManager.addObject(new Torso());
+	//objectManager.addObject(new Back());
+	//objectManager.addObject(new Tail());
+	//objectManager.addObject(new RightLeg());
+	//objectManager.addObject(new Neck());
+	//objectManager.addObject(new Head());
+	//objectManager.addObject(new LeftLeg());
 	objectManager.createBufferObjects();
 	setupCallbacks();
 

@@ -1,9 +1,9 @@
 #ifndef GRID_H
 #define GRID_H
 
-#include "Drawable.h"
+#include "Object.h"
 
-class Grid : public Drawable {
+class Grid : public Object {
 
 public:
 	Grid(int, float);

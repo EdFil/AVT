@@ -1,24 +1,12 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include "Drawable.h"
+#include "Object.h"
 
-class Triangle : public Drawable {
+class Triangle : public Object {
 
 public:
 	Triangle();
-
-	bool isOpenGLError() {
-	bool isError = false;
-	GLenum errCode;
-	const GLubyte *errString;
-	while ((errCode = glGetError()) != GL_NO_ERROR) {
-		isError = true;
-		errString = gluErrorString(errCode);
-		std::cerr << "OpenGL ERROR [" << errString << "]." << std::endl;
-	}
-	return isError;
-}
 
 	void createBufferObjects(GLuint* vaoId,GLuint* vboId);
 	void draw(GLuint uniformId, GLuint* vaoId);

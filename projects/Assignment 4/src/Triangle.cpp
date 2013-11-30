@@ -1,4 +1,5 @@
 #include "Triangle.h"
+#include <glm/gtc/type_ptr.hpp>
 
 Triangle::Triangle(){
 	//Empty
@@ -16,7 +17,6 @@ void Triangle::createBufferObjects(GLuint* vaoId,GLuint* vboId){
 
 void Triangle::draw(GLuint uniformId, GLuint* vaoId) {
 	glBindVertexArray(vaoId[_vaoId]);
-	_current.lerp(_transformationMatrix[_matrixToUse]);
-	glUniformMatrix4fv(uniformId, 1, GL_FALSE, _current.toArray());
+	glUniformMatrix4fv(uniformId, 1, GL_FALSE, glm::value_ptr(_current));
 	glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
 }

@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Drawable.h"
+#include "Object.h"
 #include "Camera.h"
 
 class ObjectManager {
@@ -14,7 +14,7 @@ class ObjectManager {
     };
 
 	/* A List where all objects are stored */
-	std::vector<Drawable*> _objectList;
+	std::vector<Object*> _objectList;
 
 	GLuint _goIndex;
 	TransformationOrder _order;
@@ -37,14 +37,14 @@ public:
 	ObjectManager();
 	ObjectManager::ObjectManager(GLuint uniformId, GLuint selectedProgram);
 	/* Add a drawable object to the list */
-	void addObject(Drawable* object);
+	void addObject(Object* object);
 
 	/* Create buffers for all objects */
 	void createBufferObjects();
 
 	void destroyBufferObjects();
 	/* Draw all objects */
-	void drawObjects(const Matrix4& viewMatrix, const Matrix4& projMatrix);
+	void drawObjects(const glm::mat4& viewMatrix, const glm::mat4& projMatrix);
 
 	void changeTri(){
 		if(_order == TransformationOrder::UP)

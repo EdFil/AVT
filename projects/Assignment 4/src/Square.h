@@ -1,9 +1,9 @@
 #ifndef SQUARE_H
 #define SQUARE_H
 
-#include "Drawable.h"
+#include "Object.h"
 
-class Square : public Drawable {
+class Square : public Object {
 
 public:
 	Square();

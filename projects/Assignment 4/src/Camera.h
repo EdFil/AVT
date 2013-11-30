@@ -1,11 +1,11 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Quaternion.h"
-#include "Vector3.h"
-#include "Matrix4.h"
+#include "glm\glm.hpp"
 #include "GL\glew.h"
 #include "GL\freeglut.h"
+
+using namespace glm;
 
 class Camera {
 
@@ -22,14 +22,12 @@ class Camera {
 	static const float DEFAULT_RIGHT;
 	static const float DEFAULT_BOTTOM;
 	static const float DEFAULT_TOP;
-	static const Vector3 WORLD_CENTER;
-    static const Vector3 WORLD_XAXIS;
-    static const Vector3 WORLD_YAXIS;
-    static const Vector3 WORLD_ZAXIS;
+	static const vec3 WORLD_CENTER;
+    static const vec3 WORLD_XAXIS;
+    static const vec3 WORLD_YAXIS;
+    static const vec3 WORLD_ZAXIS;
 
 	CameraProjection _behavior;
-    float _longitudeDegrees;
-    float _latitudeDegrees;
     float _fovx;
     float _nearVal;
     float _farVal;
@@ -37,33 +35,26 @@ class Camera {
 	float _right;
 	float _top;
 	float _bottom;
-	float _aspectRatio;
+	float _aspect;
 
-    Vector3 _eye;
-    Vector3 _target;
-    Vector3 _offset;
-    Vector3 _xAxis;
-    Vector3 _yAxis;
-    Vector3 _zAxis;
-    Vector3 _viewDir;
-    Matrix4 _viewMatrix;
-    Matrix4 _projMatrix;
-    Quaternion _orientation;
+    vec3 _eye;
+    vec3 _target;
+	vec3 _up;
+    mat4 _viewMatrix;
+    mat4 _projMatrix;
 
 public:
 	Camera();
 
-    void lookAt(const Vector3 &eye, const Vector3 &target, const Vector3 &up);
-	void orthographic(float left, float right, float bottom, float top, float nearVal, float farVal);
-    void perspective(float fovx, float aspect, float znear, float zfar);
-    void rotate(float latitudeDegrees, float longitudeDegrees);
+    void lookAt(const vec3 &eye, const vec3 &target, const vec3 &up);
+	void orthographic(const float &left,const float &right,const float &bottom,const float &top,const float &nearVal,const float &farVal);
+    void perspective(const float &fovx, const float &aspect, const float &znear, const float &far);
 
 	//-----GETTERS
 
 	inline Camera::CameraProjection Camera::getProjection() const	{ return _behavior; }
-	inline const Matrix4 &Camera::getProjectionMatrix() const		{ return _projMatrix; }
-	inline const Vector3 &Camera::getViewDirection() const			{ return _viewDir; }
-	inline const Matrix4 &Camera::getViewMatrix() const				{ return _viewMatrix; }
+	inline const mat4 &Camera::getProjectionMatrix() const		{ return _projMatrix; }
+	inline const mat4 &Camera::getViewMatrix() const				{ return _viewMatrix; }
 
 	// Setter methods.
 

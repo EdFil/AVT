@@ -1,4 +1,5 @@
 #include "ObjectManager.h"
+#include <glm/gtc/type_ptr.hpp>
 
 ObjectManager::ObjectManager(){}
 
@@ -9,7 +10,7 @@ ObjectManager::ObjectManager(GLuint uniformId, GLuint selectedProgram) :  _vaoCo
 	_order = TransformationOrder::UP;
 }
 
-void ObjectManager::addObject(Drawable* object){
+void ObjectManager::addObject(Object* object){
 	//Set a number of variables for the buffers
 	object->setVaoId(_vaoCounter++);
 	object->setVboId(_vboCounter++);
@@ -53,10 +54,10 @@ void ObjectManager::destroyBufferObjects(){
 	glDeleteVertexArrays(_vaoCounter, _vboId);
 }
 
-void ObjectManager::drawObjects(const Matrix4& viewMatrix, const Matrix4& projMatrix){ 
+void ObjectManager::drawObjects(const glm::mat4 &viewMatrix, const glm::mat4 &projMatrix){ 
 	glBindBuffer(GL_UNIFORM_BUFFER, _vboId[_uniformBlockId]);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float)*16, viewMatrix.toArray());
-	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float)*16, sizeof(float)*16, projMatrix.toArray());
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float)*16, glm::value_ptr(viewMatrix));
+	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float)*16, sizeof(float)*16, glm::value_ptr(projMatrix));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 	glUseProgram(_selectedProgram);
