@@ -35,11 +35,18 @@ Camera::Camera(){
 	_viewMatrix = mat4();
 	_projMatrix = mat4();
 	_orientation = quat();
+
+	_rX = 15;
+	_rY = 0;
 }
 
 void Camera::lookAt(const vec3 &eye, const vec3 &target, const vec3 &up){
-	_viewMatrix = glm::lookAt(eye, target, up);
-	_viewMatrix *= toMat4(_orientation);
+	mat4 transformation1 = translate(0.0f,0.0f,-10.0f);
+	mat4 transformation2 = rotate(_rX, vec3(1,0,0));
+	mat4 transformation3 = rotate(_rY, vec3(0,1,0));
+	_viewMatrix = transformation1 * transformation2 * transformation3 * mat4();
+	/*_viewMatrix = glm::lookAt(eye, target, up);
+	_viewMatrix *= toMat4(_orientation);*/
 
 	_eye = eye; _target = target; _up = up;
 }
@@ -67,5 +74,5 @@ void Camera::toggleProjection(){
 }
 
 void Camera::updateViewMatrix(){
-	
+	lookAt(_eye, _target, _up);
 }

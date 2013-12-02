@@ -10,6 +10,7 @@ public:
 
 	void createBufferObjects(GLuint* vaoId,GLuint* vboId);
 	void draw(GLuint uniformId, GLuint* vaoId);
+	void toggleMatrix();
 
 private:
 

@@ -18,13 +18,18 @@
 
 #define CAPTION "--> Assignment 3 <--"
 #define FPS 60
+#define SELECT 0
+#define RENDER 1
 
 int WinX = 640, WinY = 640; //480
 int WindowHandle = 0;
 unsigned int FrameCount = 0;
-int LastMousePositionX, LastMousePositionY;
 float RotationAngleY = 0.0f, RotationAngleX = 0.0f;
-bool mousePressed = false;
+
+int state =1 ;
+int mode = RENDER;
+int selected_index = -1;
+int oldX=0, oldY=0, mouseX, mouseY;
 
 Camera camera;
 ObjectManager objectManager;
@@ -111,23 +116,22 @@ void keyPressed(unsigned char key, int x, int y){
 }
 
 void mouse(int button, int state, int x, int y) {
-	if(button == GLUT_LEFT_BUTTON){
-		mousePressed = true;
-		LastMousePositionX = x;
-		LastMousePositionY = y;
+	if (state == GLUT_DOWN) {
+		oldX = x; 
+		oldY = y; 
+		mouseX=x; mouseY =y;
+		mode = SELECT;
 	}
-	else
-		mousePressed = false;
 }
 
 void mouseMotion(int x, int y) {
-	if(mousePressed){
-		RotationAngleX = float(y - LastMousePositionY);
-		RotationAngleY = float(x - LastMousePositionX);
-		LastMousePositionX = x;
-		LastMousePositionY = y;
-		camera.rotateCamera(RotationAngleX/10, RotationAngleY/10);
+	if(selected_index == -1) {
+		camera._rY += (x - oldX)/5.0f; 
+		camera._rX += (y - oldY)/5.0f; 
 	}
+	oldX = x;
+	oldY = y;
+	camera.updateViewMatrix();
 }
 
 void cleanup(){

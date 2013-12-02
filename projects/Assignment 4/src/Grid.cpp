@@ -3,6 +3,7 @@
 
 Grid::Grid(int x, float inc){
 	_transformationMatrix.push_back(mat4());
+	_transformationMatrix.push_back(mat4());
 	for(float i = (float) -x; i <= x; i += inc){
 		addVertex(i, (float)-x);
 		addVertex(i, (float) x);
@@ -30,4 +31,8 @@ void Grid::draw(GLuint uniformId, GLuint* vaoId) {
 void Grid::addVertex(float x, float z){
 	Vertex vertex = { {x, 0.0f, z, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
 	_vertexArray.push_back(vertex);
+}
+
+void Grid::toggleMatrix(){
+	//Empty
 }

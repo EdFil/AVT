@@ -49,17 +49,16 @@ class Camera {
 	quat _orientation;
 
 public:
+
+	float _rX, _rY;
 	Camera();
 
     void lookAt(const vec3 &eye, const vec3 &target, const vec3 &up);
 	void orthographic(const float &left,const float &right,const float &bottom,const float &top,const float &nearVal,const float &farVal);
     void perspective(const float &fovx, const float &aspect, const float &znear, const float &far);
 
-	inline void rotateCamera(float ammontX, float ammontY){
-		_orientation = rotate(_orientation, ammontX, vec3(1,0,0));
-		_orientation = rotate(_orientation, ammontY, vec3(0,1,0));
-		lookAt(_eye, _target, _up);
-	}
+	void setRX(float value){ _rX = value; }
+	void setRY(float value){ _rY = value; }
 
 	//-----GETTERS
 
@@ -71,8 +70,6 @@ public:
 
     void setBehavior(CameraProjection behavior);
 	void toggleProjection();
-
-private:
 	void updateViewMatrix();
 };
 

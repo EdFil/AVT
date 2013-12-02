@@ -46,18 +46,20 @@ public:
 	Vertex* parseVertexInfo(char* objectName);
 
 	inline const mat4 &getTransformationMatrix(GLubyte index) { return _transformationMatrix[index]; }
-	inline void toggleMatrix() {
-		if(_order == TransformationOrder::UP)
+	virtual void toggleMatrix() {
+		if(_order == TransformationOrder::UP){
 			_matrixToUse++;
-		else if(_order == TransformationOrder::DOWN)
-			_matrixToUse--;
-		if(_matrixToUse >= _transformationMatrix.size()){
-			_order = TransformationOrder::DOWN;
-			_matrixToUse = _transformationMatrix.size() - 1;
+			if(_matrixToUse >= _transformationMatrix.size() - 1){
+				_matrixToUse = _transformationMatrix.size() - 1;
+				_order = TransformationOrder::DOWN;
+			}
 		}
-		else if (_matrixToUse < 0){
-			_order = TransformationOrder::UP;
-			_matrixToUse = 0;
+		else if(_order == TransformationOrder::DOWN){
+			_matrixToUse--;
+			if(_matrixToUse <= 0){
+				_matrixToUse = 0;
+				_order = TransformationOrder::UP;
+			}
 		}
 	}
 	inline void setVaoId(GLuint vaoId) { _vaoId = vaoId; }
