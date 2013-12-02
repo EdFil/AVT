@@ -121,13 +121,13 @@ void mouse(int button, int state, int x, int y) {
 }
 
 void mouseMotion(int x, int y) {
-	//if(mousePressed){
-	//	RotationAngleX = float(y - LastMousePositionY);
-	//	RotationAngleY = float(x - LastMousePositionX);
-	//	LastMousePositionX = x;
-	//	LastMousePositionY = y;
-	//	camera.rotate(RotationAngleX/10, RotationAngleY/10);
-	//}
+	if(mousePressed){
+		RotationAngleX = float(y - LastMousePositionY);
+		RotationAngleY = float(x - LastMousePositionX);
+		LastMousePositionX = x;
+		LastMousePositionY = y;
+		camera.rotateCamera(RotationAngleX/10, RotationAngleY/10);
+	}
 }
 
 void cleanup(){
@@ -231,7 +231,7 @@ void init(int argc, char* argv[]){
 	camera.perspective(30, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(shaderManager.getSelectedUniformId(), shaderManager.getSelectedProgram());
 	objectManager.addObject(new Grid(4,0.2f));
-	//objectManager.addObject(new Torso());
+	objectManager.addObject(new Torso());
 	//objectManager.addObject(new Back());
 	//objectManager.addObject(new Tail());
 	//objectManager.addObject(new RightLeg());

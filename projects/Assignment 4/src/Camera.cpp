@@ -34,10 +34,13 @@ Camera::Camera(){
 	_target = vec3(0.0f, 0.0f, 0.0f);
 	_viewMatrix = mat4();
 	_projMatrix = mat4();
+	_orientation = quat();
 }
 
 void Camera::lookAt(const vec3 &eye, const vec3 &target, const vec3 &up){
 	_viewMatrix = glm::lookAt(eye, target, up);
+	_viewMatrix *= toMat4(_orientation);
+
 	_eye = eye; _target = target; _up = up;
 }
 void Camera::orthographic(const float &left, const float &right, const float &bottom, const float &top, const float &nearVal, const float &farVal){

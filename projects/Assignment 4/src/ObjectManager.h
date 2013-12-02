@@ -47,17 +47,9 @@ public:
 	void drawObjects(const glm::mat4& viewMatrix, const glm::mat4& projMatrix);
 
 	void changeTri(){
-		if(_order == TransformationOrder::UP)
-			_objectList[_goIndex++]->toggleMatrix();
-		else if(_order == TransformationOrder::DOWN)
-			_objectList[_goIndex--]->toggleMatrix();
-		if(_goIndex >= _objectList.size()){
-			_order = TransformationOrder::DOWN;
-			_goIndex = _objectList.size() - 1;
-		}
-		else if (_goIndex < 1){
-			_order = TransformationOrder::UP;
-			_goIndex = 1;
+		for (unsigned int i = 0; i < _objectList.size(); i++)
+		{
+			_objectList[i]->toggleMatrix();
 		}
 	}
 

@@ -3,11 +3,10 @@
 
 ObjectManager::ObjectManager(){}
 
-ObjectManager::ObjectManager(GLuint uniformId, GLuint selectedProgram) :  _vaoCounter(0), _vboCounter(0), UBO_BP(0), _goIndex(1){
+ObjectManager::ObjectManager(GLuint uniformId, GLuint selectedProgram) :  _vaoCounter(0), _vboCounter(0), UBO_BP(0){
 	_selectedProgram = selectedProgram;
 	_selectedUniform = uniformId;
 	_uniformBlockId = _vboCounter++;
-	_order = TransformationOrder::UP;
 }
 
 void ObjectManager::addObject(Object* object){

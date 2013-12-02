@@ -4,6 +4,9 @@
 #include "glm\glm.hpp"
 #include "GL\glew.h"
 #include "GL\freeglut.h"
+#include "glm\gtc\quaternion.hpp"
+#include "glm\gtx\quaternion.hpp"
+#include "glm\ext.hpp"
 
 using namespace glm;
 
@@ -43,12 +46,20 @@ class Camera {
     mat4 _viewMatrix;
     mat4 _projMatrix;
 
+	quat _orientation;
+
 public:
 	Camera();
 
     void lookAt(const vec3 &eye, const vec3 &target, const vec3 &up);
 	void orthographic(const float &left,const float &right,const float &bottom,const float &top,const float &nearVal,const float &farVal);
     void perspective(const float &fovx, const float &aspect, const float &znear, const float &far);
+
+	inline void rotateCamera(float ammontX, float ammontY){
+		_orientation = rotate(_orientation, ammontX, vec3(1,0,0));
+		_orientation = rotate(_orientation, ammontY, vec3(0,1,0));
+		lookAt(_eye, _target, _up);
+	}
 
 	//-----GETTERS
 

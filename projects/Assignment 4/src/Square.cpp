@@ -18,6 +18,6 @@ void Square::createBufferObjects(GLuint* vaoId,GLuint* vboId){
 
 void Square::draw(GLuint uniformId, GLuint* vaoId) {
 	glBindVertexArray(vaoId[_vaoId]);
-	glUniformMatrix4fv(uniformId, 1, GL_FALSE, glm::value_ptr(_current));
+	glUniformMatrix4fv(uniformId, 1, GL_FALSE, glm::value_ptr(_transformationMatrix[_matrixToUse]));
 	glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
 }
