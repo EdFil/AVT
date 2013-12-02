@@ -11,18 +11,19 @@ class LeftLeg : public Square {
 
 public:
 	LeftLeg(){
-		//parseVertexInfo("LeftLeg");
+		parseVertexInfo("LeftLeg");
 
-		//Matrix4 tangram = Matrix4::IDENTITY;
-		//tangram = tangram.translate(-0.2f, 0.0f, 0.1f);
+		mat4 transformation1 = translate(-0.2f, 0.0f, 0.1f);
+		_transformationMatrix.push_back(
+			transformation1 * mat4()
+		);
 
-		//Matrix4 square = Matrix4::IDENTITY;
-		//square = square.rotateX(-90.0f);
-		//square = square.rotateY(45.0f);
-		//square = square.translate(-0.56f, 0.45f, 0.57f);
-
-		//_transformationMatrix.push_back(tangram);
-		//_transformationMatrix.push_back(square);
+		transformation1 = rotate(-90.0f, vec3(1,0,0));
+		mat4 transformation2 = rotate(45.0f, vec3(0,1,0));
+		mat4 transformation3 = translate(-0.56f, 0.45f, 0.57f);
+		_transformationMatrix.push_back(
+			transformation3 * transformation2 * transformation1 * mat4()
+		);
 	}
 
 };

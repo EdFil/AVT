@@ -6,6 +6,7 @@
 
 Object::Object() : _matrixToUse(0){
 	_selected = false;
+	_order = TransformationOrder::UP;
 }
 
 Object::Vertex* Object::parseVertexInfo(char* objectName){

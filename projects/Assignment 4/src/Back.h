@@ -4,6 +4,8 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include "Triangle.h"
 
@@ -11,19 +13,19 @@ class Back : public Triangle {
 
 public:
 	Back(){
-		//parseVertexInfo("Back");
+		parseVertexInfo("Back");
 
-		//Matrix4 tangram = Matrix4::IDENTITY;
-		//tangram = tangram.rotateZ(-90.0f);
-		//tangram = tangram.translate(0.0f, 1.0f, 0.0f);
+		mat4 transformation1 = rotate(-90.0f, vec3(0,0,1));
+		mat4 transformation2 = translate(0.0f, 1.0f, 0.0f);
+		_transformationMatrix.push_back(
+			transformation2 * transformation1 * mat4()
+		);
 
-		//Matrix4 square = Matrix4::IDENTITY;
-		//square = square.rotateX(-90.0f);
-		//square = square.rotateY(-45.0f);
-		//square = square.translate(0.0f, 0.38f, 0.0f);
-
-		//_transformationMatrix.push_back(tangram);
-		//_transformationMatrix.push_back(square);
+		transformation1 = rotate(-90.0f, vec3(1,0,0));
+		transformation2 = translate(0.0f, 0.38f, 0.0f);
+		_transformationMatrix.push_back(
+			transformation2 * transformation1 * mat4()
+		);
 	}
 
 };

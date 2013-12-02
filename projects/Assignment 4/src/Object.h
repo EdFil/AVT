@@ -53,9 +53,9 @@ public:
 			_matrixToUse--;
 		if(_matrixToUse >= _transformationMatrix.size()){
 			_order = TransformationOrder::DOWN;
-			_matrixToUse = _transformationMatrix.size() - 2;
+			_matrixToUse = _transformationMatrix.size() - 1;
 		}
-		else if (_matrixToUse < 1){
+		else if (_matrixToUse < 0){
 			_order = TransformationOrder::UP;
 			_matrixToUse = 0;
 		}

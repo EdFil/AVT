@@ -11,19 +11,20 @@ class RightLeg : public Triangle {
 
 public:
 	RightLeg(){
-		//parseVertexInfo("RightLeg");
+		parseVertexInfo("RightLeg");
 
-		//Matrix4 tangram = Matrix4::IDENTITY;
-		//tangram = tangram.rotateZ(-135.0f);
-		//tangram = tangram.translate(-0.3f, 0.5f, -0.1f);
+		mat4 transformation1 = rotate(-135.0f, vec3(0,0,1));
+		mat4 transformation2 = translate(-0.3f, 0.5f, -0.1f);
+		_transformationMatrix.push_back(
+			transformation2 * transformation1 * mat4()
+		);
 
-		//Matrix4 square = Matrix4::IDENTITY;
-		//square = square.rotateX(-90.0f);
-		//square = square.rotateY(45.0f);
-		//square = square.translate(0.29f, 0.43f, -0.29f);
-
-		//_transformationMatrix.push_back(tangram);
-		//_transformationMatrix.push_back(square);
+		transformation1 = rotate(-90.0f, vec3(1,0,0));
+		transformation2 = rotate(45.0f, vec3(0,1,0));
+		mat4 transformation3 = translate(0.29f, 0.43f, -0.29f);
+		_transformationMatrix.push_back(
+			transformation3 * transformation2 * transformation1 * mat4()
+		);
 	}
 
 };

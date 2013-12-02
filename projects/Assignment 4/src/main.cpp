@@ -232,12 +232,12 @@ void init(int argc, char* argv[]){
 	objectManager = ObjectManager(shaderManager.getSelectedUniformId(), shaderManager.getSelectedProgram());
 	objectManager.addObject(new Grid(4,0.2f));
 	objectManager.addObject(new Torso());
-	//objectManager.addObject(new Back());
-	//objectManager.addObject(new Tail());
-	//objectManager.addObject(new RightLeg());
-	//objectManager.addObject(new Neck());
-	//objectManager.addObject(new Head());
-	//objectManager.addObject(new LeftLeg());
+	objectManager.addObject(new Back());
+	objectManager.addObject(new Tail());
+	objectManager.addObject(new RightLeg());
+	objectManager.addObject(new Neck());
+	objectManager.addObject(new Head());
+	objectManager.addObject(new LeftLeg());
 	objectManager.createBufferObjects();
 	setupCallbacks();
 
