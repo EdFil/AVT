@@ -18,17 +18,12 @@
 
 #define CAPTION "--> Assignment 3 <--"
 #define FPS 60
-#define SELECT 0
-#define RENDER 1
 
 int WinX = 640, WinY = 640; //480
 int WindowHandle = 0;
 unsigned int FrameCount = 0;
 float RotationAngleY = 0.0f, RotationAngleX = 0.0f;
 
-int state =1 ;
-int mode = RENDER;
-int selected_index = -1;
 int oldX=0, oldY=0, mouseX, mouseY;
 
 Camera camera;
@@ -120,15 +115,12 @@ void mouse(int button, int state, int x, int y) {
 		oldX = x; 
 		oldY = y; 
 		mouseX=x; mouseY =y;
-		mode = SELECT;
 	}
 }
 
 void mouseMotion(int x, int y) {
-	if(selected_index == -1) {
-		camera._rY += (x - oldX)/5.0f; 
-		camera._rX += (y - oldY)/5.0f; 
-	}
+	camera.addToRY((x - oldX)/5.0f); 
+	camera.addToRX((y - oldY)/5.0f); 
 	oldX = x;
 	oldY = y;
 	camera.updateViewMatrix();
