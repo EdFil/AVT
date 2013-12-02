@@ -7,13 +7,15 @@ Installation
 ###Temas.
 
 * Picking and manipulating objects with mouse and keyboard (1.0) **Sena**
+* Code to load external meshes/materials from an existing format (1.0) **Catia**
+* Modo de animação (1.0)**Edgar**
+
 * Saving a snapshot of the application to a known image file format (0.5) **Sena**
 * Creating a format allowing to save, load the full scene, and resume the interaction (1.0) **Sena**
-* Code to load external meshes/materials from an existing format (1.0) **Edgar**
 * A photorealistic lighting/shading model, e.g. Phong or Blinn-Phong model (0.5) **Edgar**
-* Using one's own mathematical libraries, e.g. vectors, matrices, quaternions (0.5) **Edgar**
-* A non-photorealistic lighting/shading model with silhouette in modern OpenGL, e.g. Cel or Gooch shading (1.0) **Catia**
 * A realistic or stylized solid material for the objects of your scene, e.g. wood, stone, marble (1.0)**Catia**
+* 
+* A non-photorealistic lighting/shading model with silhouette in modern OpenGL, e.g. Cel or Gooch shading (1.0)
 * Generic scene graph handling hierarchical drawing (e.g. matrices, shaders, textures)  (1.5)
 * Matrix stack for hierarchical drawing and its use in the scene (0.5)
 * A realistic or stylized material with transparencies, e.g. glass, crytal (1.5)
