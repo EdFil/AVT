@@ -122,7 +122,7 @@ void mouse(int button, int state, int x, int y) {
 	
 	if (state == GLUT_DOWN) {
 		if(button == GLUT_LEFT_BUTTON){
-			camera.rayCasting(x, y);
+			objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y));	
 		}
 		if(button == GLUT_RIGHT_BUTTON){
 			rightMouseButton = true;
@@ -250,15 +250,15 @@ void init(int argc, char* argv[]){
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
 	camera.perspective(30, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(shaderManager.getSelectedUniformId(), shaderManager.getSelectedProgram());
-	objectManager.addObject(line);
-	objectManager.addObject(new Grid(4,0.2f));
+	//objectManager.addObject(line);
+	//objectManager.addObject(new Grid(4,0.2f));
 	objectManager.addObject(new Torso());
-	objectManager.addObject(new Back());
-	objectManager.addObject(new Tail());
-	objectManager.addObject(new RightLeg());
-	objectManager.addObject(new Neck());
-	objectManager.addObject(new Head());
-	objectManager.addObject(new LeftLeg());
+	//objectManager.addObject(new Back());
+	//objectManager.addObject(new Tail());
+	//objectManager.addObject(new RightLeg());
+	//objectManager.addObject(new Neck());
+	//objectManager.addObject(new Head());
+	//objectManager.addObject(new LeftLeg());
 	objectManager.createBufferObjects();
 	setupCallbacks();
 

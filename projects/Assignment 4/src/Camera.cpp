@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 #include <iostream>
-#include "glm\glm.hpp"
+#include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 
@@ -39,7 +39,12 @@ Camera::Camera(Line* line): _line (line){
 	_rY = 0;
 }
 
-void Camera::rayCasting(int mouse_x, int mouse_y){
+
+vec3 Camera::getEye(){
+	return _eye;
+}
+
+vec3 Camera::rayCasting(int mouse_x, int mouse_y){
 	int width = 640;
 	int height = 640;
 
@@ -53,76 +58,13 @@ void Camera::rayCasting(int mouse_x, int mouse_y){
 	vec4 ray_eye = inverse (_projMatrix) * ray_clip;
 	ray_eye = vec4 (ray_eye.x, ray_eye.y, -1.0, 0.0);
 	vec3 ray_wor = vec3 ((inverse (_viewMatrix) * ray_eye).x, (inverse (_viewMatrix) * ray_eye).y, (inverse (_viewMatrix) * ray_eye).z);
-// don't forget to normalise the vector at some point
+
 	ray_wor = normalize (ray_wor);
 
 	_line -> newLine(vec4 (_eye, 1.0f), vec4 (ray_wor.x, ray_wor.y, ray_wor.z, 0));
-	std::cout<< ray_wor.x << "," << ray_wor.x << "," << ray_wor.z << std::endl;
+	//std::cout<< ray_wor.x << "," << ray_wor.x << "," << ray_wor.z << std::endl;
 
-
-	/*
-	vec3 v0 = vec3 (-1, -1, 0);                                                                                                                  
-	vec3 v1 = vec3 ( 1, -1, 0);                                                                                                                  
-	vec3 v2 = vec3 ( 0,  1, 0);                                                                                                                                                                                                                                                                                                                                                             
-	vec3 v0v1 = v1 - v0;
-	vec3 v0v2 = v2 - v0;
-	vec3 N = cross(v0v1, v0v2);
-	float nDotRay = dot(N, r.dir);
-	if (dot(N, r.dir) == 0) return false; // ray parallel to triangle 
-	float d = dot(N, v0);
-	float t = -(dot(N, r.orig) + d) / nDotRay;
-  
-	// inside-out test
-	Vec3f Phit = r(t);
-  
-	// inside-out test edge0
-	Vec3f v0p = Phit - v0;
-	float v = dot(N, cross(v0v1, v0p));
-	if (v < 0) return false; // P outside triangle
- 
-	// inside-out test edge1
-	Vec3f v1p = Phit - v1;
-	Vec3f v1v2 = v2 - v1;
-	float w = dot(N, cross(v1v2, v1p));
-	if (w < 0) return false; // P outside triangle
- 
-	// inside-out test edge2
-	Vec3f v2p = Phit - v2;
-	Vec3f v2v0 = v0 - v2;
-	float u = dot(N, cross(v2v0, v2p));
-	if (u < 0) return false; // P outside triangle
- 
-	isectData.t = t;
-  
-	return true;*/
-
-	
-
-/*
-	Ray Mouse::GetPickRay(mat4 projMat, mat4 modelMat, 
-                      vec4 cameraPos, 
-                      int windowWidth, int windowHeight) 
-{
-    float mouseX = float(this->currentPosition.x);
-    float mouseY = float(this->currentPosition.y);
-
-    vec4 mousePos_clipSpace = vec4(
-                                  ((mouseX * 2.0f) / windowWidth) - 1.0f,
-                                  (1.0f - (2.0f * mouseY) / windowHeight), 
-                                  0.0f,
-                                  1.0f);
-
-    vec4 mousePos_viewSpace = inverse(projMat) * mousePos_clipSpace;
-
-    mousePos_viewSpace = mousePos_viewSpace / mousePos_viewSpace.w;
-
-    vec4 mousePos_worldSpace = inverse(modelMat) * mousePos_viewSpace;
-
-    vec4 rayDirection = normalize(mousePos_worldSpace - cameraPos);
-    vec4 rayOrigin = cameraPos;
-
-    return Ray(rayOrigin, rayDirection);
-} */
+	return ray_wor;
 
 }
 

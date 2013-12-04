@@ -5,6 +5,7 @@
 #include <Vector>
 #include "GL\glew.h"
 #include "GL\freeglut.h"
+#include "glm\gtx\intersect.hpp"
 
 #define VERTICES 0
 #define COLORS 1
@@ -33,6 +34,7 @@ protected:
 
 	int _currentTrans;
 	std::vector<Vertex> _vertexArray;
+	std::vector<Vertex> _modifiedVertexArray;
 	std::vector<mat4> _transformationMatrix;
 
 public:
@@ -44,6 +46,10 @@ public:
 	virtual void draw(GLuint uniformId, GLuint* vaoId) = 0;
 	
 	Vertex* parseVertexInfo(char* objectName);
+
+	bool checkIntersection(vec3 rayOrigin, vec3 rayDir);
+
+	void modifyVertexArray(mat4, mat4, mat4);
 
 	inline const mat4 &getTransformationMatrix(GLubyte index) { return _transformationMatrix[index]; }
 	virtual void toggleMatrix() {
@@ -66,7 +72,9 @@ public:
 	inline void setVboId(GLuint vboId) { _vboId = vboId; }
 
 private:
+	vec3 vertexToVec3(float[4]);
 	void explode(std::string const & s, char delim, float* result);
 };
 
 #endif
+

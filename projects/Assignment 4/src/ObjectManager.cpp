@@ -9,6 +9,19 @@ ObjectManager::ObjectManager(GLuint uniformId, GLuint selectedProgram) :  _vaoCo
 	_uniformBlockId = _vboCounter++;
 }
 
+
+bool ObjectManager::checkIntersection(vec3 rayOrigin, vec3 rayEnd){
+	vec3 rayDir = rayEnd - rayOrigin;
+	for(int i = 0; i < _objectList.size(); i++){
+		if(_objectList[i]->checkIntersection(rayOrigin, rayEnd)){
+			std::cout<<"colisao";
+			return true;
+		}
+	}
+	return false;
+}
+
+
 void ObjectManager::addObject(Object* object){
 	//Set a number of variables for the buffers
 	object->setVaoId(_vaoCounter++);
