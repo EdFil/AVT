@@ -14,9 +14,10 @@
 #include "RightLeg.h"
 #include "Neck.h"
 #include "Head.h"
+#include "Line.h"
 #include "LeftLeg.h"
 
-#define CAPTION "--> Assignment 3 <--"
+#define CAPTION "--> Assignment 4 <--"
 #define FPS 60
 
 int WinX = 640, WinY = 640; //480
@@ -26,7 +27,7 @@ float RotationAngleY = 0.0f, RotationAngleX = 0.0f;
 
 int oldX=0, oldY=0, mouseX, mouseY;
 
-Camera camera;
+Camera camera(NULL);
 ObjectManager objectManager;
 ShaderManager shaderManager;
 
@@ -74,6 +75,7 @@ void callDisplay(int value){
 }
 
 void drawScene(){
+	objectManager.createBufferObjects(0);
 	objectManager.drawObjects(camera.getViewMatrix(), camera.getProjectionMatrix());
 	checkOpenGLError("ERROR: Could not draw scene.");
 }
@@ -111,6 +113,14 @@ void keyPressed(unsigned char key, int x, int y){
 }
 
 void mouse(int button, int state, int x, int y) {
+	if(button == GLUT_RIGHT_BUTTON){
+		vec4 mousePos_clipSpace = vec4(
+									  ((y * 2.0f) / WinX) - 1.0f,
+									  (1.0f - (2.0f * y) / WinY), 
+									  3.0f,
+									  1.0f);
+		camera.rayCast(mousePos_clipSpace);
+	}
 	if (state == GLUT_DOWN) {
 		oldX = x; 
 		oldY = y; 
@@ -222,10 +232,12 @@ void init(int argc, char* argv[]){
 	shaderManager.addProgram("../src/MVPVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.addProgram("../src/OtherVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.createShaderProgram();
-	camera = Camera();
+	Line* line = new Line(vec4(0,0,0,1), vec4(0,5,0,1));
+	camera = Camera(line);
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
 	camera.perspective(30, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(shaderManager.getSelectedUniformId(), shaderManager.getSelectedProgram());
+	objectManager.addObject(line);
 	objectManager.addObject(new Grid(4,0.2f));
 	objectManager.addObject(new Torso());
 	objectManager.addObject(new Back());

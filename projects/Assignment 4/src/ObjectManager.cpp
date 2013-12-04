@@ -18,6 +18,10 @@ void ObjectManager::addObject(Object* object){
 	_objectList.push_back(object);
 }
 
+void ObjectManager::createBufferObjects(int index){
+	_objectList[index]->createBufferObjects(_vaoId, _vboId);
+}
+
 void ObjectManager::createBufferObjects(){
 	_vaoId = new GLuint[_vaoCounter];
 	_vboId = new GLuint[_vboCounter];

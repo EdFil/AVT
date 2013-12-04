@@ -4,6 +4,7 @@
 #include "glm\glm.hpp"
 #include "GL\glew.h"
 #include "GL\freeglut.h"
+#include "Line.h"
 #include "glm\ext.hpp"
 
 using namespace glm;
@@ -28,6 +29,8 @@ class Camera {
     static const vec3 WORLD_YAXIS;
     static const vec3 WORLD_ZAXIS;
 
+	Line* _line;
+
 	CameraProjection _behavior;
     float _fovx;
     float _nearVal;
@@ -45,7 +48,7 @@ class Camera {
     mat4 _viewMatrix;
     mat4 _projMatrix;
 public:
-	Camera();
+	Camera(Line* line);
 
     void lookAt(const vec3 &eye, const vec3 &target, const vec3 &up);
 	void orthographic(const float &left,const float &right,const float &bottom,const float &top,const float &nearVal,const float &farVal);
@@ -53,6 +56,15 @@ public:
 
 	void addToRX(float value){ _rX += value; }
 	void addToRY(float value){ _rY += value; }
+
+	void rayCast(vec4 mousePos_clipSpace){
+		vec4 mousePos_viewSpace = inverse(_projMatrix) * mousePos_clipSpace;
+		mousePos_viewSpace = mousePos_viewSpace / mousePos_viewSpace.w;
+		vec4 mousePos_worldSpace = inverse(_viewMatrix) * mousePos_viewSpace;
+		vec4 rayDirection = normalize(mousePos_worldSpace - vec4(_eye, 1.0f));
+		vec4 rayOrigin = vec4(_eye, 1.0f);
+		_line->newLine(rayOrigin, rayDirection);
+	}
 
 	//-----GETTERS
 

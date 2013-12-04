@@ -41,6 +41,7 @@ public:
 
 	/* Create buffers for all objects */
 	void createBufferObjects();
+	void createBufferObjects(int index);
 
 	void destroyBufferObjects();
 	/* Draw all objects */

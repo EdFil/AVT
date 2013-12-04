@@ -19,7 +19,7 @@ const vec3 Camera::WORLD_XAXIS = vec3(1.0f, 0.0f, 0.0f);
 const vec3 Camera::WORLD_YAXIS = vec3(0.0f, 1.0f, 0.0f);
 const vec3 Camera::WORLD_ZAXIS = vec3(0.0f, 0.0f, 1.0f);
 
-Camera::Camera(){
+Camera::Camera(Line* line) : _line(line){
     _fovx = DEFAULT_FOVX;
 	_nearVal = DEFAULT_ZNEAR;
 	_farVal = DEFAULT_ZFAR;
