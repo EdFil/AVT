@@ -5,6 +5,7 @@
 #include "GL\glew.h"
 #include "GL\freeglut.h"
 #include "glm\ext.hpp"
+#include  "Line.h"
 
 using namespace glm;
 
@@ -39,14 +40,16 @@ class Camera {
 	float _aspect;
 	float _rX, _rY;
 
+	Line* _line;
     vec3 _eye;
     vec3 _target;
 	vec3 _up;
     mat4 _viewMatrix;
     mat4 _projMatrix;
 public:
-	Camera();
+	Camera(Line* line);
 
+	void ExtractCameraPos();
     void lookAt(const vec3 &eye, const vec3 &target, const vec3 &up);
 	void orthographic(const float &left,const float &right,const float &bottom,const float &top,const float &nearVal,const float &farVal);
     void perspective(const float &fovx, const float &aspect, const float &znear, const float &far);
