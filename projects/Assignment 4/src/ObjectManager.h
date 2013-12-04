@@ -47,10 +47,10 @@ public:
 	/* Draw all objects */
 	void drawObjects(const glm::mat4& viewMatrix, const glm::mat4& projMatrix);
 
-	void changeTri(){
+	void changeTri(const mat4 &viewMatrix, const mat4 &projMatrix){
 		for (unsigned int i = 0; i < _objectList.size(); i++)
 		{
-			_objectList[i]->toggleMatrix();
+			_objectList[i]->toggleMatrix(viewMatrix, projMatrix);
 		}
 	}
 

@@ -92,7 +92,7 @@ void keyPressed(unsigned char key, int x, int y){
 	switch(key){
 		case 'T':
 		case 't':
-			objectManager.changeTri();
+			objectManager.changeTri(camera.getViewMatrix(), camera.getProjectionMatrix());
 			break;
 		case '3':
 			if(state){

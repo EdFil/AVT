@@ -11,17 +11,13 @@ Object::Object() : _matrixToUse(0){
 }
 
 bool Object::checkIntersection(vec3 rayOrigin, vec3 rayDir){
-	for(int i = 0; i<_vertexArray.size(); i+=3){
-		if(intersectLineTriangle(rayOrigin, rayDir, vertexToVec3(_vertexArray[i].XYZW), vertexToVec3(_vertexArray[i+1].XYZW), vertexToVec3(_vertexArray[i+2].XYZW), vec3(0,0,0))){
-			printf( "colision motherfucker");
+	for(int i = 0; i<_modifiedVertexArray.size(); i+=3){
+		if(intersectLineTriangle(rayOrigin, rayDir, _modifiedVertexArray[i], _modifiedVertexArray[i+1], _modifiedVertexArray[i+2], vec3(0,0,0))){
+			printf("Colided with %s.\n" , _name);
 			return true;
 		}
 	}
 	return false;
-}
-
-vec3 Object::vertexToVec3(float vertex[4]){
-	return vec3(vertex[0],vertex[1],vertex[2]);
 }
 
 Object::Vertex* Object::parseVertexInfo(char* objectName){

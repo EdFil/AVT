@@ -2,6 +2,7 @@
 #define DRAWABLE_H
 
 #include "glm\glm.hpp"
+#include <iostream>
 #include <Vector>
 #include "GL\glew.h"
 #include "GL\freeglut.h"
@@ -25,6 +26,8 @@ protected:
         DOWN
     };
 
+
+	char* _name;
 	TransformationOrder _order;
 	GLuint _vaoId;
 	GLuint _vboId;
@@ -34,7 +37,7 @@ protected:
 
 	int _currentTrans;
 	std::vector<Vertex> _vertexArray;
-	std::vector<Vertex> _modifiedVertexArray;
+	std::vector<vec3> _modifiedVertexArray;
 	std::vector<mat4> _transformationMatrix;
 
 public:
@@ -52,7 +55,7 @@ public:
 	void modifyVertexArray(mat4, mat4, mat4);
 
 	inline const mat4 &getTransformationMatrix(GLubyte index) { return _transformationMatrix[index]; }
-	virtual void toggleMatrix() {
+	virtual void toggleMatrix(const mat4 &viewMatrix, const mat4 &projMatrix) {
 		if(_order == TransformationOrder::UP){
 			_matrixToUse++;
 			if(_matrixToUse >= _transformationMatrix.size() - 1){
@@ -66,6 +69,10 @@ public:
 				_matrixToUse = 0;
 				_order = TransformationOrder::UP;
 			}
+		}
+		_modifiedVertexArray.clear();
+		for (unsigned int i = 0; i < _vertexArray.size(); i++){
+			_modifiedVertexArray.push_back(vec3(_transformationMatrix[_matrixToUse] * vec4(_vertexArray[i].XYZW[0], _vertexArray[i].XYZW[1], _vertexArray[i].XYZW[2], _vertexArray[i].XYZW[3])));
 		}
 	}
 	inline void setVaoId(GLuint vaoId) { _vaoId = vaoId; }

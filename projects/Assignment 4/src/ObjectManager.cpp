@@ -14,7 +14,6 @@ bool ObjectManager::checkIntersection(vec3 rayOrigin, vec3 rayEnd){
 	vec3 rayDir = rayEnd - rayOrigin;
 	for(int i = 0; i < _objectList.size(); i++){
 		if(_objectList[i]->checkIntersection(rayOrigin, rayEnd)){
-			std::cout<<"colisao";
 			return true;
 		}
 	}
