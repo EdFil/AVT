@@ -39,6 +39,97 @@ Camera::Camera(){
 	_rY = 0;
 }
 
+void Camera::rayCasting(int mouse_x, int mouse_y){
+	int width = 640;
+	int height = 640;
+
+	float x = (2.0f * mouse_x) / width - 1.0f;
+	float y = 1.0f - (2.0f * mouse_y) / height;
+	float z = 1.0f;
+	vec3 ray_nds = vec3 (x, y, z);
+
+
+	vec4 ray_clip = vec4 (ray_nds.x, ray_nds.y, -1.0, 1.0);
+	vec4 ray_eye = inverse (_projMatrix) * ray_clip;
+	ray_eye = vec4 (ray_eye.x, ray_eye.y, -1.0, 0.0);
+	vec3 ray_wor = vec3 ((inverse (_viewMatrix) * ray_eye).x, (inverse (_viewMatrix) * ray_eye).y, (inverse (_viewMatrix) * ray_eye).z);
+// don't forget to normalise the vector at some point
+	// ray_wor = normalize (ray_wor);
+
+	std::cout<< ray_wor.x << "," << ray_wor.x << "," << ray_wor.z << std::endl;
+
+	 glBegin(GL_LINE_LOOP);//start drawing a line loop
+      glVertex3f(0.0f,0.0f,0.0f);//left of window
+      glVertex3f(ray_wor.x,ray_wor.y,ray_wor.z);//bottom of window
+
+    glEnd();//end drawing of line loop
+
+	/*
+	vec3 v0 = vec3 (-1, -1, 0);                                                                                                                  
+	vec3 v1 = vec3 ( 1, -1, 0);                                                                                                                  
+	vec3 v2 = vec3 ( 0,  1, 0);                                                                                                                                                                                                                                                                                                                                                             
+	vec3 v0v1 = v1 - v0;
+	vec3 v0v2 = v2 - v0;
+	vec3 N = cross(v0v1, v0v2);
+	float nDotRay = dot(N, r.dir);
+	if (dot(N, r.dir) == 0) return false; // ray parallel to triangle 
+	float d = dot(N, v0);
+	float t = -(dot(N, r.orig) + d) / nDotRay;
+  
+	// inside-out test
+	Vec3f Phit = r(t);
+  
+	// inside-out test edge0
+	Vec3f v0p = Phit - v0;
+	float v = dot(N, cross(v0v1, v0p));
+	if (v < 0) return false; // P outside triangle
+ 
+	// inside-out test edge1
+	Vec3f v1p = Phit - v1;
+	Vec3f v1v2 = v2 - v1;
+	float w = dot(N, cross(v1v2, v1p));
+	if (w < 0) return false; // P outside triangle
+ 
+	// inside-out test edge2
+	Vec3f v2p = Phit - v2;
+	Vec3f v2v0 = v0 - v2;
+	float u = dot(N, cross(v2v0, v2p));
+	if (u < 0) return false; // P outside triangle
+ 
+	isectData.t = t;
+  
+	return true;*/
+
+	
+
+/*
+	Ray Mouse::GetPickRay(mat4 projMat, mat4 modelMat, 
+                      vec4 cameraPos, 
+                      int windowWidth, int windowHeight) 
+{
+    float mouseX = float(this->currentPosition.x);
+    float mouseY = float(this->currentPosition.y);
+
+    vec4 mousePos_clipSpace = vec4(
+                                  ((mouseX * 2.0f) / windowWidth) - 1.0f,
+                                  (1.0f - (2.0f * mouseY) / windowHeight), 
+                                  0.0f,
+                                  1.0f);
+
+    vec4 mousePos_viewSpace = inverse(projMat) * mousePos_clipSpace;
+
+    mousePos_viewSpace = mousePos_viewSpace / mousePos_viewSpace.w;
+
+    vec4 mousePos_worldSpace = inverse(modelMat) * mousePos_viewSpace;
+
+    vec4 rayDirection = normalize(mousePos_worldSpace - cameraPos);
+    vec4 rayOrigin = cameraPos;
+
+    return Ray(rayOrigin, rayDirection);
+} */
+
+}
+
 void Camera::lookAt(const vec3 &eye, const vec3 &target, const vec3 &up){
 	mat4 transformation1 = translate(0.0f,0.0f,-10.0f);
 	mat4 transformation2 = rotate(_rX, vec3(1,0,0));

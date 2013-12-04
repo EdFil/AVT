@@ -30,6 +30,10 @@ Camera camera;
 ObjectManager objectManager;
 ShaderManager shaderManager;
 
+bool rightMouseButton = false;
+bool leftMouseButton = false;
+bool middleMouseButton = false;
+
 /////////////////////////////////////////////////////////////////////// ERRORS
 
 static bool isOpenGLError() {
@@ -111,19 +115,35 @@ void keyPressed(unsigned char key, int x, int y){
 }
 
 void mouse(int button, int state, int x, int y) {
+	//alterei para ter mais botoes
+	
 	if (state == GLUT_DOWN) {
+		if(button == GLUT_LEFT_BUTTON){
+			camera.rayCasting(x, y);
+		}
+		if(button == GLUT_RIGHT_BUTTON){
+			rightMouseButton = true;
+		}
 		oldX = x; 
 		oldY = y; 
-		mouseX=x; mouseY =y;
+		mouseX=x; mouseY =y;	
 	}
+	else{
+		rightMouseButton = false;
+		leftMouseButton = false;
+		middleMouseButton = false;
+	}
+
 }
 
 void mouseMotion(int x, int y) {
-	camera.addToRY((x - oldX)/5.0f); 
-	camera.addToRX((y - oldY)/5.0f); 
-	oldX = x;
-	oldY = y;
-	camera.updateViewMatrix();
+	if(rightMouseButton){
+		camera.addToRY((x - oldX)/5.0f); 
+		camera.addToRX((y - oldY)/5.0f); 
+		oldX = x;
+		oldY = y;
+		camera.updateViewMatrix();
+	}
 }
 
 void cleanup(){
