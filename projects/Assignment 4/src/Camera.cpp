@@ -8,7 +8,7 @@
 const float Camera::DEFAULT_ROTATION_SPEED = 0.3f;
 const float Camera::DEFAULT_FOVX = 90.0f;
 const float Camera::DEFAULT_ZNEAR = 0.1f;
-const float Camera::DEFAULT_ZFAR = 100.0f;
+const float Camera::DEFAULT_ZFAR = 10000.0f;
 const float Camera::DEFAULT_LEFT = -2.0f;
 const float Camera::DEFAULT_RIGHT = 2.0f;
 const float Camera::DEFAULT_BOTTOM = -2.0f;
@@ -35,12 +35,13 @@ Camera::Camera(){
 	_viewMatrix = mat4();
 	_projMatrix = mat4();
 
+	_dist = -10;
 	_rX = 15;
 	_rY = 0;
 }
 
 void Camera::lookAt(const vec3 &eye, const vec3 &target, const vec3 &up){
-	mat4 transformation1 = translate(0.0f,0.0f,-10.0f);
+	mat4 transformation1 = translate(0.0f,0.0f, _dist);
 	mat4 transformation2 = rotate(_rX, vec3(1,0,0));
 	mat4 transformation3 = rotate(_rY, vec3(0,1,0));
 	_viewMatrix = transformation1 * transformation2 * transformation3 * mat4();

@@ -122,6 +122,15 @@ void mouse(int button, int state, int x, int y) {
 		oldY = y; 
 		mouseX=x; mouseY =y;
 	}
+	if(button == 3){
+		camera.addToDist(0.5);
+		camera.updateViewMatrix();
+	}
+	if(button == 4){
+		camera.addToDist(-0.5);
+		camera.updateViewMatrix();
+	}
+
 }
 
 void mouseMotion(int x, int y) {
@@ -235,7 +244,7 @@ void init(int argc, char* argv[]){
 
 	camera = Camera();
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
-	camera.perspective(30, 1.0f, 0.1f, 20.0f);
+	camera.perspective(30, 1.0f, 0.1f, 200.0f);
 	objectManager = ObjectManager(shaderManager.getSelectedUniformId(), shaderManager.getSelectedProgram());
 	objectManager.addObject(new Grid(4,0.2f));
 	/*objectManager.addObject(new Torso());

@@ -38,6 +38,7 @@ class Camera {
 	float _bottom;
 	float _aspect;
 	float _rX, _rY;
+	float _dist;
 
     vec3 _eye;
     vec3 _target;
@@ -53,6 +54,13 @@ public:
 
 	void addToRX(float value){ _rX += value; }
 	void addToRY(float value){ _rY += value; }
+	void addToDist(float value) { 
+		_dist += value; 
+		if(_dist >= -5)
+			_dist = -5;
+		else if(_dist <= -100)
+			_dist = -100;
+	}
 
 	//-----GETTERS
 
