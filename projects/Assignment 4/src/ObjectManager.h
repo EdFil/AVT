@@ -43,6 +43,12 @@ public:
 	void createBufferObjects();
 	void createBufferObjects(int index);
 
+	void addTransformationMatrix();
+	void removeTransformationMatrix();
+	void nextTransformationMatrix();
+	void prevTransformationMatrix();
+	void updateModifiedVertex();
+
 	void destroyBufferObjects();
 	/* Draw all objects */
 	void drawObjects(const glm::mat4& viewMatrix, const glm::mat4& projMatrix);

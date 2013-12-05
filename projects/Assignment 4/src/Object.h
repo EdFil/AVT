@@ -51,6 +51,12 @@ public:
 	Vertex* parseVertexInfo(char* objectName);
 
 	virtual bool checkIntersection(vec3 rayOrigin, vec3 rayDir, vec3 &outputVec);
+	void addTransformationMatrix();
+	void removeTransformationMatrix();
+	void nextTransformationMatrix();
+	void prevTransformationMatrix();
+	int getTransformationMatrixSize(){ return _transformationMatrix.size(); }
+	int getMatrixToUse(){ return _matrixToUse; }
 
 	void modifyVertexArray(mat4, mat4, mat4);
 

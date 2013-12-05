@@ -35,7 +35,7 @@ Camera::Camera(Line* line): _line (line){
 	_viewMatrix = mat4();
 	_projMatrix = mat4();
 
-	_rX = 15;
+	_rX = 90;
 	_rY = 0;
 }
 

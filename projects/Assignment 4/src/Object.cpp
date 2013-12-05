@@ -15,7 +15,6 @@ Object::Object() : _matrixToUse(0){
 bool Object::checkIntersection(vec3 rayOrigin, vec3 rayDir, vec3 &outputVect){
 	for(int i = 0; i + 3 <= _modifiedVertexArray.size(); i+=3){
 		if(intersectLineTriangle(rayOrigin, rayDir, _modifiedVertexArray[i], _modifiedVertexArray[i+1], _modifiedVertexArray[i+2], outputVect)){
-			printf("Colided with %s.\n" , _name);
 			return true;
 		}
 	}
@@ -65,5 +64,31 @@ void Object::updateModifiedVertex(){
 
 void Object::translateMatrix(float x, float y, float z){
 	_transformationMatrix[_matrixToUse] = translate(x,y,z) * _transformationMatrix[_matrixToUse];
+	updateModifiedVertex();
+}
+
+void Object::addTransformationMatrix(){
+	_transformationMatrix.insert(_transformationMatrix.begin() + _matrixToUse, _transformationMatrix[_matrixToUse]);
+	_matrixToUse++;
+	updateModifiedVertex();
+}
+
+void Object::removeTransformationMatrix(){
+	if(_transformationMatrix.size() != 1){
+		_transformationMatrix.erase(_transformationMatrix.begin() + _matrixToUse);
+	if(_matrixToUse > 0)
+		_matrixToUse--;
+	}
+	updateModifiedVertex();
+}
+void Object::prevTransformationMatrix(){
+	if(_matrixToUse > 0)
+		_matrixToUse--;
+	updateModifiedVertex();
+}
+
+void Object::nextTransformationMatrix(){
+	if(_matrixToUse < _transformationMatrix.size() - 1)
+		_matrixToUse++;
 	updateModifiedVertex();
 }

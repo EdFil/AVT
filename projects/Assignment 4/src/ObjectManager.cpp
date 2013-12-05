@@ -14,11 +14,8 @@ ObjectManager::ObjectManager(GLuint uniformId, GLuint selectedProgram) :  _vaoCo
 Object* ObjectManager::checkIntersection(vec3 rayOrigin, vec3 rayEnd){
 	Object *returnObject = NULL;
 	vec3 interceptVector(100,100,100), aux;
-	std::cout << "BOM -> " << to_string(interceptVector) << std::endl;
-	for(int i = 0; i < _objectList.size(); i++){
+	for(unsigned int i = 0; i < _objectList.size(); i++){
 		if(_objectList[i]->checkIntersection(rayOrigin, rayEnd, aux)){
-			std::cout << "AUX -> " << to_string(aux) << std::endl;
-			std::cout << "BOM -> " << to_string(interceptVector) << std::endl;
 			if(length(aux - rayOrigin) < length(interceptVector - rayOrigin)){
 				interceptVector = aux;
 				returnObject = _objectList[i];
@@ -41,6 +38,36 @@ void ObjectManager::addObject(Object* object){
 void ObjectManager::createBufferObjects(int index){
 	_objectList[index]->createBufferObjects(_vaoId, _vboId);
 }
+
+void ObjectManager::addTransformationMatrix(){
+	for(int i = 0; i < _objectList.size(); i++)
+		_objectList[i]->addTransformationMatrix();
+		std::cout << "Currently using " << _objectList[2]->getMatrixToUse() + 1 << " out of  " << _objectList[0]->getTransformationMatrixSize() << std::endl;
+}
+
+void ObjectManager::removeTransformationMatrix(){
+	for(int i = 0; i < _objectList.size(); i++)
+		_objectList[i]->removeTransformationMatrix();
+	std::cout << "Currently using " << _objectList[2]->getMatrixToUse() + 1 << " out of  " << _objectList[0]->getTransformationMatrixSize() << std::endl;
+}
+
+void ObjectManager::updateModifiedVertex(){
+	for(int i = 0; i < _objectList.size(); i++)
+		_objectList[i]->removeTransformationMatrix();
+}
+
+void ObjectManager::nextTransformationMatrix(){
+	for(int i = 0; i < _objectList.size(); i++)
+		_objectList[i]->nextTransformationMatrix();
+		std::cout << "Currently using " << _objectList[2]->getMatrixToUse() + 1 << " out of  " << _objectList[0]->getTransformationMatrixSize() << std::endl;
+}
+
+void ObjectManager::prevTransformationMatrix(){
+	for(int i = 0; i < _objectList.size(); i++)
+		_objectList[i]->prevTransformationMatrix();
+		std::cout << "Currently using " << _objectList[2]->getMatrixToUse() + 1 << " out of  " << _objectList[0]->getTransformationMatrixSize() << std::endl;
+}
+
 
 void ObjectManager::createBufferObjects(){
 	_vaoId = new GLuint[_vaoCounter];

@@ -89,6 +89,17 @@ void drawScene(){
 }
 
 /////////////////////////////////////////////////////////////////////// CALLBACKS
+void specialFunc(int key, int x, int y){
+	switch(key){
+		case GLUT_KEY_LEFT:
+			objectManager.prevTransformationMatrix();
+			break;
+		case GLUT_KEY_RIGHT:
+			objectManager.nextTransformationMatrix();
+			break;
+	}
+}
+
 void keyPressed(unsigned char key, int x, int y){
 	static bool state = false;
 	static bool projection = false;
@@ -96,6 +107,18 @@ void keyPressed(unsigned char key, int x, int y){
 	yPressed = false;
 	zPressed = false;
 	switch(key){
+		case '+':
+			objectManager.addTransformationMatrix();
+			break;
+		case '-':
+			objectManager.removeTransformationMatrix();
+			break;
+		case GLUT_KEY_LEFT:
+			objectManager.prevTransformationMatrix();
+			break;
+		case GLUT_KEY_RIGHT:
+			objectManager.nextTransformationMatrix();
+			break;
 		case 'x':
 		case 'X':
 			xPressed = true;
@@ -223,6 +246,7 @@ void setupCallbacks() {
 	glutReshapeFunc(reshape);
 	glutTimerFunc(0,timer,0);
 	glutKeyboardFunc(keyPressed);
+	glutSpecialFunc(specialFunc);
 	glutMouseFunc(mouse);
 	glutMotionFunc(mouseMotion);
 	glutTimerFunc(0,callDisplay,0);
@@ -292,6 +316,7 @@ void init(int argc, char* argv[]){
 	objectManager.addObject(new Head());
 	objectManager.addObject(new LeftLeg());
 	objectManager.createBufferObjects();
+	objectManager.updateModifiedVertex();
 	setupCallbacks();
 
 }
