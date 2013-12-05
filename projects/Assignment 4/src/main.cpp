@@ -230,7 +230,7 @@ void init(int argc, char* argv[]){
 	shaderManager.createShaderProgram();
 
 
-	mesh.loadMesh("../src/teapot.obj", vertices);
+	mesh.loadMesh("../src/vaca.obj", vertices);
 	mesh.createBufferObject(vertices);
 
 	camera = Camera();
