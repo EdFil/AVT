@@ -42,6 +42,8 @@ public:
 
     virtual void createBufferObjects(GLuint* vaoId, GLuint* vboId) = 0;
 	virtual void draw(GLuint uniformId, GLuint* vaoId) = 0;
+
+	//virtual void createBufferObjects2(GLuint* vaoId, GLuint* vboId, std::vector<glm::vec4> &vertices){}
 	
 	Vertex* parseVertexInfo(char* objectName);
 

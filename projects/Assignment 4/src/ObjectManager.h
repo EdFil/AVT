@@ -36,6 +36,10 @@ public:
 
 	ObjectManager();
 	ObjectManager::ObjectManager(GLuint uniformId, GLuint selectedProgram);
+
+	void ObjectManager::createBufferObjects2(std::vector<glm::vec4> &vertices);
+	void drawObjects2(const glm::mat4 &viewMatrix, const glm::mat4 &projMatrix, std::vector<glm::vec4> &vertices);
+
 	/* Add a drawable object to the list */
 	void addObject(Object* object);
 

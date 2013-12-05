@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <Vector>
 
 #include "GL/glew.h"
 #include "GL/freeglut.h"
@@ -16,6 +17,8 @@
 #include "Head.h"
 #include "LeftLeg.h"
 
+#include "Mesh.h"
+
 #define CAPTION "--> Assignment 3 <--"
 #define FPS 60
 
@@ -29,6 +32,8 @@ int oldX=0, oldY=0, mouseX, mouseY;
 Camera camera;
 ObjectManager objectManager;
 ShaderManager shaderManager;
+std::vector<glm::vec4> vertices;
+Mesh mesh;
 
 /////////////////////////////////////////////////////////////////////// ERRORS
 
@@ -75,6 +80,7 @@ void callDisplay(int value){
 
 void drawScene(){
 	objectManager.drawObjects(camera.getViewMatrix(), camera.getProjectionMatrix());
+	mesh.draw(vertices, shaderManager.getSelectedProgram());
 	checkOpenGLError("ERROR: Could not draw scene.");
 }
 
@@ -222,18 +228,23 @@ void init(int argc, char* argv[]){
 	shaderManager.addProgram("../src/MVPVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.addProgram("../src/OtherVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.createShaderProgram();
+
+
+	mesh.loadMesh("../src/teapot.obj", vertices);
+	mesh.createBufferObject(vertices);
+
 	camera = Camera();
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
 	camera.perspective(30, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(shaderManager.getSelectedUniformId(), shaderManager.getSelectedProgram());
 	objectManager.addObject(new Grid(4,0.2f));
-	objectManager.addObject(new Torso());
+	/*objectManager.addObject(new Torso());
 	objectManager.addObject(new Back());
 	objectManager.addObject(new Tail());
 	objectManager.addObject(new RightLeg());
 	objectManager.addObject(new Neck());
 	objectManager.addObject(new Head());
-	objectManager.addObject(new LeftLeg());
+	objectManager.addObject(new LeftLeg());*/
 	objectManager.createBufferObjects();
 	setupCallbacks();
 

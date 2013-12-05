@@ -42,6 +42,30 @@ void ObjectManager::createBufferObjects(){
 	glDisableVertexAttribArray(COLORS);
 }
 
+/*void ObjectManager::createBufferObjects2(std::vector<glm::vec4> &vertices){
+	_vaoId = new GLuint[_vaoCounter];
+	_vboId = new GLuint[_vboCounter];
+
+	glGenVertexArrays(_vaoCounter, _vaoId);	//Vertex Array
+	glGenBuffers(_vboCounter, _vboId);		//Buffer Array
+
+
+	// Create all buffers for objects
+	for (unsigned int i = 0; i < _objectList.size(); i++)
+		_objectList[i]->createBufferObjects2(_vaoId, _vboId, vertices);
+
+	//Reserve space for the Uniform Blocks
+	//glBindBuffer(GL_ARRAY_BUFFER, _vboId[0]);
+	//glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(glm::vec4), &vertices[0], GL_STATIC_DRAW);
+
+	// Clear buffers
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glDisableVertexAttribArray(VERTICES);
+	glDisableVertexAttribArray(COLORS);
+}*/
+
 void ObjectManager::destroyBufferObjects(){
 	glDisableVertexAttribArray(VERTICES);
 	glDisableVertexAttribArray(COLORS);
@@ -67,3 +91,18 @@ void ObjectManager::drawObjects(const glm::mat4 &viewMatrix, const glm::mat4 &pr
 	glUseProgram(0);
 	glBindVertexArray(0);
 }
+
+/*void ObjectManager::drawObjects2(const glm::mat4 &viewMatrix, const glm::mat4 &projMatrix, std::vector<glm::vec4> &vertices){
+	glBindBuffer(GL_ARRAY_BUFFER, _vboId[_uniformBlockId]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 16, glm::value_ptr(viewMatrix));
+	glBufferSubData(GL_ARRAY_BUFFER, sizeof(float) * 16, sizeof(float) * 16, glm::value_ptr(projMatrix));
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glUseProgram(_selectedProgram);
+
+	for (unsigned int i = 0; i < _objectList.size(); i++)
+		_objectList[i]->draw(_selectedUniform, _vaoId);
+
+	glUseProgram(0);
+	glBindVertexArray(0);
+}*/
