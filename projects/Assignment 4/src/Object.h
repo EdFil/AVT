@@ -50,7 +50,7 @@ public:
 	
 	Vertex* parseVertexInfo(char* objectName);
 
-	bool checkIntersection(vec3 rayOrigin, vec3 rayDir);
+	virtual bool checkIntersection(vec3 rayOrigin, vec3 rayDir, vec3 &outputVec);
 
 	void modifyVertexArray(mat4, mat4, mat4);
 
@@ -70,13 +70,15 @@ public:
 				_order = TransformationOrder::UP;
 			}
 		}
-		_modifiedVertexArray.clear();
-		for (unsigned int i = 0; i < _vertexArray.size(); i++){
-			_modifiedVertexArray.push_back(vec3(_transformationMatrix[_matrixToUse] * vec4(_vertexArray[i].XYZW[0], _vertexArray[i].XYZW[1], _vertexArray[i].XYZW[2], _vertexArray[i].XYZW[3])));
-		}
+		updateModifiedVertex();
+		
 	}
 	inline void setVaoId(GLuint vaoId) { _vaoId = vaoId; }
 	inline void setVboId(GLuint vboId) { _vboId = vboId; }
+
+	void translateMatrix(float x,float y,float z);
+	void rotateMatrix(float,vec3);
+	void updateModifiedVertex();
 
 private:
 	vec3 vertexToVec3(float[4]);

@@ -54,7 +54,7 @@ public:
     void lookAt(const vec3 &eye, const vec3 &target, const vec3 &up);
 	void orthographic(const float &left,const float &right,const float &bottom,const float &top,const float &nearVal,const float &farVal);
     void perspective(const float &fovx, const float &aspect, const float &znear, const float &far);
-	 vec3 rayCasting(int x, int y);
+	 vec3 rayCasting(int x, int y, int width, int height);
 
 	void addToRX(float value){ _rX += value; }
 	void addToRY(float value){ _rY += value; }

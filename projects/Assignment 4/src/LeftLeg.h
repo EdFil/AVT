@@ -12,6 +12,7 @@ class LeftLeg : public Square {
 public:
 	LeftLeg(){
 		parseVertexInfo("LeftLeg");
+		_name = "LeftLeg";
 
 		mat4 transformation1 = translate(-0.2f, 0.0f, 0.1f);
 		_transformationMatrix.push_back(

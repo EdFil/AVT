@@ -36,3 +36,7 @@ void Grid::addVertex(float x, float z){
 void Grid::toggleMatrix(){
 	//Empty
 }
+
+bool Grid::checkIntersection(vec3 rayOrigin, vec3 rayDir, vec3 &outputVec){
+	return false;
+}

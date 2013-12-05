@@ -31,6 +31,9 @@ Camera camera(NULL);
 ObjectManager objectManager;
 ShaderManager shaderManager;
 
+Object* selectedObject = NULL;
+bool objectSelected = false;
+bool xPressed = false, yPressed = false, zPressed = false;
 bool rightMouseButton = false;
 bool leftMouseButton = false;
 bool middleMouseButton = false;
@@ -89,7 +92,22 @@ void drawScene(){
 void keyPressed(unsigned char key, int x, int y){
 	static bool state = false;
 	static bool projection = false;
+	xPressed = false;
+	yPressed = false;
+	zPressed = false;
 	switch(key){
+		case 'x':
+		case 'X':
+			xPressed = true;
+			break;
+		case 'y':
+		case 'Y':
+			yPressed = true;
+			break;
+		case 'z':
+		case 'Z':
+			zPressed = true;
+			break;
 		case 'T':
 		case 't':
 			objectManager.changeTri(camera.getViewMatrix(), camera.getProjectionMatrix());
@@ -118,11 +136,12 @@ void keyPressed(unsigned char key, int x, int y){
 }
 
 void mouse(int button, int state, int x, int y) {
-	//alterei para ter mais botoes
-	
 	if (state == GLUT_DOWN) {
 		if(button == GLUT_LEFT_BUTTON){
-			objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y));	
+			leftMouseButton = true;
+			selectedObject = objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y, WinX, WinY));
+			if (selectedObject != NULL)
+				objectSelected = true;
 		}
 		if(button == GLUT_RIGHT_BUTTON){
 			rightMouseButton = true;
@@ -132,6 +151,7 @@ void mouse(int button, int state, int x, int y) {
 		mouseX=x; mouseY =y;	
 	}
 	else{
+		objectSelected = false;
 		rightMouseButton = false;
 		leftMouseButton = false;
 		middleMouseButton = false;
@@ -140,13 +160,25 @@ void mouse(int button, int state, int x, int y) {
 }
 
 void mouseMotion(int x, int y) {
-	if(rightMouseButton){
+	if(rightMouseButton && !objectSelected){
 		camera.addToRY((x - oldX)/5.0f); 
 		camera.addToRX((y - oldY)/5.0f); 
 		oldX = x;
 		oldY = y;
 		camera.updateViewMatrix();
 	}
+	else if(leftMouseButton && objectSelected){
+		if(xPressed)
+			selectedObject->translateMatrix((x - oldX)/(WinX*0.175),0.0f, 0.0f);
+		else if(yPressed)
+			selectedObject->translateMatrix(0.0f,-(y - oldY)/(WinY*0.175), 0.0f);
+		else if(zPressed)
+			selectedObject->translateMatrix(0.0f,0.0f, (y - oldY)/(WinY*0.175));
+
+		std::cout << "Translating : " << oldX << " , " << oldY << std::endl; 
+	}
+	oldX = x;
+		oldY = y;
 }
 
 void cleanup(){
@@ -245,20 +277,20 @@ void init(int argc, char* argv[]){
 	shaderManager.addProgram("../src/MVPVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.addProgram("../src/OtherVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.createShaderProgram();
-	Line* line = new Line(vec4(0,0,0,1), vec4(0,5,0,1));
-	camera = Camera(line);
+	//Line* line = new Line(vec4(0,0,0,1), vec4(0,5,0,1));
+	camera = Camera(NULL);
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
 	camera.perspective(30, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(shaderManager.getSelectedUniformId(), shaderManager.getSelectedProgram());
 	//objectManager.addObject(line);
-	//objectManager.addObject(new Grid(4,0.2f));
+	objectManager.addObject(new Grid(4,0.2f));
 	objectManager.addObject(new Torso());
-	//objectManager.addObject(new Back());
-	//objectManager.addObject(new Tail());
-	//objectManager.addObject(new RightLeg());
-	//objectManager.addObject(new Neck());
-	//objectManager.addObject(new Head());
-	//objectManager.addObject(new LeftLeg());
+	objectManager.addObject(new Back());
+	objectManager.addObject(new Tail());
+	objectManager.addObject(new RightLeg());
+	objectManager.addObject(new Neck());
+	objectManager.addObject(new Head());
+	objectManager.addObject(new LeftLeg());
 	objectManager.createBufferObjects();
 	setupCallbacks();
 

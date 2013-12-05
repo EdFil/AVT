@@ -15,6 +15,7 @@ class Head : public Triangle {
 public:
 	Head(){
 		parseVertexInfo("Head");
+		_name = "Head";
 
 		mat4 tangram = mat4();
 		mat4 transformation1 = rotate(-135.0f, vec3(0,0,1));

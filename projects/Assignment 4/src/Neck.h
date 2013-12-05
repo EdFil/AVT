@@ -12,6 +12,7 @@ class Neck : public Square {
 public:
 	Neck(){
 		parseVertexInfo("Neck");
+		_name = "Neck";
 
 		mat4 transformation1 = translate(-0.8f, 1.0f, -0.03f);
 		_transformationMatrix.push_back(

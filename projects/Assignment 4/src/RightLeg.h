@@ -12,6 +12,7 @@ class RightLeg : public Triangle {
 public:
 	RightLeg(){
 		parseVertexInfo("RightLeg");
+		_name = "RightLeg";
 
 		mat4 transformation1 = rotate(-135.0f, vec3(0,0,1));
 		mat4 transformation2 = translate(-0.3f, 0.5f, -0.1f);

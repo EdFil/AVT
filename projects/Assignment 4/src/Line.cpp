@@ -44,3 +44,7 @@ void Line::draw(GLuint uniformId, GLuint* vaoId) {
 void Line::toggleMatrix(){
 	//Empty
 }
+
+void Line::checkIntersection(){
+	//Empty
+}

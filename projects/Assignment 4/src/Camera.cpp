@@ -44,9 +44,7 @@ vec3 Camera::getEye(){
 	return _eye;
 }
 
-vec3 Camera::rayCasting(int mouse_x, int mouse_y){
-	int width = 640;
-	int height = 640;
+vec3 Camera::rayCasting(int mouse_x, int mouse_y, int width, int height){
 
 	float x = (2.0f * mouse_x) / width - 1.0f;
 	float y = 1.0f - (2.0f * mouse_y) / height;
@@ -61,7 +59,7 @@ vec3 Camera::rayCasting(int mouse_x, int mouse_y){
 
 	ray_wor = normalize (ray_wor);
 
-	_line -> newLine(vec4 (_eye, 1.0f), vec4 (ray_wor.x, ray_wor.y, ray_wor.z, 0));
+	//_line -> newLine(vec4 (_eye, 1.0f), vec4 (ray_wor.x, ray_wor.y, ray_wor.z, 0));
 	//std::cout<< ray_wor.x << "," << ray_wor.x << "," << ray_wor.z << std::endl;
 
 	return ray_wor;

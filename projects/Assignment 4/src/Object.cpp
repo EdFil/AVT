@@ -1,5 +1,7 @@
 #include "Object.h"
 #include "rapidxml.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 #include <fstream>
 #include <sstream>
 
@@ -10,9 +12,9 @@ Object::Object() : _matrixToUse(0){
 	_order = TransformationOrder::UP;
 }
 
-bool Object::checkIntersection(vec3 rayOrigin, vec3 rayDir){
-	for(int i = 0; i<_modifiedVertexArray.size(); i+=3){
-		if(intersectLineTriangle(rayOrigin, rayDir, _modifiedVertexArray[i], _modifiedVertexArray[i+1], _modifiedVertexArray[i+2], vec3(0,0,0))){
+bool Object::checkIntersection(vec3 rayOrigin, vec3 rayDir, vec3 &outputVect){
+	for(int i = 0; i + 3 <= _modifiedVertexArray.size(); i+=3){
+		if(intersectLineTriangle(rayOrigin, rayDir, _modifiedVertexArray[i], _modifiedVertexArray[i+1], _modifiedVertexArray[i+2], outputVect)){
 			printf("Colided with %s.\n" , _name);
 			return true;
 		}
@@ -52,4 +54,16 @@ void Object::explode(std::string const & s, char delim, float* result){
 
     for (std::string token; std::getline(iss, token, delim);)
         result[i++] = (float) ::atof(&token[0]);
+}
+
+void Object::updateModifiedVertex(){
+	_modifiedVertexArray.clear();
+	for (unsigned int i = 0; i < _vertexArray.size(); i++){
+		_modifiedVertexArray.push_back(vec3(_transformationMatrix[_matrixToUse] * vec4(_vertexArray[i].XYZW[0], _vertexArray[i].XYZW[1], _vertexArray[i].XYZW[2], _vertexArray[i].XYZW[3])));
+		}
+}
+
+void Object::translateMatrix(float x, float y, float z){
+	_transformationMatrix[_matrixToUse] = translate(x,y,z) * _transformationMatrix[_matrixToUse];
+	updateModifiedVertex();
 }

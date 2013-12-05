@@ -17,22 +17,19 @@ public:
 	Torso(){
 		parseVertexInfo("Torso");
 		_name = "Torso";
-		//mat4 transformation1 = rotate(180.0f, vec3(0,0,1));
-		//mat4 transformation2 = translate(0.0f, 0.98f, 0.02f);
-		//_transformationMatrix.push_back(
-		//	transformation2 * transformation1 * mat4()
-		//);
 
-		//transformation1 = rotate(-90.0f, vec3(1,0,0));
-		//transformation2 = rotate(-135.0f, vec3(0,1,0));
-		//mat4 transformation3 = translate(0.0f, 0.4f, 0.0f);
-		//_transformationMatrix.push_back(
-		//	transformation3 * transformation2 * transformation1 * mat4()
-		//);
+		mat4 transformation1 = rotate(180.0f, vec3(0,0,1));
+		mat4 transformation2 = translate(0.0f, 0.98f, 0.02f);
+		_transformationMatrix.push_back(
+			transformation2 * transformation1 * mat4()
+		);
 
-		_transformationMatrix.push_back(mat4());
-		_transformationMatrix.push_back(translate(-5.0f, -5.0f, 0.0f) * mat4());
-		_transformationMatrix.push_back(rotate(90.0f, vec3(1,0,0)) * mat4());
+		transformation1 = rotate(-90.0f, vec3(1,0,0));
+		transformation2 = rotate(-135.0f, vec3(0,1,0));
+		mat4 transformation3 = translate(0.0f, 0.4f, 0.0f);
+		_transformationMatrix.push_back(
+			transformation3 * transformation2 * transformation1 * mat4()
+		);
 
 		//mat4 transformation1 = translate(0.2f, 0.0f, 0.0f);
 		//mat4 mat1 = transformation1;

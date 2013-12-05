@@ -1,5 +1,6 @@
 #include "ObjectManager.h"
 #include <glm/gtc/type_ptr.hpp>
+#include "glm/gtx/string_cast.hpp"
 
 ObjectManager::ObjectManager(){}
 
@@ -10,14 +11,21 @@ ObjectManager::ObjectManager(GLuint uniformId, GLuint selectedProgram) :  _vaoCo
 }
 
 
-bool ObjectManager::checkIntersection(vec3 rayOrigin, vec3 rayEnd){
-	vec3 rayDir = rayEnd - rayOrigin;
+Object* ObjectManager::checkIntersection(vec3 rayOrigin, vec3 rayEnd){
+	Object *returnObject = NULL;
+	vec3 interceptVector(100,100,100), aux;
+	std::cout << "BOM -> " << to_string(interceptVector) << std::endl;
 	for(int i = 0; i < _objectList.size(); i++){
-		if(_objectList[i]->checkIntersection(rayOrigin, rayEnd)){
-			return true;
+		if(_objectList[i]->checkIntersection(rayOrigin, rayEnd, aux)){
+			std::cout << "AUX -> " << to_string(aux) << std::endl;
+			std::cout << "BOM -> " << to_string(interceptVector) << std::endl;
+			if(length(aux - rayOrigin) < length(interceptVector - rayOrigin)){
+				interceptVector = aux;
+				returnObject = _objectList[i];
+			}
 		}
 	}
-	return false;
+	return returnObject;
 }
 
 

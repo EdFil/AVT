@@ -11,6 +11,7 @@ public:
 	void createBufferObjects(GLuint* vaoId,GLuint* vboId);
 	void draw(GLuint uniformId, GLuint* vaoId);
 	void toggleMatrix();
+	bool checkIntersection(vec3 rayOrigin, vec3 rayDir, vec3 &outputVec);
 
 private:
 

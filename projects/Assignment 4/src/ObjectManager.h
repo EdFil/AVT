@@ -54,7 +54,7 @@ public:
 		}
 	}
 
-	bool checkIntersection(vec3 rayOrigin, vec3 rayDir);
+	Object* checkIntersection(vec3 rayOrigin, vec3 rayDir);
 
 	inline void setSelectedUniform(GLuint id) { _selectedUniform = id; }
 	inline void setSelectedProgram(GLuint id) { _selectedProgram = id; }
