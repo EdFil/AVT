@@ -58,6 +58,7 @@ public:
 		{
 			_objectList[i]->toggleMatrix(viewMatrix, projMatrix);
 		}
+		std::cout << "Currently using " << _objectList[2]->getMatrixToUse() + 1 << " out of  " << _objectList[0]->getTransformationMatrixSize() << std::endl;
 	}
 
 	Object* checkIntersection(vec3 rayOrigin, vec3 rayDir);

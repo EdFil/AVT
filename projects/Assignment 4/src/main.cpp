@@ -97,16 +97,36 @@ void specialFunc(int key, int x, int y){
 		case GLUT_KEY_RIGHT:
 			objectManager.nextTransformationMatrix();
 			break;
+		case GLUT_KEY_PAGE_UP:
+			if(objectSelected){
+				if(xPressed)
+					selectedObject->rotateMatrix(5,vec3(1,0,0));
+				else if(yPressed)
+					selectedObject->rotateMatrix(5,vec3(0,1,0));
+				else if(zPressed)
+					selectedObject->rotateMatrix(5,vec3(0,0,1));
+			}
+			break;
+		case GLUT_KEY_PAGE_DOWN:
+			if(objectSelected){
+				if(xPressed)
+					selectedObject->rotateMatrix(-5,vec3(1,0,0));
+				else if(yPressed)
+					selectedObject->rotateMatrix(-5,vec3(0,1,0));
+				else if(zPressed)
+					selectedObject->rotateMatrix(-5,vec3(0,0,1));
+			}
+			break;
 	}
 }
 
 void keyPressed(unsigned char key, int x, int y){
 	static bool state = false;
 	static bool projection = false;
-	xPressed = false;
-	yPressed = false;
-	zPressed = false;
 	switch(key){
+		case 27:
+			xPressed = false; yPressed = false; zPressed = false;
+			break;
 		case '+':
 			objectManager.addTransformationMatrix();
 			break;
@@ -121,15 +141,15 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'x':
 		case 'X':
-			xPressed = true;
+			xPressed = true; yPressed = false; zPressed = false;
 			break;
 		case 'y':
 		case 'Y':
-			yPressed = true;
+			yPressed = true; xPressed = false; zPressed = false;
 			break;
 		case 'z':
 		case 'Z':
-			zPressed = true;
+			zPressed = true; xPressed = false; yPressed = false;
 			break;
 		case 'T':
 		case 't':
@@ -163,8 +183,9 @@ void mouse(int button, int state, int x, int y) {
 		if(button == GLUT_LEFT_BUTTON){
 			leftMouseButton = true;
 			selectedObject = objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y, WinX, WinY));
-			if (selectedObject != NULL)
+			if (selectedObject != NULL){
 				objectSelected = true;
+			}
 		}
 		if(button == GLUT_RIGHT_BUTTON){
 			rightMouseButton = true;
@@ -173,6 +194,7 @@ void mouse(int button, int state, int x, int y) {
 		oldY = y; 
 		mouseX=x; mouseY =y;	
 	}
+
 	else{
 		objectSelected = false;
 		rightMouseButton = false;
@@ -312,7 +334,7 @@ void init(int argc, char* argv[]){
 	objectManager.addObject(new Back());
 	objectManager.addObject(new Tail());
 	objectManager.addObject(new RightLeg());
-	objectManager.addObject(new Neck());
+	//objectManager.addObject(new Neck());
 	objectManager.addObject(new Head());
 	objectManager.addObject(new LeftLeg());
 	objectManager.createBufferObjects();

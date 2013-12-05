@@ -86,6 +86,7 @@ public:
 	void rotateMatrix(float,vec3);
 	void updateModifiedVertex();
 
+
 private:
 	vec3 vertexToVec3(float[4]);
 	void explode(std::string const & s, char delim, float* result);

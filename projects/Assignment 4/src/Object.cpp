@@ -67,6 +67,11 @@ void Object::translateMatrix(float x, float y, float z){
 	updateModifiedVertex();
 }
 
+void Object::rotateMatrix(float value, vec3 axis){
+	_transformationMatrix[_matrixToUse] =  _transformationMatrix[_matrixToUse] * rotate(value, axis);
+	updateModifiedVertex();
+}
+
 void Object::addTransformationMatrix(){
 	_transformationMatrix.insert(_transformationMatrix.begin() + _matrixToUse, _transformationMatrix[_matrixToUse]);
 	_matrixToUse++;
