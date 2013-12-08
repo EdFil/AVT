@@ -2,34 +2,34 @@
 <Object>
   <Torso>
     <!-- Back Face -->
-    <VertexInfo position = "0.0, 0.8,-0.38, 1.0" color = "1.0, 0.0, 0.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.8, 0.0,-0.38, 1.0" color = "1.0, 0.0, 0.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.0,-0.38, 1.0" color = "1.0, 0.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4, 0.4,-0.4, 1.0" color = "1.0, 0.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = " 0.4,-0.4,-0.4, 1.0" color = "1.0, 0.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4,-0.4,-0.4, 1.0" color = "1.0, 0.0, 0.0, 1.0"></VertexInfo>
     <!-- Left Side Face -->  
-    <VertexInfo position = "0.0, 0.8, 0.0, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.8,-0.38, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.0, 0.0, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.0, 0.0, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.8,-0.38, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.0,-0.38, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4, 0.4, 0.0, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4, 0.4,-0.4, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4,-0.4, 0.0, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4,-0.4, 0.0, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4, 0.4,-0.4, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4,-0.4,-0.4, 1.0" color = "0.5, 1.0, 1.0, 1.0"></VertexInfo>
     <!-- Top Side Face -->
-    <VertexInfo position = "0.0, 0.8, 0.0, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.8, 0.0, 0.0, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.8,-0.38, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.8,-0.38, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.8, 0.0, 0.0, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.8, 0.0,-0.38, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4, 0.4, 0.0, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = " 0.4,-0.4, 0.0, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4, 0.4,-0.4, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4, 0.4,-0.4, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = " 0.4,-0.4, 0.0, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
+    <VertexInfo position = " 0.4,-0.4,-0.4, 1.0" color = "1.0, 0.5, 1.0, 1.0"></VertexInfo>
     <!-- Bottom Side Face -->
-    <VertexInfo position = "0.8, 0.0,-0.38, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
-    <VertexInfo position = "0.8, 0.0, 0.0, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.0,-0.38, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.0, 0.0, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.0,-0.38, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
-    <VertexInfo position = "0.8, 0.0, 0.0, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
+    <VertexInfo position = " 0.4,-0.4,-0.4, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
+    <VertexInfo position = " 0.4,-0.4, 0.0, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4,-0.4,-0.4, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4,-0.4, 0.0, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4,-0.4,-0.4, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
+    <VertexInfo position = " 0.4,-0.4, 0.0, 1.0" color = "1.0, 1.0, 0.5, 1.0"></VertexInfo>
     <!-- Front Side Face -->
-    <VertexInfo position = "0.0, 0.0, 0.0, 1.0" color = "0.0, 1.0, 0.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.8, 0.0, 0.0, 1.0" color = "0.0, 1.0, 0.0, 1.0"></VertexInfo>
-    <VertexInfo position = "0.0, 0.8, 0.0, 1.0" color = "0.0, 1.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4,-0.4, 0.0, 1.0" color = "0.0, 1.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = " 0.4,-0.4, 0.0, 1.0" color = "0.0, 1.0, 0.0, 1.0"></VertexInfo>
+    <VertexInfo position = "-0.4, 0.4, 0.0, 1.0" color = "0.0, 1.0, 0.0, 1.0"></VertexInfo>
   </Torso>
   <Head>
     <!-- Back Face -->

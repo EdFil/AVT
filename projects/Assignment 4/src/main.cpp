@@ -6,15 +6,9 @@
 #include "GL/freeglut.h"
 #include "Camera.h"
 #include "ShaderManager.h"
-#include "Torso.h"
 #include "ObjectManager.h"
 #include "Grid.h"
-#include "Back.h"
-#include "Tail.h"
-#include "RightLeg.h"
-#include "Neck.h"
-#include "Head.h"
-#include "LeftLeg.h"
+#include "XMLObject.h"
 #include "Line.h"
 
 #define CAPTION "--> Assignment 3 <--"
@@ -92,29 +86,29 @@ void drawScene(){
 void specialFunc(int key, int x, int y){
 	switch(key){
 		case GLUT_KEY_LEFT:
-			objectManager.prevTransformationMatrix();
+			objectManager.prevAnimationFrame();
 			break;
 		case GLUT_KEY_RIGHT:
-			objectManager.nextTransformationMatrix();
+			objectManager.nextAnimationFrame();
 			break;
 		case GLUT_KEY_PAGE_UP:
 			if(objectSelected){
 				if(xPressed)
-					selectedObject->rotateMatrix(5,vec3(1,0,0));
+					selectedObject->rotate(5,vec3(1,0,0));
 				else if(yPressed)
-					selectedObject->rotateMatrix(5,vec3(0,1,0));
+					selectedObject->rotate(5,vec3(0,1,0));
 				else if(zPressed)
-					selectedObject->rotateMatrix(5,vec3(0,0,1));
+					selectedObject->rotate(5,vec3(0,0,1));
 			}
 			break;
 		case GLUT_KEY_PAGE_DOWN:
 			if(objectSelected){
 				if(xPressed)
-					selectedObject->rotateMatrix(-5,vec3(1,0,0));
+					selectedObject->rotate(-5,vec3(1,0,0));
 				else if(yPressed)
-					selectedObject->rotateMatrix(-5,vec3(0,1,0));
+					selectedObject->rotate(-5,vec3(0,1,0));
 				else if(zPressed)
-					selectedObject->rotateMatrix(-5,vec3(0,0,1));
+					selectedObject->rotate(-5,vec3(0,0,1));
 			}
 			break;
 	}
@@ -124,20 +118,40 @@ void keyPressed(unsigned char key, int x, int y){
 	static bool state = false;
 	static bool projection = false;
 	switch(key){
+		case 'n':
+			if(objectSelected){
+				if(xPressed)
+					selectedObject->rotate(5,vec3(1,0,0));
+				else if(yPressed)
+					selectedObject->rotate(5,vec3(0,1,0));
+				else if(zPressed)
+					selectedObject->rotate(5,vec3(0,0,1));
+			}
+			break;
+		case 'm':
+			if(objectSelected){
+				if(xPressed)
+					selectedObject->rotate(-5,vec3(1,0,0));
+				else if(yPressed)
+					selectedObject->rotate(-5,vec3(0,1,0));
+				else if(zPressed)
+					selectedObject->rotate(-5,vec3(0,0,1));
+			}
+			break;
 		case 27:
 			xPressed = false; yPressed = false; zPressed = false;
 			break;
 		case '+':
-			objectManager.addTransformationMatrix();
+			objectManager.addAnimationFrame();
 			break;
 		case '-':
-			objectManager.removeTransformationMatrix();
+			objectManager.removeAnimationFrame();
 			break;
 		case GLUT_KEY_LEFT:
-			objectManager.prevTransformationMatrix();
+			objectManager.prevAnimationFrame();
 			break;
 		case GLUT_KEY_RIGHT:
-			objectManager.nextTransformationMatrix();
+			objectManager.nextAnimationFrame();
 			break;
 		case 'x':
 		case 'X':
@@ -153,7 +167,7 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'T':
 		case 't':
-			objectManager.changeTri(camera.getViewMatrix(), camera.getProjectionMatrix());
+			//objectManager.changeTri(camera.getViewMatrix(), camera.getProjectionMatrix());
 			break;
 		case '3':
 			if(state){
@@ -214,11 +228,11 @@ void mouseMotion(int x, int y) {
 	}
 	else if(leftMouseButton && objectSelected){
 		if(xPressed)
-			selectedObject->translateMatrix((x - oldX)/(WinX*0.175),0.0f, 0.0f);
+			selectedObject->translate((x - oldX)/(WinX*0.175),0.0f, 0.0f);
 		else if(yPressed)
-			selectedObject->translateMatrix(0.0f,-(y - oldY)/(WinY*0.175), 0.0f);
+			selectedObject->translate(0.0f,-(y - oldY)/(WinY*0.175), 0.0f);
 		else if(zPressed)
-			selectedObject->translateMatrix(0.0f,0.0f, (y - oldY)/(WinY*0.175));
+			selectedObject->translate(0.0f,0.0f, (y - oldY)/(WinY*0.175));
 
 		std::cout << "Translating : " << oldX << " , " << oldY << std::endl; 
 	}
@@ -329,23 +343,23 @@ void init(int argc, char* argv[]){
 	camera.perspective(30, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(shaderManager.getSelectedUniformId(), shaderManager.getSelectedProgram());
 	//objectManager.addObject(line);
-	objectManager.addObject(new Grid(4,0.2f));
-	objectManager.addObject(new Torso());
-	objectManager.addObject(new Back());
-	objectManager.addObject(new Tail());
-	objectManager.addObject(new RightLeg());
+	//objectManager.addObject(new Grid(4,0.2f));
+	objectManager.addObject(new XMLObject("Neck"));
+	//objectManager.addObject(new Torso());
+	//objectManager.addObject(new Back());
+	//objectManager.addObject(new Tail());
+	//objectManager.addObject(new RightLeg());
 	//objectManager.addObject(new Neck());
-	objectManager.addObject(new Head());
-	objectManager.addObject(new LeftLeg());
+	//objectManager.addObject(new Head());
+	//objectManager.addObject(new LeftLeg());
 	objectManager.createBufferObjects();
-	objectManager.updateModifiedVertex();
 	setupCallbacks();
 
 }
 
 int main(int argc, char* argv[]){
 	init(argc, argv);
-	glutMainLoop();	
+	glutMainLoop();
 	exit(EXIT_SUCCESS);
 }
 

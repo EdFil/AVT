@@ -1,96 +1,79 @@
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
 
-#include "glm\glm.hpp"
 #include <iostream>
 #include <Vector>
+#include "glm\glm.hpp"
 #include "GL\glew.h"
 #include "GL\freeglut.h"
 #include "glm\gtx\intersect.hpp"
+#include <glm\gtc\quaternion.hpp>
+#include <glm\gtx\quaternion.hpp>
 
 #define VERTICES 0
 #define COLORS 1
 
-using namespace glm;
-
 class Object {
 
+	static const glm::vec3 DEFAULT_POSITION;
+	static const glm::quat DEFAULT_ROTATION;
+	static const glm::vec3 DEFAULT_SCALE;
+
 protected:
+	
 	typedef struct {
 		float XYZW[4];
 		float RGBA[4];
 	} Vertex;
 
-	enum TransformationOrder{
-        UP,
-        DOWN
-    };
-
+	typedef struct {
+		glm::vec3 position;
+		glm::quat rotation;
+		glm::vec3 scale;
+	} Properties;
 
 	char* _name;
-	TransformationOrder _order;
 	GLuint _vaoId;
 	GLuint _vboId;
 	bool _selected;
-
-	GLubyte _matrixToUse;
-
-	int _currentTrans;
+	int _currentPropertyIndex;
 	std::vector<Vertex> _vertexArray;
-	std::vector<vec3> _modifiedVertexArray;
-	std::vector<mat4> _transformationMatrix;
+	std::vector<Properties> _propertiesArray;
+	glm::mat4 _currentModelMatrix;
 
 public:
+	Object(char* name);
 
-	Object();
-	bool isOpenGLError();
 
-    virtual void createBufferObjects(GLuint* vaoId, GLuint* vboId) = 0;
-	virtual void draw(GLuint uniformId, GLuint* vaoId) = 0;
+	//Virtual Functions
+    virtual void createBufferObjects(GLuint* vaoId, GLuint* vboId);
+	virtual void draw(GLuint uniformId, GLuint* vaoId);
 	
-	Vertex* parseVertexInfo(char* objectName);
+	//Animation Functions
+	void addProperty();
+	void removeProperty();
+	void nextProperty();
+	void prevProperty();
 
-	virtual bool checkIntersection(vec3 rayOrigin, vec3 rayDir, vec3 &outputVec);
-	void addTransformationMatrix();
-	void removeTransformationMatrix();
-	void nextTransformationMatrix();
-	void prevTransformationMatrix();
-	int getTransformationMatrixSize(){ return _transformationMatrix.size(); }
-	int getMatrixToUse(){ return _matrixToUse; }
+	//Selecting functions
+	virtual bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
 
-	void modifyVertexArray(mat4, mat4, mat4);
+	//Moving functions
+	void translate(float, float, float);
+	void rotate(float,glm::vec3);
+	void scale(float, float, float);
 
-	inline const mat4 &getTransformationMatrix(GLubyte index) { return _transformationMatrix[index]; }
-	virtual void toggleMatrix(const mat4 &viewMatrix, const mat4 &projMatrix) {
-		if(_order == TransformationOrder::UP){
-			_matrixToUse++;
-			if(_matrixToUse >= _transformationMatrix.size() - 1){
-				_matrixToUse = _transformationMatrix.size() - 1;
-				_order = TransformationOrder::DOWN;
-			}
-		}
-		else if(_order == TransformationOrder::DOWN){
-			_matrixToUse--;
-			if(_matrixToUse <= 0){
-				_matrixToUse = 0;
-				_order = TransformationOrder::UP;
-			}
-		}
-		updateModifiedVertex();
-		
-	}
-	inline void setVaoId(GLuint vaoId) { _vaoId = vaoId; }
-	inline void setVboId(GLuint vboId) { _vboId = vboId; }
-
-	void translateMatrix(float x,float y,float z);
-	void rotateMatrix(float,vec3);
-	void updateModifiedVertex();
+	//Setters
+	void setVaoId(int value);
+	void setVboId(int value);
 
 
 private:
-	vec3 vertexToVec3(float[4]);
-	void explode(std::string const & s, char delim, float* result);
+	glm::vec3 vertexToVec3(const Vertex &vertex);
+	void calculateModelMatrix();
+	
 };
 
 #endif
+
 

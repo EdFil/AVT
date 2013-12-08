@@ -39,33 +39,24 @@ void ObjectManager::createBufferObjects(int index){
 	_objectList[index]->createBufferObjects(_vaoId, _vboId);
 }
 
-void ObjectManager::addTransformationMatrix(){
-	for(int i = 0; i < _objectList.size(); i++)
-		_objectList[i]->addTransformationMatrix();
-		std::cout << "Currently using " << _objectList[2]->getMatrixToUse() + 1 << " out of  " << _objectList[0]->getTransformationMatrixSize() << std::endl;
+void ObjectManager::addAnimationFrame(){
+	for(size_t i = 0; i < _objectList.size(); i++)
+		_objectList[i]->addProperty();
 }
 
-void ObjectManager::removeTransformationMatrix(){
-	for(int i = 0; i < _objectList.size(); i++)
-		_objectList[i]->removeTransformationMatrix();
-	std::cout << "Currently using " << _objectList[2]->getMatrixToUse() + 1 << " out of  " << _objectList[0]->getTransformationMatrixSize() << std::endl;
+void ObjectManager::removeAnimationFrame(){
+	for(size_t i = 0; i < _objectList.size(); i++)
+		_objectList[i]->removeProperty();
 }
 
-void ObjectManager::updateModifiedVertex(){
-	for(int i = 0; i < _objectList.size(); i++)
-		_objectList[i]->removeTransformationMatrix();
+void ObjectManager::nextAnimationFrame(){
+	for(size_t i = 0; i < _objectList.size(); i++)
+		_objectList[i]->nextProperty();
 }
 
-void ObjectManager::nextTransformationMatrix(){
-	for(int i = 0; i < _objectList.size(); i++)
-		_objectList[i]->nextTransformationMatrix();
-		std::cout << "Currently using " << _objectList[2]->getMatrixToUse() + 1 << " out of  " << _objectList[0]->getTransformationMatrixSize() << std::endl;
-}
-
-void ObjectManager::prevTransformationMatrix(){
-	for(int i = 0; i < _objectList.size(); i++)
-		_objectList[i]->prevTransformationMatrix();
-		std::cout << "Currently using " << _objectList[2]->getMatrixToUse() + 1 << " out of  " << _objectList[0]->getTransformationMatrixSize() << std::endl;
+void ObjectManager::prevAnimationFrame(){
+	for(size_t i = 0; i < _objectList.size(); i++)
+		_objectList[i]->prevProperty();
 }
 
 

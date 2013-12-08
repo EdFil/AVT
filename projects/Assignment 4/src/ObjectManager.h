@@ -39,27 +39,20 @@ public:
 	/* Add a drawable object to the list */
 	void addObject(Object* object);
 
-	/* Create buffers for all objects */
+	//Buffer functions
 	void createBufferObjects();
 	void createBufferObjects(int index);
-
-	void addTransformationMatrix();
-	void removeTransformationMatrix();
-	void nextTransformationMatrix();
-	void prevTransformationMatrix();
-	void updateModifiedVertex();
-
 	void destroyBufferObjects();
+
+	//Animation Functions
+	void addAnimationFrame();
+	void removeAnimationFrame();
+	void nextAnimationFrame();
+	void prevAnimationFrame();
+
+	
 	/* Draw all objects */
 	void drawObjects(const glm::mat4& viewMatrix, const glm::mat4& projMatrix);
-
-	void changeTri(const mat4 &viewMatrix, const mat4 &projMatrix){
-		for (unsigned int i = 0; i < _objectList.size(); i++)
-		{
-			_objectList[i]->toggleMatrix(viewMatrix, projMatrix);
-		}
-		std::cout << "Currently using " << _objectList[2]->getMatrixToUse() + 1 << " out of  " << _objectList[0]->getTransformationMatrixSize() << std::endl;
-	}
 
 	Object* checkIntersection(vec3 rayOrigin, vec3 rayDir);
 

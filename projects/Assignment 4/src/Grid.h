@@ -8,10 +8,11 @@ class Grid : public Object {
 public:
 	Grid(int, float);
 
-	void createBufferObjects(GLuint* vaoId,GLuint* vboId);
+	//Virtual functions
 	void draw(GLuint uniformId, GLuint* vaoId);
-	void toggleMatrix();
-	bool checkIntersection(vec3 rayOrigin, vec3 rayDir, vec3 &outputVec);
+
+	//Moving functions
+	bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
 
 private:
 
