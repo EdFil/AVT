@@ -38,6 +38,7 @@ protected:
 	bool _selected;
 	int _currentPropertyIndex;
 	std::vector<Vertex> _vertexArray;
+	std::vector<glm::vec3> _modifiedVertexArray;
 	std::vector<Properties> _propertiesArray;
 	glm::mat4 _currentModelMatrix;
 
@@ -67,10 +68,12 @@ public:
 	void setVaoId(int value);
 	void setVboId(int value);
 
+protected:
+	void vertexToVec3();
 
 private:
-	glm::vec3 vertexToVec3(const Vertex &vertex);
 	void calculateModelMatrix();
+	void updateModifiedVertex();
 	
 };
 

@@ -33,31 +33,35 @@ void Object::draw(GLuint uniformId, GLuint* vaoId) {
 }
 
 bool Object::checkIntersection(vec3 rayOrigin, vec3 rayDir, vec3 &outputVect){
-	for(size_t i = 0; i + 3 <= _vertexArray.size(); i+=3){
-		if(intersectLineTriangle(rayOrigin, rayDir, vertexToVec3(_vertexArray[i]), vertexToVec3(_vertexArray[i+1]), vertexToVec3(_vertexArray[i+2]), outputVect)){
+	for(size_t i = 0; i + 3 <= _modifiedVertexArray.size(); i+=3){
+		if(intersectLineTriangle(rayOrigin, rayDir, _modifiedVertexArray[i], _modifiedVertexArray[i+1], _modifiedVertexArray[i+2], outputVect)){
 			return true;
 		}
 	}
 	return false;
 }
 
-glm::vec3 Object::vertexToVec3(const Vertex &vertex){
-	return glm::vec3(vertex.XYZW[0], vertex.XYZW[1], vertex.XYZW[2]); 
+void Object::vertexToVec3(){
+	for(size_t i = 0;i < _vertexArray.size(); i++)
+		_modifiedVertexArray.push_back(glm::vec3(_vertexArray[i].XYZW[0], _vertexArray[i].XYZW[1], _vertexArray[i].XYZW[2]));
 }
 
 void Object::translate(float x, float y, float z){
 	_propertiesArray[_currentPropertyIndex].position += vec3(x,y,z);
 	calculateModelMatrix();
+	updateModifiedVertex();
 }
 
 void Object::rotate(float value, vec3 axis){
 	_propertiesArray[_currentPropertyIndex].rotation = _propertiesArray[_currentPropertyIndex].rotation * angleAxis(value, axis);
 	calculateModelMatrix();
+	updateModifiedVertex();
 }
 
 void Object::scale(float x, float y, float z){
 	_propertiesArray[_currentPropertyIndex].position = vec3(x,y,z);
 	calculateModelMatrix();
+	updateModifiedVertex();
 }
 
 void Object::addProperty(){
@@ -95,4 +99,14 @@ void Object::setVaoId(int value){
 
 void Object::setVboId(int value){
 	_vboId = value;
+}
+
+void Object::updateModifiedVertex(){
+	_modifiedVertexArray.clear();
+	for (unsigned int i = 0; i < _vertexArray.size(); i++){
+		_modifiedVertexArray.push_back(glm::vec3(_currentModelMatrix * glm::vec4(_vertexArray[i].XYZW[0], 
+																				 _vertexArray[i].XYZW[1],
+																				 _vertexArray[i].XYZW[2],
+																				 _vertexArray[i].XYZW[3])));
+									}
 }

@@ -8,6 +8,7 @@ class XMLObject : public Object {
 public:
 	XMLObject(char* xmlNodeName) : Object(xmlNodeName){
 		parseVertexInfo(xmlNodeName);
+		vertexToVec3();
 	}
 
 private:
