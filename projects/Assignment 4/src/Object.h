@@ -46,13 +46,19 @@ protected:
 	std::vector<Properties> _propertiesArray;
 	glm::mat4 _currentModelMatrix;
 
+
 public:
 	Object(std::string name);
+	Object(std::string name, glm::vec3 position);
+	Object(std::string name, glm::vec3 position, glm::vec3 rotarion);
+	Object(std::string name, glm::vec3 position, glm::vec3 rotarion, glm::vec3 scale);
 
 
 	//Virtual Functions
     virtual void createBufferObjects(GLuint* vaoId, GLuint* vboId);
 	virtual void draw(GLuint* vaoId);
+	virtual bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
+	virtual void updateModifiedVertex();
 	
 	//Animation Functions
 	void addProperty();
@@ -61,7 +67,6 @@ public:
 	void prevProperty();
 
 	//Selecting functions
-	virtual bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
 	void select();
 	void unselect();
 
@@ -81,7 +86,6 @@ protected:
 
 private:
 	void calculateModelMatrix();
-	void updateModifiedVertex();
 	
 };
 

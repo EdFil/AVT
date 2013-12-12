@@ -24,6 +24,10 @@ Object* ObjectManager::checkIntersection(vec3 rayOrigin, vec3 rayEnd){
 	return returnObject;
 }
 
+void ObjectManager::updateModifiedVertexArray(){
+	for(unsigned int i = 0; i < _objectList.size(); i++)
+		_objectList[i]->updateModifiedVertex();
+}
 
 void ObjectManager::addObject(Object* object){
 	//Set a number of variables for the buffers

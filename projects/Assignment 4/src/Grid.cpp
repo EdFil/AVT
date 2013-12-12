@@ -19,8 +19,11 @@ bool Grid::checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &o
 	return false;
 }
 
-void Grid::draw(GLuint uniformId, GLuint* vaoId) {
+void Grid::updateModifiedVertex(){}
+
+void Grid::draw(GLuint* vaoId) {
+	_programsToUse[0]->bind();
 	glBindVertexArray(vaoId[_vaoId]);
-	glUniformMatrix4fv(uniformId, 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
-	glDrawArrays(GL_LINE,0,_vertexArray.size());
+	glUniformMatrix4fv(_programsToUse[0]->getUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+	glDrawArrays(GL_LINES,0,_vertexArray.size());
 }

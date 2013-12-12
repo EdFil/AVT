@@ -52,7 +52,9 @@ public:
 	/* Draw all objects */
 	void drawObjects(const glm::mat4& viewMatrix, const glm::mat4& projMatrix);
 
+	// Intersections
 	Object* checkIntersection(vec3 rayOrigin, vec3 rayDir);
+	void updateModifiedVertexArray();
 
 private:
 	GLuint getNewVaoId();

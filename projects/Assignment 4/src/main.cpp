@@ -214,6 +214,7 @@ void mouseMotion(int x, int y) {
 		oldX = x;
 		oldY = y;
 		camera.updateViewMatrix();
+		objectManager.updateModifiedVertexArray();
 	}
 	else if(leftMouseButton && objectSelected){
 		if(xPressed)
@@ -332,8 +333,8 @@ void init(int argc, char* argv[]){
 	camera.perspective(30, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(&shaderManager);
 	//objectManager.addObject(line);
-	//objectManager.addObject(new Grid(4,0.2f));
-	objectManager.addObject(new XMLObject("Neck"));
+	objectManager.addObject(new Grid(4,0.2f));
+	objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
 	//objectManager.addObject(new Torso());
 	//objectManager.addObject(new Back());
 	//objectManager.addObject(new Tail());

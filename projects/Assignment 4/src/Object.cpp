@@ -16,6 +16,12 @@ Object::Object(std::string name) : _currentPropertyIndex(0), _name(name), _selec
 	calculateModelMatrix();
 }
 
+Object::Object(std::string name, glm::vec3 position) : _currentPropertyIndex(0), _name(name), _selected(false){
+	Properties initialProperty = { position, DEFAULT_ROTATION, DEFAULT_SCALE };
+	_propertiesArray.push_back(initialProperty);
+	calculateModelMatrix();
+}
+
 void Object::createBufferObjects(GLuint* vaoId, GLuint* vboId){
 	glBindVertexArray(vaoId[_vaoId]);
 	glBindBuffer(GL_ARRAY_BUFFER, vboId[_vboId]);

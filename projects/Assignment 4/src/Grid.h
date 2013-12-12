@@ -9,10 +9,9 @@ public:
 	Grid(int, float);
 
 	//Virtual functions
-	void draw(GLuint uniformId, GLuint* vaoId);
-
-	//Moving functions
+	void draw(GLuint* vaoId);
 	bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
+	void updateModifiedVertex();
 
 private:
 
