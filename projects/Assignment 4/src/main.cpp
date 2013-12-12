@@ -21,7 +21,7 @@ float RotationAngleY = 0.0f, RotationAngleX = 0.0f;
 
 int oldX=0, oldY=0, mouseX, mouseY;
 
-Camera camera(NULL);
+Camera camera;
 ObjectManager objectManager;
 ShaderManager shaderManager;
 Line axisLine;
@@ -224,12 +224,30 @@ void mouse(int button, int state, int x, int y) {
 				rightMouseButton = false;
 			break;
 		case 3: //UP WHEEL
-			camera.addToDist(0.2);
-			camera.updateViewMatrix();
+			if(objectSelected){
+				if(xPressed)
+					selectedObject->rotate(5,vec3(1,0,0));
+				else if(yPressed)
+					selectedObject->rotate(5,vec3(0,1,0));
+				else if(zPressed)
+					selectedObject->rotate(5,vec3(0,0,1));
+			}else{
+				camera.addToDist(0.2);
+				camera.updateViewMatrix();
+			}
 			break;
 		case 4: //DOWN WHEEL
-			camera.addToDist(-0.2);
-			camera.updateViewMatrix();
+			if(objectSelected){
+				if(xPressed)
+					selectedObject->rotate(-5,vec3(1,0,0));
+				else if(yPressed)
+					selectedObject->rotate(-5,vec3(0,1,0));
+				else if(zPressed)
+					selectedObject->rotate(-5,vec3(0,0,1));
+			}else{
+				camera.addToDist(-0.2);
+				camera.updateViewMatrix();
+			}
 			break;
 	}
 	//Refresh mouse positions
@@ -357,7 +375,7 @@ void init(int argc, char* argv[]){
 	shaderManager.addProgram("SelectedShader", "../src/OtherVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.createShaderProgram();
 	axisLine = Line();
-	camera = Camera(NULL);
+	camera = Camera();
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
 	camera.perspective(30, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(&shaderManager);

@@ -48,7 +48,7 @@ class Camera {
     mat4 _viewMatrix;
     mat4 _projMatrix;
 public:
-	Camera(Line* line);
+	Camera();
 
 	vec3 getEye();
 	void ExtractCameraPos();
