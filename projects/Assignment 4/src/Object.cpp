@@ -10,7 +10,7 @@ const vec3 Object::DEFAULT_POSITION = vec3(0,0,0);
 const quat Object::DEFAULT_ROTATION = quat();
 const vec3 Object::DEFAULT_SCALE = vec3(1,1,1);
 
-Object::Object(char* name) : _currentPropertyIndex(0), _name(name), _selected(false){
+Object::Object(std::string name) : _currentPropertyIndex(0), _name(name), _selected(false){
 	Properties initialProperty = { DEFAULT_POSITION, DEFAULT_ROTATION, DEFAULT_SCALE };
 	_propertiesArray.push_back(initialProperty);
 	calculateModelMatrix();
@@ -26,10 +26,29 @@ void Object::createBufferObjects(GLuint* vaoId, GLuint* vboId){
 	glVertexAttribPointer(COLORS, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(_vertexArray[0].XYZW));
 }
 
-void Object::draw(GLuint uniformId, GLuint* vaoId) {
+void Object::draw(GLuint* vaoId) {
+	int uniformId;
+	if(_selected){
+		_programsToUse[1]->bind();
+		uniformId = _programsToUse[1]->getUniformId();
+	}
+	else{
+		_programsToUse[0]->bind();
+		uniformId = _programsToUse[0]->getUniformId();
+	}
 	glBindVertexArray(vaoId[_vaoId]);
 	glUniformMatrix4fv(uniformId, 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
 	glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
+	glUseProgram(0);
+}
+
+void Object::setShaderManager(ShaderManager *shaderManager){
+	_shaderManager = shaderManager;
+}
+
+void Object::setPrograms(){
+	_programsToUse.push_back(_shaderManager->getProgram(0));
+	_programsToUse.push_back(_shaderManager->getProgram(1));
 }
 
 bool Object::checkIntersection(vec3 rayOrigin, vec3 rayDir, vec3 &outputVect){
@@ -109,4 +128,12 @@ void Object::updateModifiedVertex(){
 																				 _vertexArray[i].XYZW[2],
 																				 _vertexArray[i].XYZW[3])));
 									}
+}
+
+void Object::unselect(){
+	_selected = false;
+}
+
+void Object::select(){
+	_selected = true;
 }

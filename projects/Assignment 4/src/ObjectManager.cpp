@@ -4,10 +4,9 @@
 
 ObjectManager::ObjectManager(){}
 
-ObjectManager::ObjectManager(GLuint uniformId, GLuint selectedProgram) :  _vaoCounter(0), _vboCounter(0), UBO_BP(0){
-	_selectedProgram = selectedProgram;
-	_selectedUniform = uniformId;
+ObjectManager::ObjectManager(ShaderManager *shaderManager) :  _vaoCounter(0), _vboCounter(0), UBO_BP(0){
 	_uniformBlockId = _vboCounter++;
+	_shaderManager = shaderManager;
 }
 
 
@@ -30,6 +29,8 @@ void ObjectManager::addObject(Object* object){
 	//Set a number of variables for the buffers
 	object->setVaoId(_vaoCounter++);
 	object->setVboId(_vboCounter++);
+	object->setShaderManager(_shaderManager);
+	object->setPrograms();
 
 	//Add the Object to The object list
 	_objectList.push_back(object);
@@ -101,10 +102,8 @@ void ObjectManager::drawObjects(const glm::mat4 &viewMatrix, const glm::mat4 &pr
 	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float)*16, sizeof(float)*16, glm::value_ptr(projMatrix));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	glUseProgram(_selectedProgram);
-
 	for(unsigned int i = 0; i < _objectList.size(); i++)
-		_objectList[i]->draw(_selectedUniform, _vaoId);
+		_objectList[i]->draw(_vaoId);
 
 	glUseProgram(0);
 	glBindVertexArray(0);

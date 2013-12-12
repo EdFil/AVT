@@ -1,12 +1,14 @@
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
 
+#include "ShaderManager.h"
+#include "Program.h"
 #include <iostream>
 #include <Vector>
-#include "glm\glm.hpp"
-#include "GL\glew.h"
-#include "GL\freeglut.h"
-#include "glm\gtx\intersect.hpp"
+#include <GL\glew.h>
+#include <GL\freeglut.h>
+#include <glm\glm.hpp>
+#include <glm\gtx\intersect.hpp>
 #include <glm\gtc\quaternion.hpp>
 #include <glm\gtx\quaternion.hpp>
 
@@ -32,23 +34,25 @@ protected:
 		glm::vec3 scale;
 	} Properties;
 
-	char* _name;
+	std::string _name;
+	ShaderManager *_shaderManager;
 	GLuint _vaoId;
 	GLuint _vboId;
 	bool _selected;
 	int _currentPropertyIndex;
+	std::vector<Program*> _programsToUse;
 	std::vector<Vertex> _vertexArray;
 	std::vector<glm::vec3> _modifiedVertexArray;
 	std::vector<Properties> _propertiesArray;
 	glm::mat4 _currentModelMatrix;
 
 public:
-	Object(char* name);
+	Object(std::string name);
 
 
 	//Virtual Functions
     virtual void createBufferObjects(GLuint* vaoId, GLuint* vboId);
-	virtual void draw(GLuint uniformId, GLuint* vaoId);
+	virtual void draw(GLuint* vaoId);
 	
 	//Animation Functions
 	void addProperty();
@@ -58,6 +62,8 @@ public:
 
 	//Selecting functions
 	virtual bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
+	void select();
+	void unselect();
 
 	//Moving functions
 	void translate(float, float, float);
@@ -67,6 +73,8 @@ public:
 	//Setters
 	void setVaoId(int value);
 	void setVboId(int value);
+	void setShaderManager(ShaderManager *shaderManager);
+	void setPrograms();
 
 protected:
 	void vertexToVec3();

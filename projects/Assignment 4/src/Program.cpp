@@ -1,12 +1,12 @@
 #include <fstream>
 #include "Program.h"
 #include <iostream>
+#include <vector>
 
 #define VERTEX GL_VERTEX_SHADER
 #define FRAGMENT GL_FRAGMENT_SHADER
 
-Program::Program(char* vertexFile, char* fragmentFile) : _vertexFile(vertexFile), _fragmentFile(fragmentFile){
-
+Program::Program(std::string name, std::string vertexFile, std::string fragmentFile) : _name(name), _vertexFile(vertexFile), _fragmentFile(fragmentFile){
 }
 
 void Program::createShaderProgram() {
@@ -32,6 +32,10 @@ void Program::destroyShaderProgram(){
 	glDeleteShader(_vertexShaderId);
 	glDeleteShader(_fragmentShaderId);
 	glDeleteProgram(_programId);
+}
+
+void Program::bind() const {
+	glUseProgram(_programId);
 }
 
 GLuint Program::loadShaderFromFile(std::string fileName, GLenum shaderType){
@@ -61,10 +65,17 @@ GLuint Program::loadShaderFromFile(std::string fileName, GLenum shaderType){
 		glGetShaderiv( shaderID, GL_COMPILE_STATUS, &shaderCompiled );
 		if( shaderCompiled != GL_TRUE )
 		{
-			printf( "Unable to compile shader %d!\n\nSource:\n%s\n", shaderID, shaderSource );
-			//printShaderLog( shaderID );
-			glDeleteShader( shaderID );
+			GLint maxLength = 0;
+			glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
+ 
+	        //The maxLength includes the NULL character
+		    std::vector<char> errorLog(maxLength);
+			glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
+			for(int i = 0; i < maxLength; i++)
+				std::cout << errorLog[i];
+			std::cout << std::endl;
 			shaderID = 0;
+			glDeleteShader(shaderID);
 		}
 	}
 	else

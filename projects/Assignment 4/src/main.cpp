@@ -165,23 +165,6 @@ void keyPressed(unsigned char key, int x, int y){
 		case 'Z':
 			zPressed = true; xPressed = false; yPressed = false;
 			break;
-		case 'T':
-		case 't':
-			//objectManager.changeTri(camera.getViewMatrix(), camera.getProjectionMatrix());
-			break;
-		case '3':
-			if(state){
-				shaderManager.setProgram(0);
-				objectManager.setSelectedUniform(shaderManager.getSelectedUniformId());
-				objectManager.setSelectedProgram(shaderManager.getSelectedProgram());
-			}
-			else{
-				shaderManager.setProgram(1);
-				objectManager.setSelectedUniform(shaderManager.getSelectedUniformId());
-				objectManager.setSelectedProgram(shaderManager.getSelectedProgram());
-			}
-			state = !state;
-			break;
 		case 'p':
 			camera.toggleProjection();
 			break;
@@ -196,8 +179,10 @@ void mouse(int button, int state, int x, int y) {
 	if (state == GLUT_DOWN) {
 		if(button == GLUT_LEFT_BUTTON){
 			leftMouseButton = true;
-			selectedObject = objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y, WinX, WinY));
-			if (selectedObject != NULL){
+			Object* object = objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y, WinX, WinY));
+			if (object != NULL){
+				selectedObject = object;
+				selectedObject->select();
 				objectSelected = true;
 			}
 		}
@@ -210,6 +195,10 @@ void mouse(int button, int state, int x, int y) {
 	}
 
 	else{
+		if(selectedObject != NULL){
+			selectedObject->unselect();
+			selectedObject = NULL;
+		}
 		objectSelected = false;
 		rightMouseButton = false;
 		leftMouseButton = false;
@@ -334,14 +323,14 @@ void init(int argc, char* argv[]){
 	setupGLEW();
 	setupOpenGL();
 	shaderManager = ShaderManager();
-	shaderManager.addProgram("../src/MVPVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
-	shaderManager.addProgram("../src/OtherVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
+	shaderManager.addProgram("NormalShader", "../src/MVPVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
+	shaderManager.addProgram("SelectedShader", "../src/OtherVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.createShaderProgram();
 	//Line* line = new Line(vec4(0,0,0,1), vec4(0,5,0,1));
 	camera = Camera(NULL);
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
 	camera.perspective(30, 1.0f, 0.1f, 20.0f);
-	objectManager = ObjectManager(shaderManager.getSelectedUniformId(), shaderManager.getSelectedProgram());
+	objectManager = ObjectManager(&shaderManager);
 	//objectManager.addObject(line);
 	//objectManager.addObject(new Grid(4,0.2f));
 	objectManager.addObject(new XMLObject("Neck"));

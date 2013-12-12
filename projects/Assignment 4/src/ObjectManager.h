@@ -15,15 +15,13 @@ class ObjectManager {
 
 	/* A List where all objects are stored */
 	std::vector<Object*> _objectList;
+	ShaderManager *_shaderManager;
 
 	GLuint _goIndex;
 	TransformationOrder _order;
 
 	GLuint* _vaoId;
 	GLuint* _vboId;
-
-	GLuint _selectedProgram;
-	GLuint _selectedUniform;
 
 	GLuint _vaoCounter;
 	GLuint _vboCounter;
@@ -35,7 +33,7 @@ class ObjectManager {
 public:
 
 	ObjectManager();
-	ObjectManager::ObjectManager(GLuint uniformId, GLuint selectedProgram);
+	ObjectManager(ShaderManager *shaderManager);
 	/* Add a drawable object to the list */
 	void addObject(Object* object);
 
@@ -55,9 +53,6 @@ public:
 	void drawObjects(const glm::mat4& viewMatrix, const glm::mat4& projMatrix);
 
 	Object* checkIntersection(vec3 rayOrigin, vec3 rayDir);
-
-	inline void setSelectedUniform(GLuint id) { _selectedUniform = id; }
-	inline void setSelectedProgram(GLuint id) { _selectedProgram = id; }
 
 private:
 	GLuint getNewVaoId();

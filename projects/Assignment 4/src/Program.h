@@ -9,6 +9,7 @@ class Program {
 
 	std::string _vertexFile, _fragmentFile;
 
+	std::string _name;
 	GLuint _programId;
 	GLuint _vertexShaderId;
 	GLuint _fragmentShaderId;
@@ -19,7 +20,9 @@ class Program {
 	char* _fragmentShader;
 
 public:
-	Program(char* vertexFile, char* fragmentFile);
+	Program(std::string name, std::string vertexFile, std::string fragmentFile);
+
+	void bind() const ;
 
 	void createShaderProgram();
 	void destroyShaderProgram();
