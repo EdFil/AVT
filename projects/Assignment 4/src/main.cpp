@@ -204,6 +204,14 @@ void mouse(int button, int state, int x, int y) {
 		leftMouseButton = false;
 		middleMouseButton = false;
 	}
+	if(button == 3){ //UP
+		camera.addToDist(0.2);
+		camera.updateViewMatrix();
+	}
+	else if(button == 4){ //DOWN
+		camera.addToDist(-0.2);
+		camera.updateViewMatrix();
+	}
 
 }
 

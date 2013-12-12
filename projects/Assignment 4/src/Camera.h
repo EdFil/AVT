@@ -40,6 +40,7 @@ class Camera {
 	float _aspect;
 	float _rX, _rY;
 
+	float _dist;
 	Line* _line;
     vec3 _eye;
     vec3 _target;
@@ -58,6 +59,7 @@ public:
 
 	void addToRX(float value){ _rX += value; }
 	void addToRY(float value){ _rY += value; }
+	void addToDist(float value){ _dist += value; }
 
 	//-----GETTERS
 

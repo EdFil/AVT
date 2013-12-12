@@ -30,6 +30,7 @@ Camera::Camera(Line* line): _line (line){
 	_top = DEFAULT_TOP;
 	_aspect = 1;
 
+	_dist = -5;
     _eye = vec3(0.0f, 0.0f, 0.0f);
 	_target = vec3(0.0f, 0.0f, 0.0f);
 	_viewMatrix = mat4();
@@ -94,7 +95,7 @@ void Camera::ExtractCameraPos()
 }
 
 void Camera::lookAt(const vec3 &eye, const vec3 &target, const vec3 &up){
-	mat4 transformation1 = translate(0.0f,0.0f,-10.0f);
+	mat4 transformation1 = translate(0.0f,0.0f,_dist);
 	mat4 transformation2 = rotate(_rX, vec3(1,0,0));
 	mat4 transformation3 = rotate(_rY, vec3(0,1,0));
 	_viewMatrix = transformation1 * transformation2 * transformation3 * mat4();

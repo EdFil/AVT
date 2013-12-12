@@ -78,7 +78,7 @@ void Object::translate(float x, float y, float z){
 }
 
 void Object::rotate(float value, vec3 axis){
-	_propertiesArray[_currentPropertyIndex].rotation = _propertiesArray[_currentPropertyIndex].rotation * angleAxis(value, axis);
+	_propertiesArray[_currentPropertyIndex].rotation = angleAxis(value, axis) * _propertiesArray[_currentPropertyIndex].rotation;
 	calculateModelMatrix();
 	updateModifiedVertex();
 }
