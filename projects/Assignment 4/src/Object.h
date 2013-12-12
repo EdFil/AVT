@@ -75,6 +75,12 @@ public:
 	void rotate(float,glm::vec3);
 	void scale(float, float, float);
 
+	//Getters
+	glm::vec3 getPosition() const;
+	glm::quat getRotation() const;
+	glm::vec3 getScale() const;
+	std::string getName() const;
+
 	//Setters
 	void setVaoId(int value);
 	void setVboId(int value);
@@ -83,8 +89,6 @@ public:
 
 protected:
 	void vertexToVec3();
-
-private:
 	void calculateModelMatrix();
 	
 };

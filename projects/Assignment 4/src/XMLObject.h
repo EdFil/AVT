@@ -6,18 +6,18 @@
 class XMLObject : public Object {
 
 public:
-	XMLObject(char* xmlNodeName) : Object(xmlNodeName){
+	XMLObject(std::string xmlNodeName) : Object(xmlNodeName){
 		parseVertexInfo(xmlNodeName);
 		vertexToVec3();
 	}
 
-	XMLObject(char* xmlNodeName, glm::vec3 position) : Object(xmlNodeName, position){
+	XMLObject(std::string xmlNodeName, glm::vec3 position) : Object(xmlNodeName, position){
 		parseVertexInfo(xmlNodeName);
 		vertexToVec3();
 	}
 
 private:
-	void parseVertexInfo(char* objectName);
+	void parseVertexInfo(std::string objectName);
 	void explode(std::string const & s, char delim, float* result);
 };
 #endif

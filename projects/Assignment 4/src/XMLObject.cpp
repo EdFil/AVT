@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-void XMLObject::parseVertexInfo(char* objectName){
+void XMLObject::parseVertexInfo(std::string objectName){
 	rapidxml::xml_document<> doc;
 	rapidxml::xml_node<> * root_node;
 	// Read the xml file into a vector
@@ -13,7 +13,8 @@ void XMLObject::parseVertexInfo(char* objectName){
 	// Parse the buffer using the xml file parsing library into doc 
 	doc.parse<0>(&buffer[0]);
 	// Find our root node
-	root_node = doc.first_node("Object")->first_node(objectName);
+	const char* charName = &objectName[0];
+	root_node = doc.first_node("Object")->first_node(charName);
 	// Iterate over the brewerys
 	for (rapidxml::xml_node<> * vertex_node = root_node->first_node("VertexInfo"); vertex_node; vertex_node = vertex_node->next_sibling())
 	{

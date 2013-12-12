@@ -128,12 +128,27 @@ void Object::setVboId(int value){
 
 void Object::updateModifiedVertex(){
 	_modifiedVertexArray.clear();
-	for (unsigned int i = 0; i < _vertexArray.size(); i++){
+	for (unsigned int i = 0; i < _vertexArray.size(); i++)
 		_modifiedVertexArray.push_back(glm::vec3(_currentModelMatrix * glm::vec4(_vertexArray[i].XYZW[0], 
 																				 _vertexArray[i].XYZW[1],
 																				 _vertexArray[i].XYZW[2],
 																				 _vertexArray[i].XYZW[3])));
-									}
+}
+
+glm::vec3 Object::getPosition() const {
+	return _propertiesArray[_currentPropertyIndex].position;
+}
+
+glm::quat Object::getRotation() const {
+	return _propertiesArray[_currentPropertyIndex].rotation;
+}
+
+glm::vec3 Object::getScale() const{
+	return _propertiesArray[_currentPropertyIndex].scale;
+}
+
+std::string Object::getName() const{
+	return _name;
 }
 
 void Object::unselect(){

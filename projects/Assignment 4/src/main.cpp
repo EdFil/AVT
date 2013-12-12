@@ -24,6 +24,7 @@ int oldX=0, oldY=0, mouseX, mouseY;
 Camera camera(NULL);
 ObjectManager objectManager;
 ShaderManager shaderManager;
+Line axisLine;
 
 Object* selectedObject = NULL;
 bool objectSelected = false;
@@ -158,14 +159,17 @@ void keyPressed(unsigned char key, int x, int y){
 		case 'x':
 		case 'X':
 			xPressed = true; yPressed = false; zPressed = false;
+			axisLine.setToAxis(glm::vec3(1,0,0));
 			break;
 		case 'y':
 		case 'Y':
 			yPressed = true; xPressed = false; zPressed = false;
+			axisLine.setToAxis(glm::vec3(0,1,0));
 			break;
 		case 'z':
 		case 'Z':
 			zPressed = true; xPressed = false; yPressed = false;
+			axisLine.setToAxis(glm::vec3(0,0,1));
 			break;
 		case 'p':
 			camera.toggleProjection();
@@ -188,8 +192,12 @@ void mouse(int button, int state, int x, int y) {
 						objectWasDoubleClicked = true;
 					else
 						objectWasDoubleClicked = false;
+					if(selectedObject != NULL)
+						selectedObject->unselect();
 					selectedObject = object;
 					selectedObject->select();
+					axisLine.setVisible(true);
+					axisLine.bindToObject(selectedObject);
 					objectSelected = true;
 				}
 				else{
@@ -200,15 +208,20 @@ void mouse(int button, int state, int x, int y) {
 				if(!objectWasDoubleClicked){
 					objectSelected = false;
 					if(selectedObject != NULL){
+						axisLine.setVisible(false);
 						selectedObject->unselect();
 						selectedObject = NULL;
 					}
 				}
+				leftMouseButton = false;
 					
 			}
 			break;
 		case GLUT_RIGHT_BUTTON:
-			rightMouseButton = true;
+			if(state == GLUT_DOWN)
+				rightMouseButton = true;
+			else
+				rightMouseButton = false;
 			break;
 		case 3: //UP WHEEL
 			camera.addToDist(0.2);
@@ -222,14 +235,11 @@ void mouse(int button, int state, int x, int y) {
 	//Refresh mouse positions
 	oldX = mouseX = x; 
 	oldY = mouseY = y;
-	rightMouseButton = false;
-	leftMouseButton = false;
-	middleMouseButton = false;
 
 }
 
 void mouseMotion(int x, int y) {
-	if(rightMouseButton && !objectSelected){
+	if(rightMouseButton && !leftMouseButton){
 		camera.addToRY((x - oldX)/5.0f); 
 		camera.addToRX((y - oldY)/5.0f); 
 		oldX = x;
@@ -244,8 +254,6 @@ void mouseMotion(int x, int y) {
 			selectedObject->translate(0.0f,-(y - oldY)/(WinY*0.175), 0.0f);
 		else if(zPressed)
 			selectedObject->translate(0.0f,0.0f, (y - oldY)/(WinY*0.175));
-
-		std::cout << "Translating : " << oldX << " , " << oldY << std::endl; 
 	}
 	oldX = x;
 		oldY = y;
@@ -348,14 +356,15 @@ void init(int argc, char* argv[]){
 	shaderManager.addProgram("NormalShader", "../src/MVPVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.addProgram("SelectedShader", "../src/OtherVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.createShaderProgram();
-	//Line* line = new Line(vec4(0,0,0,1), vec4(0,5,0,1));
+	axisLine = Line();
 	camera = Camera(NULL);
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
 	camera.perspective(30, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(&shaderManager);
-	//objectManager.addObject(line);
+	objectManager.addObject(&axisLine);
 	objectManager.addObject(new Grid(4,0.2f));
 	objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
+	objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));
 	//objectManager.addObject(new Torso());
 	//objectManager.addObject(new Back());
 	//objectManager.addObject(new Tail());
@@ -365,6 +374,7 @@ void init(int argc, char* argv[]){
 	//objectManager.addObject(new LeftLeg());
 	objectManager.createBufferObjects();
 	setupCallbacks();
+	objectManager.updateModifiedVertexArray();
 
 }
 
