@@ -27,9 +27,11 @@ ShaderManager shaderManager;
 
 Object* selectedObject = NULL;
 bool objectSelected = false;
+bool objectWasDoubleClicked = false;
 bool xPressed = false, yPressed = false, zPressed = false;
 bool rightMouseButton = false;
 bool leftMouseButton = false;
+int lastMouseLeftClick;
 bool middleMouseButton = false;
 
 /////////////////////////////////////////////////////////////////////// ERRORS
@@ -176,42 +178,53 @@ void keyPressed(unsigned char key, int x, int y){
 }
 
 void mouse(int button, int state, int x, int y) {
-	if (state == GLUT_DOWN) {
-		if(button == GLUT_LEFT_BUTTON){
-			leftMouseButton = true;
-			Object* object = objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y, WinX, WinY));
-			if (object != NULL){
-				selectedObject = object;
-				selectedObject->select();
-				objectSelected = true;
+	switch(button){
+		case GLUT_LEFT_BUTTON:
+			if(state == GLUT_DOWN){
+				leftMouseButton = true;
+				Object* object = objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y, WinX, WinY));
+				if (object != NULL){ // If we hit an object
+					if((glutGet(GLUT_ELAPSED_TIME) - lastMouseLeftClick) < 300)
+						objectWasDoubleClicked = true;
+					else
+						objectWasDoubleClicked = false;
+					selectedObject = object;
+					selectedObject->select();
+					objectSelected = true;
+				}
+				else{
+					objectWasDoubleClicked = false;
+				}
+				lastMouseLeftClick = glutGet(GLUT_ELAPSED_TIME);
+			}else{
+				if(!objectWasDoubleClicked){
+					objectSelected = false;
+					if(selectedObject != NULL){
+						selectedObject->unselect();
+						selectedObject = NULL;
+					}
+				}
+					
 			}
-		}
-		if(button == GLUT_RIGHT_BUTTON){
+			break;
+		case GLUT_RIGHT_BUTTON:
 			rightMouseButton = true;
-		}
-		oldX = x; 
-		oldY = y; 
-		mouseX=x; mouseY =y;	
+			break;
+		case 3: //UP WHEEL
+			camera.addToDist(0.2);
+			camera.updateViewMatrix();
+			break;
+		case 4: //DOWN WHEEL
+			camera.addToDist(-0.2);
+			camera.updateViewMatrix();
+			break;
 	}
-
-	else{
-		if(selectedObject != NULL){
-			selectedObject->unselect();
-			selectedObject = NULL;
-		}
-		objectSelected = false;
-		rightMouseButton = false;
-		leftMouseButton = false;
-		middleMouseButton = false;
-	}
-	if(button == 3){ //UP
-		camera.addToDist(0.2);
-		camera.updateViewMatrix();
-	}
-	else if(button == 4){ //DOWN
-		camera.addToDist(-0.2);
-		camera.updateViewMatrix();
-	}
+	//Refresh mouse positions
+	oldX = mouseX = x; 
+	oldY = mouseY = y;
+	rightMouseButton = false;
+	leftMouseButton = false;
+	middleMouseButton = false;
 
 }
 
