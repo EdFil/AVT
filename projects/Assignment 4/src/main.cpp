@@ -226,7 +226,7 @@ void mouse(int button, int state, int x, int y) {
 				rightMouseButton = false;
 			break;
 		case 3: //UP WHEEL
-			if(objectSelected){
+			if(objectSelected && (xPressed || yPressed || zPressed)){
 				if(xPressed)
 					selectedObject->rotate(5,vec3(1,0,0));
 				else if(yPressed)
@@ -239,7 +239,7 @@ void mouse(int button, int state, int x, int y) {
 			}
 			break;
 		case 4: //DOWN WHEEL
-			if(objectSelected){
+			if(objectSelected && (xPressed || yPressed || zPressed)){
 				if(xPressed)
 					selectedObject->rotate(-5,vec3(1,0,0));
 				else if(yPressed)

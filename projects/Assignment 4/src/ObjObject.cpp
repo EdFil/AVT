@@ -33,9 +33,12 @@ void ObjObject::loadMesh(const char* fileName){
 						temp_vertices.push_back(glm::vec4(x,y,z,1.0f));
 					}
 					else if(splitedLine[0] == "f"){
-						temp_elements.push_back(atoi(&splitedLine[1][0]));
-						temp_elements.push_back(atoi(&splitedLine[2][0]));
-						temp_elements.push_back(atoi(&splitedLine[3][0]));
+						int index1 = atoi(&explode(splitedLine[1], '/')[0][0]);
+						int index2 = atoi(&explode(splitedLine[2], '/')[0][0]);
+						int index3 = atoi(&explode(splitedLine[3], '/')[0][0]);
+						temp_elements.push_back(index1);
+						temp_elements.push_back(index2);
+						temp_elements.push_back(index3);
 					}
                 }
 

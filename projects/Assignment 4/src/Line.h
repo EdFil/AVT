@@ -5,6 +5,9 @@
 
 class Line : public Object {
 
+	static const float LINE_WIDTH;
+	static const float LINE_LENGTH;
+
 	const Object *_object;
 	glm::vec3 _axis;
 
