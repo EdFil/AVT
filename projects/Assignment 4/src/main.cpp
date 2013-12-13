@@ -7,9 +7,11 @@
 #include "Camera.h"
 #include "ShaderManager.h"
 #include "ObjectManager.h"
+#include "ObjObject.h"
 #include "Grid.h"
 #include "XMLObject.h"
 #include "Line.h"
+
 
 #define CAPTION "--> Assignment 3 <--"
 #define FPS 60
@@ -381,6 +383,7 @@ void init(int argc, char* argv[]){
 	objectManager = ObjectManager(&shaderManager);
 	objectManager.addObject(&axisLine);
 	objectManager.addObject(new Grid(4,0.2f));
+	objectManager.addObject(new ObjObject("../src/gourd.obj"));
 	objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
 	objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));
 	//objectManager.addObject(new Torso());
