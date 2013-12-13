@@ -92,29 +92,15 @@ void specialFunc(int key, int x, int y){
 	switch(key){
 		case GLUT_KEY_LEFT:
 			objectManager.prevAnimationFrame();
+			if(selectedObject != NULL)
+				selectedObject->unselect();
+			axisLine.setVisible(false);
 			break;
 		case GLUT_KEY_RIGHT:
 			objectManager.nextAnimationFrame();
-			break;
-		case GLUT_KEY_PAGE_UP:
-			if(objectSelected){
-				if(xPressed)
-					selectedObject->rotate(5,vec3(1,0,0));
-				else if(yPressed)
-					selectedObject->rotate(5,vec3(0,1,0));
-				else if(zPressed)
-					selectedObject->rotate(5,vec3(0,0,1));
-			}
-			break;
-		case GLUT_KEY_PAGE_DOWN:
-			if(objectSelected){
-				if(xPressed)
-					selectedObject->rotate(-5,vec3(1,0,0));
-				else if(yPressed)
-					selectedObject->rotate(-5,vec3(0,1,0));
-				else if(zPressed)
-					selectedObject->rotate(-5,vec3(0,0,1));
-			}
+			if(selectedObject != NULL)
+				selectedObject->unselect();
+			axisLine.setVisible(false);
 			break;
 	}
 }
@@ -123,28 +109,13 @@ void keyPressed(unsigned char key, int x, int y){
 	static bool state = false;
 	static bool projection = false;
 	switch(key){
-		case 'n':
-			if(objectSelected){
-				if(xPressed)
-					selectedObject->rotate(5,vec3(1,0,0));
-				else if(yPressed)
-					selectedObject->rotate(5,vec3(0,1,0));
-				else if(zPressed)
-					selectedObject->rotate(5,vec3(0,0,1));
-			}
-			break;
-		case 'm':
-			if(objectSelected){
-				if(xPressed)
-					selectedObject->rotate(-5,vec3(1,0,0));
-				else if(yPressed)
-					selectedObject->rotate(-5,vec3(0,1,0));
-				else if(zPressed)
-					selectedObject->rotate(-5,vec3(0,0,1));
-			}
-			break;
 		case 27:
 			xPressed = false; yPressed = false; zPressed = false;
+			axisLine.setVisible(false);
+			if(selectedObject != NULL)
+				selectedObject->unselect();
+			selectedObject = NULL;
+			objectWasDoubleClicked = false;
 			break;
 		case '+':
 			objectManager.addAnimationFrame();
@@ -161,16 +132,22 @@ void keyPressed(unsigned char key, int x, int y){
 		case 'x':
 		case 'X':
 			xPressed = true; yPressed = false; zPressed = false;
+			if(selectedObject != NULL)
+				axisLine.setVisible(true);
 			axisLine.setToAxis(glm::vec3(1,0,0));
 			break;
 		case 'y':
 		case 'Y':
 			yPressed = true; xPressed = false; zPressed = false;
+			if(selectedObject != NULL)
+				axisLine.setVisible(true);
 			axisLine.setToAxis(glm::vec3(0,1,0));
 			break;
 		case 'z':
 		case 'Z':
 			zPressed = true; xPressed = false; yPressed = false;
+			if(selectedObject != NULL)
+				axisLine.setVisible(true);
 			axisLine.setToAxis(glm::vec3(0,0,1));
 			break;
 		case 'p':
@@ -198,7 +175,6 @@ void mouse(int button, int state, int x, int y) {
 						selectedObject->unselect();
 					selectedObject = object;
 					selectedObject->select();
-					axisLine.setVisible(true);
 					axisLine.bindToObject(selectedObject);
 					objectSelected = true;
 				}
@@ -262,8 +238,6 @@ void mouseMotion(int x, int y) {
 	if(rightMouseButton && !leftMouseButton){
 		camera.addToRY((x - oldX)/5.0f); 
 		camera.addToRX((y - oldY)/5.0f); 
-		oldX = x;
-		oldY = y;
 		camera.updateViewMatrix();
 		objectManager.updateModifiedVertexArray();
 	}
@@ -276,7 +250,7 @@ void mouseMotion(int x, int y) {
 			selectedObject->translate(0.0f,0.0f, (y - oldY)/(WinY*0.175));
 	}
 	oldX = x;
-		oldY = y;
+	oldY = y;
 }
 
 void cleanup(){
@@ -383,9 +357,9 @@ void init(int argc, char* argv[]){
 	objectManager = ObjectManager(&shaderManager);
 	objectManager.addObject(&axisLine);
 	objectManager.addObject(new Grid(4,0.2f));
-	objectManager.addObject(new ObjObject("../src/gourd.obj"));
+	//objectManager.addObject(new ObjObject("../src/gourd.obj"));
 	objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
-	objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));
+	//objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));
 	//objectManager.addObject(new Torso());
 	//objectManager.addObject(new Back());
 	//objectManager.addObject(new Tail());

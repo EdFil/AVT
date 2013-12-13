@@ -52,11 +52,11 @@ void Line::bindToObject(Object* obj){
 void Line::setToAxis(glm::vec3 axis){
 	_axis = axis;
 	if(axis.x == 1)
-		_propertiesArray[0].rotation = angleAxis(90.0f, glm::vec3(0,1,0));
+		_propertiesArray[_currentPropertyIndex].rotation = angleAxis(90.0f, glm::vec3(0,1,0));
 	else if(axis.y == 1)
-		_propertiesArray[0].rotation = angleAxis(90.0f, glm::vec3(1,0,0));
+		_propertiesArray[_currentPropertyIndex].rotation = angleAxis(90.0f, glm::vec3(1,0,0));
 	else if(axis.z == 1)
-		_propertiesArray[0].rotation = quat();
+		_propertiesArray[_currentPropertyIndex].rotation = quat();
 }
 
 void Line::setVisible(bool value){
@@ -73,12 +73,11 @@ void Line::updateModifiedVertex(){}
 
 void Line::draw(GLuint* vaoId) {
 	if(_isVisible && (_object != NULL) && _axis != glm::vec3(0,0,0)){
-		_propertiesArray[0].position = _object->getPosition();
+		_propertiesArray[_currentPropertyIndex].position = _object->getPosition();
 		calculateModelMatrix();
 		_programsToUse[0]->bind();
 		glBindVertexArray(vaoId[_vaoId]);
 		glUniformMatrix4fv(_programsToUse[0]->getUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
-		glLineWidth(1.0f);
 		glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
 	}
 }

@@ -104,11 +104,15 @@ void Object::removeProperty(){
 void Object::prevProperty(){
 	if(_currentPropertyIndex > 0)
 		_currentPropertyIndex--;
+	calculateModelMatrix();
+	updateModifiedVertex();
 }
 
 void Object::nextProperty(){
 	if(_currentPropertyIndex < (int)_propertiesArray.size() - 1)
 		_currentPropertyIndex++;
+	calculateModelMatrix();
+	updateModifiedVertex();
 }
 
 void Object::calculateModelMatrix(){

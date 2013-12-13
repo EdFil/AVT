@@ -45,6 +45,7 @@ void ObjectManager::createBufferObjects(int index){
 }
 
 void ObjectManager::addAnimationFrame(){
+	printf("Added\n");
 	for(size_t i = 0; i < _objectList.size(); i++)
 		_objectList[i]->addProperty();
 }
