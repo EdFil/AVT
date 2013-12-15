@@ -25,6 +25,8 @@ class ObjectManager {
 
 	GLuint _vaoCounter;
 	GLuint _vboCounter;
+	int _animationCounter;
+	int _currentAnimation;
 
 	/* The Uniform ID value */
 	GLint _uniformBlockId;

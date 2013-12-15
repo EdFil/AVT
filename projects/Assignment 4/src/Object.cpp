@@ -155,6 +155,14 @@ std::string Object::getName() const{
 	return _name;
 }
 
+int Object::getPropertiesArraySize() const {
+	return _propertiesArray.size();
+}
+
+int Object::getCurrentPropertyIndex() const {
+	return _currentPropertyIndex;
+}
+
 void Object::unselect(){
 	_selected = false;
 }

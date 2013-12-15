@@ -80,6 +80,8 @@ public:
 	glm::quat getRotation() const;
 	glm::vec3 getScale() const;
 	std::string getName() const;
+	int getCurrentPropertyIndex() const;
+	int getPropertiesArraySize() const;
 
 	//Setters
 	void setVaoId(int value);

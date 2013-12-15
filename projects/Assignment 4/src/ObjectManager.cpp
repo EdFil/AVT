@@ -4,7 +4,7 @@
 
 ObjectManager::ObjectManager(){}
 
-ObjectManager::ObjectManager(ShaderManager *shaderManager) :  _vaoCounter(0), _vboCounter(0), UBO_BP(0){
+ObjectManager::ObjectManager(ShaderManager *shaderManager) :  _vaoCounter(0), _vboCounter(0), UBO_BP(0), _animationCounter(1), _currentAnimation(0){
 	_uniformBlockId = _vboCounter++;
 	_shaderManager = shaderManager;
 }
@@ -45,24 +45,27 @@ void ObjectManager::createBufferObjects(int index){
 }
 
 void ObjectManager::addAnimationFrame(){
-	printf("Added\n");
 	for(size_t i = 0; i < _objectList.size(); i++)
 		_objectList[i]->addProperty();
+	printf("Added new animation frame.\nCurrently on fram %d out of %d\n", _objectList[0]->getCurrentPropertyIndex()+1, _objectList[0]->getPropertiesArraySize());
 }
 
 void ObjectManager::removeAnimationFrame(){
 	for(size_t i = 0; i < _objectList.size(); i++)
 		_objectList[i]->removeProperty();
+		printf("Removed animation frame.\nCurrently on fram %d out of %d\n", _objectList[0]->getCurrentPropertyIndex()+1, _objectList[0]->getPropertiesArraySize());
 }
 
 void ObjectManager::nextAnimationFrame(){
 	for(size_t i = 0; i < _objectList.size(); i++)
 		_objectList[i]->nextProperty();
+	printf("Currently on frame %d out of %d.\n", _objectList[0]->getCurrentPropertyIndex()+1, _objectList[0]->getPropertiesArraySize());
 }
 
 void ObjectManager::prevAnimationFrame(){
 	for(size_t i = 0; i < _objectList.size(); i++)
 		_objectList[i]->prevProperty();
+	printf("Currently on frame %d out of %d.\n", _objectList[0]->getCurrentPropertyIndex()+1, _objectList[0]->getPropertiesArraySize());
 }
 
 
