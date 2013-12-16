@@ -25,6 +25,9 @@ public:
 	void bindToObject(Object* obj);
 	void setToAxis(glm::vec3 axis);
 
+	//Getters
+	bool isVisible();
+
 	//Setters
 	void setVisible(bool value);
 };

@@ -10,6 +10,13 @@ layout(std140) uniform SharedMatrices
 	mat4 ViewMatrix;
 	mat4 ProjectionMatrix;
 };
+layout(std140) uniform Light
+{
+	vec4 position;
+	vec4 ambient;
+	vec4 diffuse;
+	vec4 specular;
+};
 
 void main(void)
 {

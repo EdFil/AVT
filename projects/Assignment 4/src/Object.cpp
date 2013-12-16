@@ -36,11 +36,11 @@ void Object::draw(GLuint* vaoId) {
 	int uniformId;
 	if(_selected){
 		_programsToUse[1]->bind();
-		uniformId = _programsToUse[1]->getUniformId();
+		uniformId = _programsToUse[1]->getModelMatrixUniformId();
 	}
 	else{
 		_programsToUse[0]->bind();
-		uniformId = _programsToUse[0]->getUniformId();
+		uniformId = _programsToUse[0]->getModelMatrixUniformId();
 	}
 	glBindVertexArray(vaoId[_vaoId]);
 	glUniformMatrix4fv(uniformId, 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));

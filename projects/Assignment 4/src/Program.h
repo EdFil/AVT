@@ -13,8 +13,8 @@ class Program {
 	GLuint _programId;
 	GLuint _vertexShaderId;
 	GLuint _fragmentShaderId;
-	GLuint _uniformId;
-	GLuint _uboId;
+	GLuint _modelMatrixUniformId;
+	GLuint _sharedMatrixUboId;
 
 	char* _vertexShader;
 	char* _fragmentShader;
@@ -29,8 +29,8 @@ public:
 
 	GLuint loadShaderFromFile(std::string fileName, GLenum shaderType);
 
-	GLuint getUboId() const  { return _uboId; }
-	GLuint getUniformId() const { return _uniformId; }
+	GLuint getModelMatrixUniformId() const  { return _modelMatrixUniformId; }
+	GLuint getSharedMatrixUboId() const { return _sharedMatrixUboId; }
 	GLuint getProgramId() const { return _programId; }
 
 };

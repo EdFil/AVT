@@ -69,6 +69,10 @@ bool Line::checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &o
 	return false;
 }
 
+bool Line::isVisible(){
+	return _isVisible;
+}
+
 void Line::updateModifiedVertex(){}
 
 void Line::draw(GLuint* vaoId) {
@@ -77,7 +81,7 @@ void Line::draw(GLuint* vaoId) {
 		calculateModelMatrix();
 		_programsToUse[0]->bind();
 		glBindVertexArray(vaoId[_vaoId]);
-		glUniformMatrix4fv(_programsToUse[0]->getUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+		glUniformMatrix4fv(_programsToUse[0]->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
 		glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
 	}
 }

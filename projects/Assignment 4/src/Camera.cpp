@@ -52,7 +52,6 @@ vec3 Camera::rayCasting(int mouse_x, int mouse_y, int width, int height){
 	float z = 1.0f;
 	vec3 ray_nds = vec3 (x, y, z);
 
-
 	vec4 ray_clip = vec4 (ray_nds.x, ray_nds.y, -1.0, 1.0);
 	vec4 ray_eye = inverse (_projMatrix) * ray_clip;
 	ray_eye = vec4 (ray_eye.x, ray_eye.y, -1.0, 0.0);

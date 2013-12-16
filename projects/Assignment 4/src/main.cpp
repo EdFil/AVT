@@ -131,23 +131,32 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'x':
 		case 'X':
-			xPressed = true; yPressed = false; zPressed = false;
+			xPressed = !xPressed; yPressed = false; zPressed = false;
 			if(selectedObject != NULL)
-				axisLine.setVisible(true);
+				if(xPressed)
+					axisLine.setVisible(true);
+				else
+					axisLine.setVisible(false);
 			axisLine.setToAxis(glm::vec3(1,0,0));
 			break;
 		case 'y':
 		case 'Y':
-			yPressed = true; xPressed = false; zPressed = false;
+			yPressed = !yPressed; xPressed = false; zPressed = false;
 			if(selectedObject != NULL)
-				axisLine.setVisible(true);
+				if(yPressed)
+					axisLine.setVisible(true);
+				else
+					axisLine.setVisible(false);
 			axisLine.setToAxis(glm::vec3(0,1,0));
 			break;
 		case 'z':
 		case 'Z':
-			zPressed = true; xPressed = false; yPressed = false;
+			zPressed = !zPressed; xPressed = false; yPressed = false;
 			if(selectedObject != NULL)
-				axisLine.setVisible(true);
+				if(zPressed)
+					axisLine.setVisible(true);
+				else
+					axisLine.setVisible(false);
 			axisLine.setToAxis(glm::vec3(0,0,1));
 			break;
 		case 'p':
@@ -161,72 +170,70 @@ void keyPressed(unsigned char key, int x, int y){
 }
 
 void mouse(int button, int state, int x, int y) {
-	switch(button){
-		case GLUT_LEFT_BUTTON:
-			if(state == GLUT_DOWN){
-				leftMouseButton = true;
-				Object* object = objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y, WinX, WinY));
-				if (object != NULL){ // If we hit an object
-					if((glutGet(GLUT_ELAPSED_TIME) - lastMouseLeftClick) < 300)
-						objectWasDoubleClicked = true;
-					else
-						objectWasDoubleClicked = false;
-					if(selectedObject != NULL)
-						selectedObject->unselect();
-					selectedObject = object;
-					selectedObject->select();
-					axisLine.bindToObject(selectedObject);
-					objectSelected = true;
-				}
-				else{
+	if(button == GLUT_LEFT_BUTTON){
+		if(state == GLUT_DOWN){
+			leftMouseButton = true;
+			Object* object = objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y, WinX, WinY));
+			if (object != NULL){ // If we hit an object
+				if((glutGet(GLUT_ELAPSED_TIME) - lastMouseLeftClick) < 300)
+					objectWasDoubleClicked = true;
+				else
 					objectWasDoubleClicked = false;
+				if(selectedObject != NULL)
+					selectedObject->unselect();
+				selectedObject = object;
+				selectedObject->select();
+				axisLine.bindToObject(selectedObject);
+				objectSelected = true;
+			}
+			else{
+				objectWasDoubleClicked = false;
+			}
+			lastMouseLeftClick = glutGet(GLUT_ELAPSED_TIME);
+		}else{
+			if(!objectWasDoubleClicked){
+				objectSelected = false;
+				if(selectedObject != NULL){
+					axisLine.setVisible(false);
+					selectedObject->unselect();
+					selectedObject = NULL;
 				}
-				lastMouseLeftClick = glutGet(GLUT_ELAPSED_TIME);
-			}else{
-				if(!objectWasDoubleClicked){
-					objectSelected = false;
-					if(selectedObject != NULL){
-						axisLine.setVisible(false);
-						selectedObject->unselect();
-						selectedObject = NULL;
-					}
-				}
-				leftMouseButton = false;
+			}
+			leftMouseButton = false;
 					
-			}
-			break;
-		case GLUT_RIGHT_BUTTON:
-			if(state == GLUT_DOWN)
-				rightMouseButton = true;
-			else
-				rightMouseButton = false;
-			break;
-		case 3: //UP WHEEL
-			if(objectSelected && (xPressed || yPressed || zPressed)){
-				if(xPressed)
-					selectedObject->rotate(5,vec3(1,0,0));
-				else if(yPressed)
-					selectedObject->rotate(5,vec3(0,1,0));
-				else if(zPressed)
-					selectedObject->rotate(5,vec3(0,0,1));
-			}else{
-				camera.addToDist(0.2);
-				camera.updateViewMatrix();
-			}
-			break;
-		case 4: //DOWN WHEEL
-			if(objectSelected && (xPressed || yPressed || zPressed)){
-				if(xPressed)
-					selectedObject->rotate(-5,vec3(1,0,0));
-				else if(yPressed)
-					selectedObject->rotate(-5,vec3(0,1,0));
-				else if(zPressed)
-					selectedObject->rotate(-5,vec3(0,0,1));
-			}else{
-				camera.addToDist(-0.2);
-				camera.updateViewMatrix();
-			}
-			break;
+		}
+	}
+	if(button == GLUT_RIGHT_BUTTON){
+		if(state == GLUT_DOWN)
+			rightMouseButton = true;
+		else
+			rightMouseButton = false;
+	}
+	if(button == 3){ //UP WHEEL
+		if(objectSelected && (xPressed || yPressed || zPressed) && axisLine.isVisible()){
+			if(xPressed)
+				selectedObject->rotate(5,vec3(1,0,0));
+			else if(yPressed)
+				selectedObject->rotate(5,vec3(0,1,0));
+			else if(zPressed)
+				selectedObject->rotate(5,vec3(0,0,1));
+		}else{
+			camera.addToDist(0.2);
+			camera.updateViewMatrix();
+		}
+	}
+	if(button == 4){ //DOWN WHEEL
+		if(objectSelected && (xPressed || yPressed || zPressed) && axisLine.isVisible()){
+			if(xPressed)
+				selectedObject->rotate(-5,vec3(1,0,0));
+			else if(yPressed)
+				selectedObject->rotate(-5,vec3(0,1,0));
+			else if(zPressed)
+				selectedObject->rotate(-5,vec3(0,0,1));
+		}else{
+			camera.addToDist(-0.2);
+			camera.updateViewMatrix();
+		}
 	}
 	//Refresh mouse positions
 	oldX = mouseX = x; 
@@ -353,7 +360,7 @@ void init(int argc, char* argv[]){
 	axisLine = Line();
 	camera = Camera();
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
-	camera.perspective(30, 1.0f, 0.1f, 20.0f);
+	camera.perspective(45, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(&shaderManager);
 	objectManager.addObject(&axisLine);
 	objectManager.addObject(new Grid(4,0.2f));

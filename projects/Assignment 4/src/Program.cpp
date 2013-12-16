@@ -19,9 +19,9 @@ void Program::createShaderProgram() {
 	glBindAttribLocation(_programId, 0, "in_Position");
 	glBindAttribLocation(_programId, 1, "in_Color");
 	glLinkProgram(_programId);
-	_uniformId = glGetUniformLocation(_programId, "ModelMatrix");
-	_uboId = glGetUniformBlockIndex(_programId, "SharedMatrices");
-	glUniformBlockBinding(_programId, _uboId, 0);
+	_modelMatrixUniformId = glGetUniformLocation(_programId, "ModelMatrix");
+	_sharedMatrixUboId = glGetUniformBlockIndex(_programId, "SharedMatrices");
+	glUniformBlockBinding(_programId, _sharedMatrixUboId, 0);
 
 }
 
