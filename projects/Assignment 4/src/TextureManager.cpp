@@ -17,7 +17,7 @@ TextureManager::TextureManager(){
 	std::cout << isOpenGLError();
 	_texID = std::vector<GLuint>(1);
 	int width, height;
-	unsigned char* image = SOIL_load_image("../src/objs/wood.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+	unsigned char* image = SOIL_load_image("../src/objs/wood2.jpg", &width, &height, 0, SOIL_LOAD_RGB);
 	glGenTextures(1, &_texID[0]); 
 	glBindTexture(GL_TEXTURE_2D, _texID[WOOD_TEXTURE]);
 	glTexImage2D(GL_TEXTURE_2D, WOOD_TEXTURE, GL_RGB, width, height, 0, GL_RGB,GL_UNSIGNED_BYTE, image);

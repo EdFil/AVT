@@ -53,18 +53,6 @@ public:
 	Object(std::string name, glm::vec3 position, glm::vec3 rotarion);
 	Object(std::string name, glm::vec3 position, glm::vec3 rotarion, glm::vec3 scale);
 
-	static bool isOpenGLError() {
-	bool isError = false;
-	GLenum errCode;
-	const GLubyte *errString;
-	while ((errCode = glGetError()) != GL_NO_ERROR) {
-		isError = true;
-		errString = gluErrorString(errCode);
-		std::cerr << "OpenGL ERROR [" << errString << "]." << std::endl;
-	}
-	return isError;
-}
-
 	//Virtual Functions
     virtual void createBufferObjects(GLuint* vaoId, GLuint* vboId);
 	virtual void draw(GLuint* vaoId);
