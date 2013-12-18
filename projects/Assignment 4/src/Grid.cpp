@@ -8,10 +8,11 @@ Grid::Grid(int x, float inc) : Object("Grid"){
 		addVertex((float)-x, i);
 		addVertex((float) x, i);
 	}
+	setColor(0.1f, 0.1f, 1.0f, 1.0f);
 }
 
 void Grid::addVertex(float x, float z){
-	Vertex vertex = { {x, 0.0f, z, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
+	Vertex vertex = {{x, 0.0f, z, 1.0f}};
 	_vertexArray.push_back(vertex);
 }
 

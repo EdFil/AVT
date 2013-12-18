@@ -89,13 +89,15 @@ void ObjectManager::createBufferObjects(){
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDisableVertexAttribArray(VERTICES);
-	glDisableVertexAttribArray(COLORS);
+	glDisableVertexAttribArray(0); //Vertices
+	glDisableVertexAttribArray(1); //Normals
+	glDisableVertexAttribArray(2); //UVs
 }
 
 void ObjectManager::destroyBufferObjects(){
-	glDisableVertexAttribArray(VERTICES);
-	glDisableVertexAttribArray(COLORS);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);

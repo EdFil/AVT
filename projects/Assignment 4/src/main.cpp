@@ -5,6 +5,7 @@
 #include "GL/glew.h"
 #include "GL/freeglut.h"
 #include "Camera.h"
+#include "TextureManager.h"
 #include "ShaderManager.h"
 #include "ObjectManager.h"
 #include "ObjObject.h"
@@ -316,7 +317,7 @@ void setupOpenGL() {
 	glDepthMask(GL_TRUE);
 	glDepthRange(0.0, 1.0);
 	glClearDepth(1.0);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 }
@@ -353,6 +354,7 @@ void init(int argc, char* argv[]){
 	setupGLUT(argc, argv);
 	setupGLEW();
 	setupOpenGL();
+	TextureManager::Inst();
 	shaderManager = ShaderManager();
 	shaderManager.addProgram("NormalShader", "../src/MVPVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
 	shaderManager.addProgram("SelectedShader", "../src/OtherVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
@@ -362,10 +364,11 @@ void init(int argc, char* argv[]){
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
 	camera.perspective(45, 1.0f, 0.1f, 20.0f);
 	objectManager = ObjectManager(&shaderManager);
-	objectManager.addObject(&axisLine);
-	objectManager.addObject(new Grid(4,0.2f));
-	//objectManager.addObject(new ObjObject("../src/gourd.obj"));
-	objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
+	TextureManager::Inst();
+	//objectManager.addObject(&axisLine);
+	//objectManager.addObject(new Grid(4,0.2f));
+	objectManager.addObject(new ObjObject("../src/objs/cube.obj"));
+	//objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
 	//objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));
 	//objectManager.addObject(new Torso());
 	//objectManager.addObject(new Back());

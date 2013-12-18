@@ -17,9 +17,12 @@ void Program::createShaderProgram() {
 	glAttachShader(_programId, _vertexShaderId);
 	glAttachShader(_programId, _fragmentShaderId);
 	glBindAttribLocation(_programId, 0, "in_Position");
-	glBindAttribLocation(_programId, 1, "in_Color");
+	glBindAttribLocation(_programId, 1, "in_Normal");
+	glBindAttribLocation(_programId, 2, "in_UV");
 	glLinkProgram(_programId);
 	_modelMatrixUniformId = glGetUniformLocation(_programId, "ModelMatrix");
+	_colorUniformId = glGetUniformLocation(_programId, "Color");
+	_textureUniformId = glGetUniformLocation(_programId, "Texture");
 	_sharedMatrixUboId = glGetUniformBlockIndex(_programId, "SharedMatrices");
 	glUniformBlockBinding(_programId, _sharedMatrixUboId, 0);
 

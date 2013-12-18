@@ -8,11 +8,13 @@ class XMLObject : public Object {
 public:
 	XMLObject(std::string xmlNodeName) : Object(xmlNodeName){
 		parseVertexInfo(xmlNodeName);
+		setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		vertexToVec3();
 	}
 
 	XMLObject(std::string xmlNodeName, glm::vec3 position) : Object(xmlNodeName, position){
 		parseVertexInfo(xmlNodeName);
+		setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		vertexToVec3();
 	}
 

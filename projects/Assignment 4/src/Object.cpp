@@ -1,4 +1,5 @@
 #include "Object.h"
+#include "TextureManager.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -26,24 +27,36 @@ void Object::createBufferObjects(GLuint* vaoId, GLuint* vboId){
 	glBindVertexArray(vaoId[_vaoId]);
 	glBindBuffer(GL_ARRAY_BUFFER, vboId[_vboId]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*_vertexArray.size(), &_vertexArray[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(VERTICES);
-	glVertexAttribPointer(VERTICES, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-	glEnableVertexAttribArray(COLORS);
-	glVertexAttribPointer(COLORS, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(_vertexArray[0].XYZW));
+	//Vertex Position
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+	//Vertex Normal
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(_vertexArray[0].XYZW));
+	//Vertex UV
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(_vertexArray[0].NORMAL)*2));
 }
 
 void Object::draw(GLuint* vaoId) {
-	int uniformId;
+	int uniformId, colorId, textureId;
 	if(_selected){
 		_programsToUse[1]->bind();
 		uniformId = _programsToUse[1]->getModelMatrixUniformId();
+		colorId = _programsToUse[1]->getColorUniformId();
+		textureId = _programsToUse[1]->getTextureUniformId();
 	}
 	else{
 		_programsToUse[0]->bind();
 		uniformId = _programsToUse[0]->getModelMatrixUniformId();
+		colorId = _programsToUse[0]->getColorUniformId();
+		textureId = _programsToUse[1]->getTextureUniformId();
 	}
 	glBindVertexArray(vaoId[_vaoId]);
 	glUniformMatrix4fv(uniformId, 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+	glUniform4fv(colorId, 1, _color);
+	glUniform1i(textureId, 0);
+	TextureManager::Inst()->BindTexture(TextureManager::WOOD_TEXTURE);
 	glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
 	glUseProgram(0);
 }
@@ -169,4 +182,15 @@ void Object::unselect(){
 
 void Object::select(){
 	_selected = true;
+}
+
+void Object::setColor(const float color[4]){
+	memcpy(_color, color, sizeof(float)*4);
+}
+
+void Object::setColor(const float r, const float g, const float b, const float a){
+	_color[0] = r;
+	_color[1] = g;
+	_color[2] = b;
+	_color[3] = a;
 }

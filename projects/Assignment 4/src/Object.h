@@ -12,9 +12,6 @@
 #include <glm\gtc\quaternion.hpp>
 #include <glm\gtx\quaternion.hpp>
 
-#define VERTICES 0
-#define COLORS 1
-
 class Object {
 
 	static const glm::vec3 DEFAULT_POSITION;
@@ -25,7 +22,8 @@ protected:
 	
 	typedef struct {
 		float XYZW[4];
-		float RGBA[4];
+		float NORMAL[4];
+		float UV[2];
 	} Vertex;
 
 	typedef struct {
@@ -35,11 +33,13 @@ protected:
 	} Properties;
 
 	std::string _name;
+	float _color[4];
 	ShaderManager *_shaderManager;
 	GLuint _vaoId;
 	GLuint _vboId;
 	bool _selected;
 	int _currentPropertyIndex;
+
 	std::vector<Program*> _programsToUse;
 	std::vector<Vertex> _vertexArray;
 	std::vector<glm::vec3> _modifiedVertexArray;
@@ -53,6 +53,17 @@ public:
 	Object(std::string name, glm::vec3 position, glm::vec3 rotarion);
 	Object(std::string name, glm::vec3 position, glm::vec3 rotarion, glm::vec3 scale);
 
+	static bool isOpenGLError() {
+	bool isError = false;
+	GLenum errCode;
+	const GLubyte *errString;
+	while ((errCode = glGetError()) != GL_NO_ERROR) {
+		isError = true;
+		errString = gluErrorString(errCode);
+		std::cerr << "OpenGL ERROR [" << errString << "]." << std::endl;
+	}
+	return isError;
+}
 
 	//Virtual Functions
     virtual void createBufferObjects(GLuint* vaoId, GLuint* vboId);
@@ -86,6 +97,8 @@ public:
 	//Setters
 	void setVaoId(int value);
 	void setVboId(int value);
+	void setColor(const float color[4]);
+	void setColor(const float r, const float g, const float b, const float a);
 	void setShaderManager(ShaderManager *shaderManager);
 	void setPrograms();
 

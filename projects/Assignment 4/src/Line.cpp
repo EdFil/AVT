@@ -7,14 +7,14 @@ const float Line::LINE_WIDTH = 0.01f;
 const float Line::LINE_LENGTH = 10.0f;
 
 Line::Line() : Object("Axis Line"), _isVisible(false), _axis(glm::vec3(0,0,0)){
-	Vertex bottomBackLeft = { {-LINE_WIDTH, -LINE_WIDTH,  -LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex bottomBackRight= { { LINE_WIDTH, -LINE_WIDTH,  -LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex bottomTopLeft  = { {-LINE_WIDTH, -LINE_WIDTH,   LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex bottomTopRight = { { LINE_WIDTH, -LINE_WIDTH,   LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex topBackLeft    = { {-LINE_WIDTH,  LINE_WIDTH,  -LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex topBackRight   = { { LINE_WIDTH,  LINE_WIDTH,  -LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex topTopLeft     = { {-LINE_WIDTH,  LINE_WIDTH,   LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex topTopRight    = { { LINE_WIDTH,  LINE_WIDTH,   LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
+	Vertex bottomBackLeft = {{-LINE_WIDTH, -LINE_WIDTH,  -LINE_LENGTH, 1.0f}};
+	Vertex bottomBackRight= {{ LINE_WIDTH, -LINE_WIDTH,  -LINE_LENGTH, 1.0f}};
+	Vertex bottomTopLeft  = {{-LINE_WIDTH, -LINE_WIDTH,   LINE_LENGTH, 1.0f}};
+	Vertex bottomTopRight = {{ LINE_WIDTH, -LINE_WIDTH,   LINE_LENGTH, 1.0f}};
+	Vertex topBackLeft    = {{-LINE_WIDTH,  LINE_WIDTH,  -LINE_LENGTH, 1.0f}};
+	Vertex topBackRight   = {{ LINE_WIDTH,  LINE_WIDTH,  -LINE_LENGTH, 1.0f}};
+	Vertex topTopLeft     = {{-LINE_WIDTH,  LINE_WIDTH,   LINE_LENGTH, 1.0f}};
+	Vertex topTopRight    = {{ LINE_WIDTH,  LINE_WIDTH,   LINE_LENGTH, 1.0f}};
 	//Bottom
 	_vertexArray.push_back(bottomBackLeft);
 	_vertexArray.push_back(bottomTopRight);
@@ -43,6 +43,7 @@ Line::Line() : Object("Axis Line"), _isVisible(false), _axis(glm::vec3(0,0,0)){
 	_vertexArray.push_back(topBackRight);
 	_vertexArray.push_back(topTopRight);
 	_vertexArray.push_back(bottomTopRight);
+	setColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void Line::bindToObject(Object* obj){
