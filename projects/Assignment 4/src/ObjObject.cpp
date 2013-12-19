@@ -8,12 +8,17 @@
 ObjObject::ObjObject(std::string fileName) : Object("null"){
 	std::vector<std::string> path = explode(fileName, '/');
 	_name = explode(path[path.size()-1], '.')[0];
-	setColor(1.0f, 0.5f, 0.3f, 1.0f);
+	setColor(0.0f, 0.0f, 0.0f, 1.0f);
 	loadMesh(fileName.c_str());
 }
 
 ObjObject::ObjObject(std::string name, std::string fileName) : Object(name){
 	loadMesh(fileName.c_str());
+}
+
+void ObjObject::setPrograms(){
+	_programsToUse.push_back(_shaderManager->getProgram("NormalShader"));
+	_programsToUse.push_back(_shaderManager->getProgram("SelectedShader"));
 }
 
 void ObjObject::loadMesh(const char* fileName){

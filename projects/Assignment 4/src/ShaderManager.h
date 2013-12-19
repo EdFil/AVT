@@ -4,22 +4,26 @@
 #include <map>
 
 #include "Program.h"
+#include "SimpleProgram.h"
+#include "TextureProgram.h"
 
 class ShaderManager {
 
 	//Name of program as key and program as value
-	std::map<std::string, Program> _programList;
+	std::map<std::string, Program*> _programList;
 
 public:
 	ShaderManager();
 
 	//Getters
-	Program *getProgram(std::string name);
-	Program *getProgram(int index);
+	Program* getProgram(std::string name);
+	Program* getProgram(int index);
 
 	//Adding new Program
-	void addProgram(std::string vertexFile, std::string fragmentFile);
-	void addProgram(std::string name, std::string vertexFile, std::string fragmentFile);
+	void addSimpleProgram(std::string vertexFile, std::string fragmentFile);
+	void addSimpleProgram(std::string name, std::string vertexFile, std::string fragmentFile);
+	void addTextureProgram(std::string vertexFile, std::string fragmentFile);
+	void addTextureProgram(std::string name, std::string vertexFile, std::string fragmentFile);
 	
 	//Compile and destroy shaders
 	void createShaderProgram();

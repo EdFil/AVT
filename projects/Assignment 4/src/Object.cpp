@@ -1,5 +1,6 @@
 #include "Object.h"
 #include "TextureManager.h"
+#include "TextureProgram.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -11,13 +12,13 @@ const vec3 Object::DEFAULT_POSITION = vec3(0,0,0);
 const quat Object::DEFAULT_ROTATION = quat();
 const vec3 Object::DEFAULT_SCALE = vec3(1,1,1);
 
-Object::Object(std::string name) : _currentPropertyIndex(0), _name(name), _selected(false){
+Object::Object(std::string name) : _currentPropertyIndex(0), _name(name), _selected(false), _selectable(true){
 	Properties initialProperty = { DEFAULT_POSITION, DEFAULT_ROTATION, DEFAULT_SCALE };
 	_propertiesArray.push_back(initialProperty);
 	calculateModelMatrix();
 }
 
-Object::Object(std::string name, glm::vec3 position) : _currentPropertyIndex(0), _name(name), _selected(false){
+Object::Object(std::string name, glm::vec3 position) : _currentPropertyIndex(0), _name(name), _selected(false), _selectable(true){
 	Properties initialProperty = { position, DEFAULT_ROTATION, DEFAULT_SCALE };
 	_propertiesArray.push_back(initialProperty);
 	calculateModelMatrix();
@@ -40,18 +41,15 @@ void Object::createBufferObjects(GLuint* vaoId, GLuint* vboId){
 
 void Object::draw(GLuint* vaoId) {
 	int uniformId, colorId, textureId;
-	if(_selected){
-		_programsToUse[1]->bind();
-		uniformId = _programsToUse[1]->getModelMatrixUniformId();
-		colorId = _programsToUse[1]->getColorUniformId();
-		textureId = _programsToUse[1]->getTextureUniformId();
-	}
-	else{
-		_programsToUse[0]->bind();
-		uniformId = _programsToUse[0]->getModelMatrixUniformId();
-		colorId = _programsToUse[0]->getColorUniformId();
-		textureId = _programsToUse[1]->getTextureUniformId();
-	}
+	TextureProgram* program;
+	if(_selected)
+		program = ((TextureProgram*)_programsToUse[1]);
+	else
+		program = ((TextureProgram*)_programsToUse[0]);
+	program->bind();
+	uniformId = program->getModelMatrixUniformId();
+	colorId = program->getColorUniformId();
+	textureId = program->getTextureUniformId();
 	glBindVertexArray(vaoId[_vaoId]);
 	glUniformMatrix4fv(uniformId, 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
 	glUniform4fv(colorId, 1, _color);
@@ -65,12 +63,9 @@ void Object::setShaderManager(ShaderManager *shaderManager){
 	_shaderManager = shaderManager;
 }
 
-void Object::setPrograms(){
-	_programsToUse.push_back(_shaderManager->getProgram(0));
-	_programsToUse.push_back(_shaderManager->getProgram(1));
-}
-
 bool Object::checkIntersection(vec3 rayOrigin, vec3 rayDir, vec3 &outputVect){
+	if(!_selectable)
+		return false;
 	for(size_t i = 0; i + 3 <= _modifiedVertexArray.size(); i+=3){
 		if(intersectLineTriangle(rayOrigin, rayDir, _modifiedVertexArray[i], _modifiedVertexArray[i+1], _modifiedVertexArray[i+2], outputVect)){
 			return true;
@@ -193,4 +188,12 @@ void Object::setColor(const float r, const float g, const float b, const float a
 	_color[1] = g;
 	_color[2] = b;
 	_color[3] = a;
+}
+
+void Object::setAsNonSelectable(){
+	_selectable = false;
+}
+
+void Object::setAsSelectable(){
+	_selectable = true;
 }

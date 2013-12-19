@@ -10,6 +10,8 @@ public:
 	ObjObject(std::string fileName);
 	ObjObject(std::string, std::string fileName);
 
+	void setPrograms();
+
 private:
 	void loadMesh(const char* fileName);
 	std::vector<std::string> explode(const std::string &string, char delim);

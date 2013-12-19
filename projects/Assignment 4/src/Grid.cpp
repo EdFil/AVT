@@ -8,7 +8,11 @@ Grid::Grid(int x, float inc) : Object("Grid"){
 		addVertex((float)-x, i);
 		addVertex((float) x, i);
 	}
-	setColor(0.1f, 0.1f, 1.0f, 1.0f);
+	setColor(0.0f, 0.0f, 1.0f, 1.0f);
+}
+
+void Grid::setPrograms(){
+	_programsToUse.push_back(_shaderManager->getProgram("SimpleShader"));
 }
 
 void Grid::addVertex(float x, float z){
@@ -23,8 +27,10 @@ bool Grid::checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &o
 void Grid::updateModifiedVertex(){}
 
 void Grid::draw(GLuint* vaoId) {
-	_programsToUse[0]->bind();
+	SimpleProgram* program = (SimpleProgram*)_programsToUse[0];
+	program->bind();
 	glBindVertexArray(vaoId[_vaoId]);
-	glUniformMatrix4fv(_programsToUse[0]->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+	glUniformMatrix4fv(program->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+	glUniform4fv(program->getColorUniformId(), 1, _color);
 	glDrawArrays(GL_LINES,0,_vertexArray.size());
 }

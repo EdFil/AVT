@@ -57,8 +57,8 @@ void checkOpenGLError(std::string error)
 	if(isOpenGLError()) {
 		std::cerr << error << std::endl;
 		std::cerr << "EXITING" << std::endl;
-		system("pause");
-		exit(EXIT_FAILURE);
+		//system("pause");
+		//exit(EXIT_FAILURE);
 	}
 }
 
@@ -132,7 +132,7 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'x':
 		case 'X':
-			xPressed = !xPressed; yPressed = false; zPressed = false;
+			xPressed = true; yPressed = false; zPressed = false;
 			if(selectedObject != NULL)
 				if(xPressed)
 					axisLine.setVisible(true);
@@ -142,7 +142,7 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'y':
 		case 'Y':
-			yPressed = !yPressed; xPressed = false; zPressed = false;
+			yPressed = true; xPressed = false; zPressed = false;
 			if(selectedObject != NULL)
 				if(yPressed)
 					axisLine.setVisible(true);
@@ -152,7 +152,7 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'z':
 		case 'Z':
-			zPressed = !zPressed; xPressed = false; yPressed = false;
+			zPressed = true; xPressed = false; yPressed = false;
 			if(selectedObject != NULL)
 				if(zPressed)
 					axisLine.setVisible(true);
@@ -249,7 +249,7 @@ void mouseMotion(int x, int y) {
 		camera.updateViewMatrix();
 		objectManager.updateModifiedVertexArray();
 	}
-	else if(leftMouseButton && objectSelected){
+	else if(leftMouseButton && objectSelected && axisLine.isVisible()){
 		if(xPressed)
 			selectedObject->translate((x - oldX)/(WinX*0.175),0.0f, 0.0f);
 		else if(yPressed)
@@ -356,8 +356,9 @@ void init(int argc, char* argv[]){
 	setupOpenGL();
 	TextureManager::Inst();
 	shaderManager = ShaderManager();
-	shaderManager.addProgram("NormalShader", "../src/MVPVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
-	shaderManager.addProgram("SelectedShader", "../src/OtherVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
+	shaderManager.addTextureProgram("NormalShader", "../src/shaders/VertexShader.glsl", "../src/shaders/FragmentShader.glsl");
+	shaderManager.addTextureProgram("SelectedShader", "../src/shaders/SelectedVertexShader.glsl", "../src/shaders/FragmentShader.glsl");
+	shaderManager.addSimpleProgram("SimpleShader", "../src/shaders/SimpleVertexShader.glsl", "../src/shaders/SimpleFragmentShader.glsl");
 	shaderManager.createShaderProgram();
 	axisLine = Line();
 	camera = Camera();
@@ -365,9 +366,11 @@ void init(int argc, char* argv[]){
 	camera.perspective(45, 1.0f, 0.1f, 10020.0f);
 	objectManager = ObjectManager(&shaderManager);
 	TextureManager::Inst();
-	//objectManager.addObject(&axisLine);
+	objectManager.addObject(&axisLine);
 	//objectManager.addObject(new Grid(4,0.2f));
-	objectManager.addObject(new ObjObject("../src/objs/cube.obj"));
+	Object* plane = new ObjObject("../src/objs/plane.obj");
+	plane->setAsNonSelectable();
+	objectManager.addObject(plane);
 	objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
 	//objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));
 	//objectManager.addObject(new Torso());

@@ -3,6 +3,18 @@
 #include <fstream>
 #include <sstream>
 
+XMLObject::XMLObject(std::string xmlNodeName) : Object(xmlNodeName){
+	parseVertexInfo(xmlNodeName);
+	vertexToVec3();
+	setColor(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
+XMLObject::XMLObject(std::string xmlNodeName, glm::vec3 position) : Object(xmlNodeName, position){
+	parseVertexInfo(xmlNodeName);
+	vertexToVec3();
+	setColor(1.0f, 1.0f,0.0f, 1.0f);
+}
+
 void XMLObject::parseVertexInfo(std::string objectName){
 	rapidxml::xml_document<> doc;
 	rapidxml::xml_node<> * root_node;
@@ -33,4 +45,9 @@ void XMLObject::explode(std::string const & s, char delim, float* result){
     std::istringstream iss(s);
     for (std::string token; std::getline(iss, token, delim);)
         result[i++] = (float) ::atof(&token[0]);
+}
+
+void XMLObject::setPrograms(){
+	_programsToUse.push_back(_shaderManager->getProgram("NormalShader"));
+	_programsToUse.push_back(_shaderManager->getProgram("SelectedShader"));
 }

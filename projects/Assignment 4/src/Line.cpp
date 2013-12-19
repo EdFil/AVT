@@ -50,6 +50,10 @@ void Line::bindToObject(Object* obj){
 	_object = obj;
 }
 
+void Line::setPrograms(){
+	_programsToUse.push_back(_shaderManager->getProgram("SimpleShader"));
+}
+
 void Line::setToAxis(glm::vec3 axis){
 	_axis = axis;
 	if(axis.x == 1)
@@ -77,12 +81,14 @@ bool Line::isVisible(){
 void Line::updateModifiedVertex(){}
 
 void Line::draw(GLuint* vaoId) {
+	SimpleProgram* program = (SimpleProgram*)_programsToUse[0];
 	if(_isVisible && (_object != NULL) && _axis != glm::vec3(0,0,0)){
 		_propertiesArray[_currentPropertyIndex].position = _object->getPosition();
 		calculateModelMatrix();
-		_programsToUse[0]->bind();
+		program->bind();
 		glBindVertexArray(vaoId[_vaoId]);
-		glUniformMatrix4fv(_programsToUse[0]->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+		glUniformMatrix4fv(program->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+		glUniform4fv(program->getColorUniformId(), 1, _color);
 		glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
 	}
 }

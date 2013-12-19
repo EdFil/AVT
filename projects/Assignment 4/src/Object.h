@@ -38,6 +38,7 @@ protected:
 	GLuint _vaoId;
 	GLuint _vboId;
 	bool _selected;
+	bool _selectable;
 	int _currentPropertyIndex;
 
 	std::vector<Program*> _programsToUse;
@@ -58,6 +59,7 @@ public:
 	virtual void draw(GLuint* vaoId);
 	virtual bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
 	virtual void updateModifiedVertex();
+	virtual void setPrograms() = 0;
 	
 	//Animation Functions
 	void addProperty();
@@ -68,6 +70,8 @@ public:
 	//Selecting functions
 	void select();
 	void unselect();
+	void setAsNonSelectable();
+	void setAsSelectable();
 
 	//Moving functions
 	void translate(float, float, float);
@@ -88,7 +92,6 @@ public:
 	void setColor(const float color[4]);
 	void setColor(const float r, const float g, const float b, const float a);
 	void setShaderManager(ShaderManager *shaderManager);
-	void setPrograms();
 
 protected:
 	void vertexToVec3();

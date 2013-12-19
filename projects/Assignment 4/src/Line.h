@@ -20,6 +20,7 @@ public:
 	void draw(GLuint* vaoId);
 	bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
 	void updateModifiedVertex();
+	void setPrograms();
 
 	//Line bind function
 	void bindToObject(Object* obj);
