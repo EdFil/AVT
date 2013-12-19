@@ -367,12 +367,35 @@ void init(int argc, char* argv[]){
 	objectManager = ObjectManager(&shaderManager);
 	TextureManager::Inst();
 	objectManager.addObject(&axisLine);
+	
 	//objectManager.addObject(new Grid(4,0.2f));
+
 	ObjObject* plane = new ObjObject("../src/objs/plane.obj");
 	plane->setAsNonSelectable();
 	plane->setTexture(TextureManager::WOOD_TEXTURE);
 	objectManager.addObject(plane);
-	objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
+	
+	ObjObject* cube = new ObjObject("../src/objs/cube.obj");
+	cube->setTexture(TextureManager::GREEN);
+	cube->translate(0.0f,0.2f,0.0f);
+	objectManager.addObject(cube);
+
+	ObjObject* smallTri = new ObjObject("../src/objs/smallTri.obj");
+	smallTri->translate(0.5f,0.2f,0.0f);
+	smallTri->setTexture(TextureManager::RED);
+	objectManager.addObject(smallTri);
+
+	ObjObject* medTri = new ObjObject("../src/objs/medTri.obj");
+	medTri->translate(0.5f,0.7f,0.0f);
+	medTri->setTexture(TextureManager::GREEN);
+	objectManager.addObject(medTri);
+
+	ObjObject* bigTri = new ObjObject("../src/objs/bigTri.obj");
+	bigTri->translate(0.5f,-0.5f,0.0f);
+	bigTri->setTexture(TextureManager::BLUE);
+	objectManager.addObject(bigTri);
+
+	//objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
 	//objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));
 	//objectManager.addObject(new Torso());
 	//objectManager.addObject(new Back());
