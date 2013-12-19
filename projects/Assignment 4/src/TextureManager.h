@@ -11,6 +11,9 @@ class TextureManager
 public:
 
 	static const GLuint WOOD_TEXTURE;
+	static const GLuint RED;
+	static const GLuint BLUE;
+	static const GLuint GREEN;
 
 	static TextureManager* Inst();
 	virtual ~TextureManager();
@@ -51,6 +54,7 @@ protected:
 
 	static TextureManager* _inst;
 	std::vector<GLuint> _texID;
+	void loadTexture(const char* dirName, int textID);
 };
 
 #endif

@@ -1,4 +1,6 @@
 #include "ObjObject.h"
+#include "TextureManager.h"
+#include <glm/gtc/type_ptr.hpp>
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
@@ -8,17 +10,34 @@
 ObjObject::ObjObject(std::string fileName) : Object("null"){
 	std::vector<std::string> path = explode(fileName, '/');
 	_name = explode(path[path.size()-1], '.')[0];
-	setColor(0.0f, 0.0f, 0.0f, 1.0f);
+	setColor(0.2f, 0.2f, 0.2f, 1.0f);
 	loadMesh(fileName.c_str());
 }
 
 ObjObject::ObjObject(std::string name, std::string fileName) : Object(name){
 	loadMesh(fileName.c_str());
+	setColor(0.2f, 0.2f, 0.2f, 1.0f);
 }
 
 void ObjObject::setPrograms(){
 	_programsToUse.push_back(_shaderManager->getProgram("NormalShader"));
 	_programsToUse.push_back(_shaderManager->getProgram("SelectedShader"));
+}
+
+void ObjObject::draw(GLuint* vaoId) {
+	TextureProgram* program;
+	if(_selected)
+		program = ((TextureProgram*)_programsToUse[1]);
+	else
+		program = ((TextureProgram*)_programsToUse[0]);
+	program->bind();
+	glBindVertexArray(vaoId[_vaoId]);
+	glUniformMatrix4fv(program->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+	glUniform4fv(program->getColorUniformId(), 1, _color);
+	if(TextureManager::Inst()->BindTexture(_textureID))
+		glUniform1i(program->getTextureUniformId(), 0);
+	glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
+	glUseProgram(0);
 }
 
 void ObjObject::loadMesh(const char* fileName){

@@ -368,8 +368,9 @@ void init(int argc, char* argv[]){
 	TextureManager::Inst();
 	objectManager.addObject(&axisLine);
 	//objectManager.addObject(new Grid(4,0.2f));
-	Object* plane = new ObjObject("../src/objs/plane.obj");
+	ObjObject* plane = new ObjObject("../src/objs/plane.obj");
 	plane->setAsNonSelectable();
+	plane->setTexture(TextureManager::WOOD_TEXTURE);
 	objectManager.addObject(plane);
 	objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
 	//objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));

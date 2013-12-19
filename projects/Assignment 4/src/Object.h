@@ -41,6 +41,7 @@ protected:
 	bool _selectable;
 	int _currentPropertyIndex;
 
+	int _textureID;
 	std::vector<Program*> _programsToUse;
 	std::vector<Vertex> _vertexArray;
 	std::vector<glm::vec3> _modifiedVertexArray;
@@ -56,7 +57,7 @@ public:
 
 	//Virtual Functions
     virtual void createBufferObjects(GLuint* vaoId, GLuint* vboId);
-	virtual void draw(GLuint* vaoId);
+	virtual void draw(GLuint* vaoId) = 0;
 	virtual bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
 	virtual void updateModifiedVertex();
 	virtual void setPrograms() = 0;
@@ -92,6 +93,7 @@ public:
 	void setColor(const float color[4]);
 	void setColor(const float r, const float g, const float b, const float a);
 	void setShaderManager(ShaderManager *shaderManager);
+	void setTexture(const int id);
 
 protected:
 	void vertexToVec3();

@@ -1,4 +1,6 @@
 #include "XMLObject.h"
+#include "TextureManager.h"
+#include <glm/gtc/type_ptr.hpp>
 #include <rapidxml.hpp>
 #include <fstream>
 #include <sstream>
@@ -13,6 +15,22 @@ XMLObject::XMLObject(std::string xmlNodeName, glm::vec3 position) : Object(xmlNo
 	parseVertexInfo(xmlNodeName);
 	vertexToVec3();
 	setColor(1.0f, 1.0f,0.0f, 1.0f);
+}
+
+void XMLObject::draw(GLuint* vaoId) {
+	TextureProgram* program;
+	if(_selected)
+		program = ((TextureProgram*)_programsToUse[1]);
+	else
+		program = ((TextureProgram*)_programsToUse[0]);
+	program->bind();
+	glBindVertexArray(vaoId[_vaoId]);
+	glUniformMatrix4fv(program->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+	glUniform4fv(program->getColorUniformId(), 1, _color);
+	if(TextureManager::Inst()->BindTexture(_textureID))
+		glUniform1i(program->getTextureUniformId(), 0);
+	glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
+	glUseProgram(0);
 }
 
 void XMLObject::parseVertexInfo(std::string objectName){

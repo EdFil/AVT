@@ -9,6 +9,8 @@ public:
 	XMLObject(std::string xmlNodeName);
 	XMLObject(std::string xmlNodeName, glm::vec3 position);
 
+
+	void draw(GLuint *vaoId);
 	void setPrograms();
 
 private:

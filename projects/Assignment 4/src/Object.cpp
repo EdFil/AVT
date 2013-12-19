@@ -1,6 +1,4 @@
 #include "Object.h"
-#include "TextureManager.h"
-#include "TextureProgram.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -12,13 +10,13 @@ const vec3 Object::DEFAULT_POSITION = vec3(0,0,0);
 const quat Object::DEFAULT_ROTATION = quat();
 const vec3 Object::DEFAULT_SCALE = vec3(1,1,1);
 
-Object::Object(std::string name) : _currentPropertyIndex(0), _name(name), _selected(false), _selectable(true){
+Object::Object(std::string name) : _currentPropertyIndex(0), _name(name), _selected(false), _selectable(true), _textureID(-1){
 	Properties initialProperty = { DEFAULT_POSITION, DEFAULT_ROTATION, DEFAULT_SCALE };
 	_propertiesArray.push_back(initialProperty);
 	calculateModelMatrix();
 }
 
-Object::Object(std::string name, glm::vec3 position) : _currentPropertyIndex(0), _name(name), _selected(false), _selectable(true){
+Object::Object(std::string name, glm::vec3 position) : _currentPropertyIndex(0), _name(name), _selected(false), _selectable(true), _textureID(-1){
 	Properties initialProperty = { position, DEFAULT_ROTATION, DEFAULT_SCALE };
 	_propertiesArray.push_back(initialProperty);
 	calculateModelMatrix();
@@ -37,26 +35,6 @@ void Object::createBufferObjects(GLuint* vaoId, GLuint* vboId){
 	//Vertex UV
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(_vertexArray[0].NORMAL)*2));
-}
-
-void Object::draw(GLuint* vaoId) {
-	int uniformId, colorId, textureId;
-	TextureProgram* program;
-	if(_selected)
-		program = ((TextureProgram*)_programsToUse[1]);
-	else
-		program = ((TextureProgram*)_programsToUse[0]);
-	program->bind();
-	uniformId = program->getModelMatrixUniformId();
-	colorId = program->getColorUniformId();
-	textureId = program->getTextureUniformId();
-	glBindVertexArray(vaoId[_vaoId]);
-	glUniformMatrix4fv(uniformId, 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
-	glUniform4fv(colorId, 1, _color);
-	glUniform1i(textureId, 0);
-	TextureManager::Inst()->BindTexture(TextureManager::WOOD_TEXTURE);
-	glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
-	glUseProgram(0);
 }
 
 void Object::setShaderManager(ShaderManager *shaderManager){
@@ -196,4 +174,8 @@ void Object::setAsNonSelectable(){
 
 void Object::setAsSelectable(){
 	_selectable = true;
+}
+
+void Object::setTexture(const int id){
+	_textureID = id;
 }
