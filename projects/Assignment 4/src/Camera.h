@@ -7,6 +7,7 @@
 #include "glm\ext.hpp"
 #include  "Line.h"
 
+
 using namespace glm;
 
 class Camera {
@@ -30,6 +31,7 @@ class Camera {
     static const vec3 WORLD_ZAXIS;
 
 	CameraProjection _behavior;
+	int _snapshotNumber;
     float _fovx;
     float _nearVal;
     float _farVal;
@@ -50,6 +52,7 @@ class Camera {
 public:
 	Camera();
 
+	void snapshot(int, int);
 	vec3 getEye();
 	void ExtractCameraPos();
     void lookAt(const vec3 &eye, const vec3 &target, const vec3 &up);

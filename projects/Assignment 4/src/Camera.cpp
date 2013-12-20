@@ -1,6 +1,7 @@
 #include "Camera.h"
 
 #include <iostream>
+#include <sstream>
 #include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
@@ -20,6 +21,7 @@ const vec3 Camera::WORLD_YAXIS = vec3(0.0f, 1.0f, 0.0f);
 const vec3 Camera::WORLD_ZAXIS = vec3(0.0f, 0.0f, 1.0f);
 
 Camera::Camera(){
+	_snapshotNumber = 0;
     _fovx = DEFAULT_FOVX;
 	_nearVal = DEFAULT_ZNEAR;
 	_farVal = DEFAULT_ZFAR;
@@ -38,6 +40,70 @@ Camera::Camera(){
 
 	_rX = 90;
 	_rY = 0;
+}
+
+void Camera::snapshot(int windowWidth, int windowHeight){
+	byte* bmpBuffer = (byte*)malloc(windowWidth*windowHeight*3);
+	if (!bmpBuffer)
+	return;
+
+	glReadPixels((GLint)0, (GLint)0,
+	(GLint)windowWidth-1, (GLint)windowHeight-1,
+	GL_BGR, GL_UNSIGNED_BYTE, bmpBuffer);
+
+	//Sets file number as the last unexisting one
+
+	for(int i = 0; ; i++){
+		std::stringstream ss;
+		ss << "Snapshot" << i << ".bmp";
+		std::string filename = ss.str();
+
+		FILE * filePtr;
+		filePtr = fopen(filename.c_str(), "r");
+		if(!filePtr){
+			_snapshotNumber = i;
+			break;
+		}
+		fclose(filePtr);
+	}
+
+	std::stringstream ss;
+	ss << "Snapshot" << _snapshotNumber << ".bmp";
+	std::string filename = ss.str();
+
+	FILE *filePtr = fopen(filename.c_str(), "wb");
+
+	if (!filePtr)
+	return;
+
+	BITMAPFILEHEADER bitmapFileHeader;
+	BITMAPINFOHEADER bitmapInfoHeader;
+
+	bitmapFileHeader.bfType = 0x4D42; //"BM"
+	bitmapFileHeader.bfSize = windowWidth*windowHeight*3;
+	bitmapFileHeader.bfReserved1 = 0;
+	bitmapFileHeader.bfReserved2 = 0;
+	bitmapFileHeader.bfOffBits =
+	sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
+
+	bitmapInfoHeader.biSize = sizeof(BITMAPINFOHEADER);
+	bitmapInfoHeader.biWidth = windowWidth-1;
+	bitmapInfoHeader.biHeight = windowHeight-1;
+	bitmapInfoHeader.biPlanes = 1;
+	bitmapInfoHeader.biBitCount = 24;
+	bitmapInfoHeader.biCompression = BI_RGB;
+	bitmapInfoHeader.biSizeImage = 0;
+	bitmapInfoHeader.biXPelsPerMeter = 0; // ?
+	bitmapInfoHeader.biYPelsPerMeter = 0; // ?
+	bitmapInfoHeader.biClrUsed = 0;
+	bitmapInfoHeader.biClrImportant = 0;
+
+	fwrite(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
+	fwrite(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
+	fwrite(bmpBuffer, windowWidth*windowHeight*3, 1, filePtr);
+	fclose(filePtr);
+
+	free(bmpBuffer);
 }
 
 

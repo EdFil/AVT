@@ -48,6 +48,7 @@ protected:
 
 
 public:
+	Object();
 	Object(std::string name);
 	Object(std::string name, glm::vec3 position);
 	Object(std::string name, glm::vec3 position, glm::vec3 rotarion);
@@ -88,6 +89,14 @@ public:
 	void setVboId(int value);
 	void setShaderManager(ShaderManager *shaderManager);
 	void setPrograms();
+
+
+	//Debug
+	void printPropertyArray(int);
+
+	//Save
+	void saveObject(std::string);
+
 
 protected:
 	void vertexToVec3();

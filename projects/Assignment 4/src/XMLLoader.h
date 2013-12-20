@@ -5,9 +5,7 @@
 
 class XMLObject : public Object {
 
-
 public:
-
 	XMLObject(std::string xmlNodeName) : Object(xmlNodeName){
 		parseVertexInfo(xmlNodeName);
 		vertexToVec3();

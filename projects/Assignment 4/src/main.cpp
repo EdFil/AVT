@@ -37,6 +37,7 @@ bool leftMouseButton = false;
 int lastMouseLeftClick;
 bool middleMouseButton = false;
 
+
 /////////////////////////////////////////////////////////////////////// ERRORS
 
 static bool isOpenGLError() {
@@ -84,7 +85,6 @@ void drawScene(){
 	objectManager.createBufferObjects(0);
 	objectManager.drawObjects(camera.getViewMatrix(), camera.getProjectionMatrix());
 	checkOpenGLError("ERROR: Could not draw scene.");
-	
 }
 
 /////////////////////////////////////////////////////////////////////// CALLBACKS
@@ -160,7 +160,18 @@ void keyPressed(unsigned char key, int x, int y){
 			axisLine.setToAxis(glm::vec3(0,0,1));
 			break;
 		case 'p':
-			camera.toggleProjection();
+		case 'P':
+			//snapshot(640, 640, "ScreenShot.bmp");
+			camera.snapshot(WinX, WinY);
+			break;
+		case 'm':
+		case 'M':
+			//test
+			objectManager.loadObjects("tangram.sav");
+			break;
+		case 'n':
+		case 'N':
+			objectManager.saveObjects("tangram.sav");
 			break;
 		case 'q':
 		case 'Q':
@@ -210,7 +221,9 @@ void mouse(int button, int state, int x, int y) {
 			rightMouseButton = false;
 	}
 	if(button == 3){ //UP WHEEL
+		//std::cout<<objectSelected<<xPressed<<yPressed<<zPressed<<axisLine.isVisible();
 		if(objectSelected && (xPressed || yPressed || zPressed) && axisLine.isVisible()){
+			std::cout<<"olaaaa";
 			if(xPressed)
 				selectedObject->rotate(5,vec3(1,0,0));
 			else if(yPressed)
@@ -218,6 +231,7 @@ void mouse(int button, int state, int x, int y) {
 			else if(zPressed)
 				selectedObject->rotate(5,vec3(0,0,1));
 		}else{
+			//std::cout<<"olaaaa";
 			camera.addToDist(0.2);
 			camera.updateViewMatrix();
 		}
@@ -366,7 +380,9 @@ void init(int argc, char* argv[]){
 	objectManager.addObject(new Grid(4,0.2f));
 	//objectManager.addObject(new ObjObject("../src/gourd.obj"));
 	objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
-	//objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));
+	objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));
+	objectManager.addObject(new XMLObject("tangram.sav", true));
+	//objectManager.addObject(new XMLObject("Neck", glm::vec3(0.8,-.2,0)));
 	//objectManager.addObject(new Torso());
 	//objectManager.addObject(new Back());
 	//objectManager.addObject(new Tail());

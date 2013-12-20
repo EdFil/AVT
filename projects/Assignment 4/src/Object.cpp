@@ -1,3 +1,6 @@
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include "Object.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
@@ -9,6 +12,8 @@ using namespace glm;
 const vec3 Object::DEFAULT_POSITION = vec3(0,0,0);
 const quat Object::DEFAULT_ROTATION = quat();
 const vec3 Object::DEFAULT_SCALE = vec3(1,1,1);
+
+Object::Object(){}
 
 Object::Object(std::string name) : _currentPropertyIndex(0), _name(name), _selected(false){
 	Properties initialProperty = { DEFAULT_POSITION, DEFAULT_ROTATION, DEFAULT_SCALE };
@@ -169,4 +174,48 @@ void Object::unselect(){
 
 void Object::select(){
 	_selected = true;
+}
+
+//debugging
+void Object::printPropertyArray(int i){
+	std::cout << _propertiesArray[i].position.x << std::endl;
+	std::cout << _propertiesArray[i].rotation.x << std::endl;
+	std::cout << _propertiesArray[i].scale.b << std::endl;
+}
+
+void Object::saveObject(std::string filename){
+	std::ofstream outputFile;
+	outputFile.open(filename, std::fstream::app);
+	outputFile << "   <Object" << ">" << std::endl;
+	for(int i = 0; i < _vertexArray.size(); i++){
+		outputFile << "      <VertexInfo position = \"";
+		outputFile << _vertexArray[i].XYZW[0] << ", ";
+		outputFile << _vertexArray[i].XYZW[1] << ", ";
+		outputFile << _vertexArray[i].XYZW[2] << ", ";
+		outputFile << _vertexArray[i].XYZW[3] << "\"";
+		outputFile << " color = \"";
+		outputFile << _vertexArray[i].RGBA[0] << ", ";
+		outputFile << _vertexArray[i].RGBA[1] << ", ";
+		outputFile << _vertexArray[i].RGBA[2] << ", ";
+		outputFile << _vertexArray[i].RGBA[3] << "\"></VertexInfo>" << std::endl;
+	}
+	for(int i = 0; i < getPropertiesArraySize(); i++){
+		outputFile << "      <Frame";
+		outputFile << " scale = \"";
+		outputFile << _propertiesArray[i].scale.x << ", ";
+		outputFile << _propertiesArray[i].scale.y << ", ";
+		outputFile << _propertiesArray[i].scale.z << "\"";
+		outputFile << " rotation = \"";
+		outputFile << _propertiesArray[i].rotation.w << ", ";
+		outputFile << _propertiesArray[i].rotation.x << ", ";
+		outputFile << _propertiesArray[i].rotation.y << ", ";
+		outputFile << _propertiesArray[i].rotation.z << "\"";
+		outputFile << " position = \"";
+		outputFile << _propertiesArray[i].position.x << ", ";
+		outputFile << _propertiesArray[i].position.y << ", ";
+		outputFile << _propertiesArray[i].position.z << "\">";
+		outputFile << "</Frame>" << std::endl;
+	}
+	outputFile << "   </Object>" << std::endl;
+	outputFile.close();
 }
