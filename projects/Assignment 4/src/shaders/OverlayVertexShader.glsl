@@ -2,6 +2,7 @@
 
 in vec4 in_Position;
 in vec2 in_UV;
+
 out vec4 ex_Color;
 out vec2 ex_UV;
 

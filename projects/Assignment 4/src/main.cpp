@@ -64,8 +64,8 @@ void checkOpenGLError(std::string error)
 	if(isOpenGLError()) {
 		std::cerr << error << std::endl;
 		std::cerr << "EXITING" << std::endl;
-		//system("pause");
-		//exit(EXIT_FAILURE);
+		system("pause");
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -200,14 +200,14 @@ void mouse(int button, int state, int x, int y) {
 				else if(selectedButton->getName() == "Edit")
 					objectManager.loop(false);
 				else if(selectedButton->getName() == "Load"){
-					selectedButton->unselect();
-					objectManager.removeObjects();
-					axisLine = Line();
-					objectManager.addObject(&axisLine);
-					xmlLoader.loadGame("tangram.sav");
-					initButtons();
-					objectManager.createBufferObjects();
-					objectManager.refeshModelMatrix();
+					//selectedButton->unselect();
+					//objectManager.removeObjects();
+					//axisLine = Line();
+					//objectManager.addObject(&axisLine);
+					//xmlLoader.loadGame("tangram.sav");
+					//initButtons();
+					//objectManager.createBufferObjects();
+					//objectManager.refeshModelMatrix();
 				}
 				else if(selectedButton->getName() == "Save")
 					objectManager.saveObjects("tangram.sav");
@@ -402,9 +402,11 @@ void init(int argc, char* argv[]){
 	shaderManager.addTextureProgram("NormalShader", "../src/shaders/VertexShader.glsl", "../src/shaders/FragmentShader.glsl");
 	shaderManager.addTextureProgram("SelectedShader", "../src/shaders/SelectedVertexShader.glsl", "../src/shaders/FragmentShader.glsl");
 	shaderManager.addSimpleProgram("SimpleShader", "../src/shaders/SimpleVertexShader.glsl", "../src/shaders/SimpleFragmentShader.glsl");
-	shaderManager.addButtonTextureProgram("NormalButtonShader", "../src/shaders/OverlayVertexShader.glsl", "../src/shaders/FragmentShader.glsl");
-	shaderManager.addButtonTextureProgram("SelectedButtonShader", "../src/shaders/SelectedOverlayVertexShader.glsl", "../src/shaders/FragmentShader.glsl");
+	shaderManager.addButtonTextureProgram("NormalButtonShader", "../src/shaders/OverlayVertexShader.glsl", "../src/shaders/ButtonFragmentShader.glsl");
+	shaderManager.addButtonTextureProgram("SelectedButtonShader", "../src/shaders/SelectedOverlayVertexShader.glsl", "../src/shaders/ButtonFragmentShader.glsl");
+	std::cout << isOpenGLError() << std::endl;
 	shaderManager.createShaderProgram();
+	std::cout << isOpenGLError() << std::endl;
 	axisLine = Line();
 	camera = Camera();
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));

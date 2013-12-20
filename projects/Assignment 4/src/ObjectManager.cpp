@@ -151,6 +151,8 @@ void ObjectManager::drawObjects(const glm::mat4 &viewMatrix, const glm::mat4 &pr
 }
 
 void ObjectManager::removeObjects(){
+	for(size_t i = 0; i < _objectList.size(); i++)
+		delete _objectList[i];
 	_objectList.clear();
 	destroyBufferObjects();
 }

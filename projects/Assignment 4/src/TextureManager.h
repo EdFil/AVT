@@ -44,18 +44,6 @@ public:
 	//free all texture memory
 	void UnloadAllTextures();
 
-	static bool isOpenGLError() {
-	bool isError = false;
-	GLenum errCode;
-	const GLubyte *errString;
-	while ((errCode = glGetError()) != GL_NO_ERROR) {
-		isError = true;
-		errString = gluErrorString(errCode);
-		std::cerr << "OpenGL ERROR [" << errString << "]." << std::endl;
-	}
-	return isError;
-}
-
 protected:
 	TextureManager();
 	TextureManager(const TextureManager& tm);

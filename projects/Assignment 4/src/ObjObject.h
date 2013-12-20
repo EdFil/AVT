@@ -22,7 +22,6 @@ public:
 	void saveObject(std::string);
 	void createBufferObjects(GLuint*, GLuint*);
 
-
 private:
 	void loadMesh(const char* fileName);
 	std::vector<std::string> explode(const std::string &string, char delim);
