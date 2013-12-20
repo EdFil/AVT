@@ -44,6 +44,9 @@ bool middleMouseButton = false;
 
 /////////////////////////////////////////////////////////////////////// ERRORS
 
+void initButtons();
+void initObjects();
+
 static bool isOpenGLError() {
 	bool isError = false;
 	GLenum errCode;
@@ -168,16 +171,11 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'n':
 		case 'N':
-			objectManager.saveObjects("tangram.sav");
+			
 			break;
 		case 'm':
 		case 'M':
-			objectManager.removeObjects();
-			axisLine = Line();
-			objectManager.addObject(&axisLine);
-			xmlLoader.loadGame("tangram.sav");
-			objectManager.createBufferObjects();
-			objectManager.refeshModelMatrix();
+			
 			break;
 		case 'q':
 		case 'Q':
@@ -195,6 +193,24 @@ void mouse(int button, int state, int x, int y) {
 			selectedButton = objectManager.checkButtonIntersection(vec2(x_clip,y_clip));
 			if(selectedButton != NULL){
 				selectedButton->select();
+				if(selectedButton->getName() == "Screenshot")
+					camera.snapshot(WinX, WinY);
+				else if(selectedButton->getName() == "Play")
+					;
+				else if(selectedButton->getName() == "Edit")
+					;
+				else if(selectedButton->getName() == "Load"){
+					selectedButton->unselect();
+					objectManager.removeObjects();
+					axisLine = Line();
+					objectManager.addObject(&axisLine);
+					xmlLoader.loadGame("tangram.sav");
+					initButtons();
+					objectManager.createBufferObjects();
+					objectManager.refeshModelMatrix();
+				}
+				else if(selectedButton->getName() == "Save")
+					objectManager.saveObjects("tangram.sav");
 
 			}
 			else{
@@ -397,9 +413,15 @@ void init(int argc, char* argv[]){
 	xmlLoader = XMLLoader(&objectManager);
 	TextureManager::Inst();
 	objectManager.addObject(&axisLine);
-	
-	//objectManager.addObject(new Grid(4,0.2f));
+	initObjects();
+	initButtons();
+	objectManager.createBufferObjects();
+	setupCallbacks();
+	objectManager.updateModifiedVertexArray();
 
+}
+
+void initObjects(){
 	ObjObject* plane = new ObjObject("../src/objs/plane.obj");
 	plane->setAsNonSelectable();
 	plane->setTexture(TextureManager::WOOD_TEXTURE);
@@ -439,7 +461,9 @@ void init(int argc, char* argv[]){
 	bigTri1->translate(1.5f,0.4f,0.0f);
 	bigTri2->setTexture(TextureManager::YELLOW);
 	objectManager.addObject(bigTri2);
+}
 
+void initButtons(){
 	ButtonObject* button1 = new ButtonObject("Play", TextureManager::PLAY, 1, 0.1, 0.1, vec2(0.0,0.9));
 	button1->setAsNonSelectable();
 	objectManager.addButtonObject(button1);
@@ -459,11 +483,6 @@ void init(int argc, char* argv[]){
 	ButtonObject* button5 = new ButtonObject("Load", TextureManager::LOAD, 1, 0.1, 0.1, vec2(-0.2,0.9));
 	button5->setAsNonSelectable();
 	objectManager.addButtonObject(button5);
-
-	objectManager.createBufferObjects();
-	setupCallbacks();
-	objectManager.updateModifiedVertexArray();
-
 }
 
 int main(int argc, char* argv[]){

@@ -22,6 +22,9 @@ class ObjectManager {
 	GLuint _goIndex;
 	TransformationOrder _order;
 
+	int _elapsedTime;
+	int _timeToSwitchFrame;
+
 	GLuint* _vaoId;
 	GLuint* _vboId;
 
@@ -52,6 +55,7 @@ public:
 	void destroyBufferObjects();
 
 	//Animation Functions
+	void play();
 	void refeshModelMatrix();
 	void addAnimationFrame();
 	void removeAnimationFrame();
