@@ -105,6 +105,7 @@ public:
 	void setColor(const float r, const float g, const float b, const float a);
 	void setShaderManager(ShaderManager *shaderManager);
 	void setTexture(const int id);
+	void setLoop(bool value);
 
 
 	//Debug

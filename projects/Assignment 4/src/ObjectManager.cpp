@@ -68,11 +68,9 @@ void ObjectManager::refeshModelMatrix(){
 
 }
 
-void ObjectManager::play(){
-	//if((_elapsedTime - glutGet(GLUT_ELAPSED_TIME)) > _timeToSwitchFrame)
-
-	//_elapsedTime = glutGet(GLUT_ELAPSED_TIME);
-	//for(size_t i = 0; i < _objectList.size(); i++)
+void ObjectManager::loop(bool value){
+	for(size_t i = 0; i < _objectList.size(); i++)
+		_objectList[i]->setLoop(value);
 }
 
 void ObjectManager::addAnimationFrame(){

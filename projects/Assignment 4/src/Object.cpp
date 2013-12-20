@@ -170,6 +170,10 @@ void Object::setTexture(const int id){
 	_textureID = id;
 }
 
+void Object::setLoop(bool value){
+	_loop = value;
+}
+
 //debugging
 void Object::printPropertyArray(int i){
 	std::cout << _propertiesArray[i].position.x << std::endl;
@@ -178,7 +182,7 @@ void Object::printPropertyArray(int i){
 }
 
 void Object::lerpProperties(int index1, int index2, int time){
-	_lerpStartTime = glutGet(GLUT_ELAPSED_TIME);
+	//_lerpStartTime = glutGet(GLUT_ELAPSED_TIME);
 	_timeToRun = time;
 	_lerpFrom = index1;
 	_lerpTo = index2;

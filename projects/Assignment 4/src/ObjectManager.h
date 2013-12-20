@@ -55,7 +55,7 @@ public:
 	void destroyBufferObjects();
 
 	//Animation Functions
-	void play();
+	void loop(bool value);
 	void refeshModelMatrix();
 	void addAnimationFrame();
 	void removeAnimationFrame();

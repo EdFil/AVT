@@ -14,7 +14,7 @@ ObjObject::ObjObject(std::string fileName) : Object("null"){
 	setColor(0.2f, 0.2f, 0.2f, 1.0f);
 	loadMesh(fileName.c_str());
 	_lerpStartTime = 0;
-	_timeToRun = 0;
+	_timeToRun = 500;
 }
 
 ObjObject::ObjObject(std::string name, std::string fileName) : Object(name){
@@ -45,11 +45,25 @@ std::string ObjObject::getObjFileDir(){
 void ObjObject::draw(GLuint* vaoId) {
 	if(_loop){
 		if((glutGet(GLUT_ELAPSED_TIME) - _lerpStartTime) <= _timeToRun){
-			printf("Running for %d and alpha is %f.\n", (glutGet(GLUT_ELAPSED_TIME) - _lerpStartTime ), ((float)(glutGet(GLUT_ELAPSED_TIME) - _lerpStartTime )/(float)_timeToRun));
 			lerpModelMatrix((float)(glutGet(GLUT_ELAPSED_TIME) - _lerpStartTime )/(float)_timeToRun);
 		}
 		else{
-			
+			_lerpStartTime = glutGet(GLUT_ELAPSED_TIME);
+			if(_currentPropertyIndex == _propertiesArray.size()-1){
+				_currentPropertyIndex = 0;
+				_lerpFrom = _currentPropertyIndex;
+				_lerpTo = _currentPropertyIndex + 1;
+			}
+			else if(_currentPropertyIndex == _propertiesArray.size()-2){
+				_currentPropertyIndex++;
+				_lerpFrom = _currentPropertyIndex;
+				_lerpTo = 0;
+			}
+			else{
+				_currentPropertyIndex++;
+				_lerpFrom = _currentPropertyIndex;
+				_lerpTo = _currentPropertyIndex + 1;
+			}
 		}
 	}
 	TextureProgram* program;
