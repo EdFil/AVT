@@ -5,6 +5,11 @@ const GLuint TextureManager::WOOD_TEXTURE = 0;
 const GLuint TextureManager::RED = 1;
 const GLuint TextureManager::GREEN = 2;
 const GLuint TextureManager::BLUE = 3;
+const GLuint TextureManager::WHITE = 4;
+const GLuint TextureManager::BROWN = 5;
+const GLuint TextureManager::GRAY = 6;
+const GLuint TextureManager::YELLOW = 7;
+
 
 TextureManager* TextureManager::_inst(0);
 
@@ -17,12 +22,16 @@ TextureManager* TextureManager::Inst()
 }
 
 TextureManager::TextureManager(){
-	_texID = std::vector<GLuint>(4);
-	glGenTextures(4, &_texID[0]); 
-	loadTexture("../src/objs/wood2.jpg", WOOD_TEXTURE);
+	_texID = std::vector<GLuint>(8);
+	glGenTextures(8, &_texID[0]); 
+	loadTexture("../src/objs/wood.jpg", WOOD_TEXTURE);
 	loadTexture("../src/objs/red.png", RED);
 	loadTexture("../src/objs/green.png", GREEN); 
 	loadTexture("../src/objs/blue.png", BLUE);
+	loadTexture("../src/objs/white.png", WHITE);
+	loadTexture("../src/objs/brown.png", BROWN);
+	loadTexture("../src/objs/gray.png", GRAY);
+	loadTexture("../src/objs/yellow.png", YELLOW);
 }
 
 void TextureManager::loadTexture(const char* dirName, int textID){

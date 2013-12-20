@@ -30,6 +30,7 @@ ShaderManager shaderManager;
 Line axisLine;
 
 Object* selectedObject = NULL;
+bool editingMode = false;
 bool objectSelected = false;
 bool objectWasDoubleClicked = false;
 bool xPressed = false, yPressed = false, zPressed = false;
@@ -376,34 +377,40 @@ void init(int argc, char* argv[]){
 	objectManager.addObject(plane);
 	
 	ObjObject* cube = new ObjObject("../src/objs/cube.obj");
-	cube->setTexture(TextureManager::GREEN);
+	cube->setTexture(TextureManager::RED);
 	cube->translate(0.0f,0.2f,0.0f);
 	objectManager.addObject(cube);
 
-	ObjObject* smallTri = new ObjObject("../src/objs/smallTri.obj");
-	smallTri->translate(0.5f,0.2f,0.0f);
-	smallTri->setTexture(TextureManager::RED);
-	objectManager.addObject(smallTri);
+	ObjObject* trapezoid = new ObjObject("../src/objs/trapezoid.obj");
+	trapezoid->setTexture(TextureManager::BROWN);
+	trapezoid->translate(-0.9f,0.2f,0.0f);
+	objectManager.addObject(trapezoid);
+
+	ObjObject* smallTri1 = new ObjObject("../src/objs/smallTri.obj");
+	smallTri1->translate(0.5f,0.2f,0.0f);
+	smallTri1->setTexture(TextureManager::GRAY);
+	objectManager.addObject(smallTri1);
+
+	ObjObject* smallTri2 = new ObjObject("../src/objs/smallTri.obj");
+	smallTri2->translate(1.0f,0.2f,0.0f);
+	smallTri2->setTexture(TextureManager::GREEN);
+	objectManager.addObject(smallTri2);
 
 	ObjObject* medTri = new ObjObject("../src/objs/medTri.obj");
 	medTri->translate(0.5f,0.7f,0.0f);
-	medTri->setTexture(TextureManager::GREEN);
+	medTri->setTexture(TextureManager::BLUE);
 	objectManager.addObject(medTri);
 
-	ObjObject* bigTri = new ObjObject("../src/objs/bigTri.obj");
-	bigTri->translate(0.5f,-0.5f,0.0f);
-	bigTri->setTexture(TextureManager::BLUE);
-	objectManager.addObject(bigTri);
+	ObjObject* bigTri1 = new ObjObject("../src/objs/bigTri.obj");
+	bigTri1->translate(-1.5f,0.4f,0.0f);
+	bigTri1->setTexture(TextureManager::WHITE);
+	objectManager.addObject(bigTri1);
 
-	//objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
-	//objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));
-	//objectManager.addObject(new Torso());
-	//objectManager.addObject(new Back());
-	//objectManager.addObject(new Tail());
-	//objectManager.addObject(new RightLeg());
-	//objectManager.addObject(new Neck());
-	//objectManager.addObject(new Head());
-	//objectManager.addObject(new LeftLeg());
+	ObjObject* bigTri2 = new ObjObject("../src/objs/bigTri.obj");
+	bigTri1->translate(1.5f,0.4f,0.0f);
+	bigTri2->setTexture(TextureManager::YELLOW);
+	objectManager.addObject(bigTri2);
+
 	objectManager.createBufferObjects();
 	setupCallbacks();
 	objectManager.updateModifiedVertexArray();

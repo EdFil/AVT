@@ -14,6 +14,10 @@ public:
 	static const GLuint RED;
 	static const GLuint BLUE;
 	static const GLuint GREEN;
+	static const GLuint WHITE;
+	static const GLuint BROWN;
+	static const GLuint GRAY;
+	static const GLuint YELLOW;
 
 	static TextureManager* Inst();
 	virtual ~TextureManager();
