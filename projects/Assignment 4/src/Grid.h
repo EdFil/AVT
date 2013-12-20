@@ -13,6 +13,7 @@ public:
 	bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
 	void updateModifiedVertex();
 	void setPrograms();
+	void saveObject(std::string);
 
 private:
 

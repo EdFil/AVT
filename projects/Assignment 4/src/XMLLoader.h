@@ -2,30 +2,18 @@
 #define XML_OBJECT_H
 
 #include "Object.h"
+#include "ObjectManager.h"
 
-class XMLObject : public Object {
+class XMLLoader {
+
+	ObjectManager* _objectManager;
+	std::string _filename;
 
 public:
-	XMLObject(std::string xmlNodeName) : Object(xmlNodeName){
-		parseVertexInfo(xmlNodeName);
-		vertexToVec3();
-	}
-
-	XMLObject(std::string filename, bool ola) : Object("bary"){
-		loadGame(filename);
-		vertexToVec3();
-	}
-
-	XMLObject(std::string xmlNodeName, glm::vec3 position) : Object(xmlNodeName, position){
-		parseVertexInfo(xmlNodeName);
-		vertexToVec3();
-	}
-
+	XMLLoader(std::string, ObjectManager*);
 	
-
 private:
 	void loadGame(std::string);
-	void parseVertexInfo(std::string objectName);
 	void explode(std::string const & s, char delim, float* result);
 };
 #endif

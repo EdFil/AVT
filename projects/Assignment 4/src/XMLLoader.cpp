@@ -1,7 +1,14 @@
 #include "XMLLoader.h"
+#include "TextureManager.h"
+#include <glm/gtc/type_ptr.hpp>
 #include <rapidxml.hpp>
 #include <fstream>
 #include <sstream>
+
+XMLLoader::XMLLoader(std::string filename, ObjectManager* objectManager){
+	_filename = filename;
+	_objectManager = objectManager;
+}
 
 void XMLLoader::explode(std::string const & s, char delim, float* result){
 	int i = 0;
@@ -10,7 +17,8 @@ void XMLLoader::explode(std::string const & s, char delim, float* result){
         result[i++] = (float) ::atof(&token[0]);
 }
 
-void XMLLoader::loadXMLFile(std::string filename){
+void XMLLoader::loadGame(std::string filename){
+	
 	rapidxml::xml_document<> doc;
 	rapidxml::xml_node<> * root_node;
 	// Read the xml file into a vector
@@ -22,20 +30,17 @@ void XMLLoader::loadXMLFile(std::string filename){
 	// Find our root node
 	root_node = doc.first_node("Scene");
 	// Iterate over the brewerys
-
 	for(rapidxml::xml_node<> * vertex_node = root_node->first_node("Object"); vertex_node; vertex_node = vertex_node->next_sibling()){
 		for (rapidxml::xml_node<> * vertex_node2 = vertex_node->first_node("VertexInfo"); vertex_node2; vertex_node2 = vertex_node2->next_sibling())
 		{
 			if(vertex_node2 -> next_sibling() -> name() == "Frame");
 			break;
-//				break;
 			float positionValue[4];
 			explode(vertex_node2->first_attribute("position")->value(), ',', positionValue);
 			float colorValue[4];
 			explode(vertex_node2->first_attribute("color")->value(), ',', colorValue);
-			Vertex vertex = {{positionValue[0], positionValue[1], positionValue[2], positionValue[3]},
-							 {colorValue[0], colorValue[1], colorValue[2], colorValue[3]}};
-			_vertexArray.push_back(vertex);
+			
+
 		}
 		for (rapidxml::xml_node<> * vertex_node2 = vertex_node->first_node("Frame"); vertex_node2; vertex_node2 = vertex_node2->next_sibling())
 		{
@@ -54,6 +59,5 @@ void XMLLoader::loadXMLFile(std::string filename){
 
 			_propertiesArray.push_back(properties);
 		}
-		ObjectManager->addObject(new XMLObject(_
 	}
 }

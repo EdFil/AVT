@@ -92,3 +92,5 @@ void Line::draw(GLuint* vaoId) {
 		glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
 	}
 }
+
+void Line::saveObject(std::string filename){}

@@ -101,7 +101,7 @@ public:
 	void printPropertyArray(int);
 
 	//Save
-	void saveObject(std::string);
+	virtual void saveObject(std::string) = 0;
 
 
 protected:

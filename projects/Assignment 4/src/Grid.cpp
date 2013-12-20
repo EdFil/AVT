@@ -34,3 +34,5 @@ void Grid::draw(GLuint* vaoId) {
 	glUniform4fv(program->getColorUniformId(), 1, _color);
 	glDrawArrays(GL_LINES,0,_vertexArray.size());
 }
+
+void Grid::saveObject(std::string filename){}

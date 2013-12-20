@@ -8,6 +8,7 @@
 #include <string>
 
 ObjObject::ObjObject(std::string fileName) : Object("null"){
+	_objFileDir = fileName;
 	std::vector<std::string> path = explode(fileName, '/');
 	_name = explode(path[path.size()-1], '.')[0];
 	setColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -15,6 +16,7 @@ ObjObject::ObjObject(std::string fileName) : Object("null"){
 }
 
 ObjObject::ObjObject(std::string name, std::string fileName) : Object(name){
+	_objFileDir = fileName;
 	loadMesh(fileName.c_str());
 	setColor(0.2f, 0.2f, 0.2f, 1.0f);
 }
@@ -22,6 +24,10 @@ ObjObject::ObjObject(std::string name, std::string fileName) : Object(name){
 void ObjObject::setPrograms(){
 	_programsToUse.push_back(_shaderManager->getProgram("NormalShader"));
 	_programsToUse.push_back(_shaderManager->getProgram("SelectedShader"));
+}
+
+std::string ObjObject::getObjFileDir(){
+	return _objFileDir;
 }
 
 void ObjObject::draw(GLuint* vaoId) {
@@ -113,4 +119,43 @@ std::vector<std::string> ObjObject::explode(const std::string &s, char delim){
     for (std::string token; std::getline(iss, token, delim);)
 		result.push_back(token);
 	return result;
+}
+
+void ObjObject::saveObject(std::string filename){
+	std::ofstream outputFile;
+	outputFile.open(filename, std::fstream::app);
+	outputFile << "   <Object";
+	outputFile << " objFileDir = \"";
+	outputFile << _objFileDir << "\"";
+	outputFile << " color = \"";
+	outputFile << _color[0] << ", ";
+	outputFile << _color[1] << ", ";
+	outputFile << _color[2] << "\"";
+	outputFile << " name = \"";
+	outputFile << std::string(_name) << "\"";
+	outputFile << " texture = \"";
+	outputFile << _textureID << "\"";
+	outputFile << " selectable = \"";
+	outputFile << _selectable << "\">" << std::endl;
+
+	for(int i = 0; i < getPropertiesArraySize(); i++){
+		outputFile << "      <Frame";
+		outputFile << " position = \"";
+		outputFile << _propertiesArray[i].position.x << ", ";
+		outputFile << _propertiesArray[i].position.y << ", ";
+		outputFile << _propertiesArray[i].position.z << "\"";
+		outputFile << " rotation = \"";
+		outputFile << _propertiesArray[i].rotation.w << ", ";
+		outputFile << _propertiesArray[i].rotation.x << ", ";
+		outputFile << _propertiesArray[i].rotation.y << ", ";
+		outputFile << _propertiesArray[i].rotation.z << "\"";
+		outputFile << " scale = \"";
+		outputFile << _propertiesArray[i].scale.x << ", ";
+		outputFile << _propertiesArray[i].scale.y << ", ";
+		outputFile << _propertiesArray[i].scale.z << "\"";
+		outputFile << "/>" << std::endl;
+	}
+
+	outputFile << "   </Object>" << std::endl;
+	outputFile.close();
 }
