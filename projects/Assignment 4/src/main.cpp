@@ -5,12 +5,12 @@
 #include "GL/glew.h"
 #include "GL/freeglut.h"
 #include "Camera.h"
+#include "XMLLoader.h"
 #include "TextureManager.h"
 #include "ShaderManager.h"
 #include "ObjectManager.h"
 #include "ObjObject.h"
 #include "Grid.h"
-#include "XMLObject.h"
 #include "Line.h"
 
 
@@ -25,6 +25,7 @@ float RotationAngleY = 0.0f, RotationAngleX = 0.0f;
 int oldX=0, oldY=0, mouseX, mouseY;
 
 Camera camera;
+XMLLoader xmlLoader;
 ObjectManager objectManager;
 ShaderManager shaderManager;
 Line axisLine;
@@ -169,8 +170,12 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'm':
 		case 'M':
-			//objectManager.loadObjects("tangram.sav");
 			objectManager.removeObjects();
+			axisLine = Line();
+			objectManager.addObject(&axisLine);
+			xmlLoader.loadGame("tangram.sav");
+			objectManager.createBufferObjects();
+			objectManager.refeshModelMatrix();
 			break;
 		case 'q':
 		case 'Q':
@@ -374,6 +379,7 @@ void init(int argc, char* argv[]){
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
 	camera.perspective(45, 1.0f, 0.1f, 10020.0f);
 	objectManager = ObjectManager(&shaderManager);
+	xmlLoader = XMLLoader(&objectManager);
 	TextureManager::Inst();
 	objectManager.addObject(&axisLine);
 	

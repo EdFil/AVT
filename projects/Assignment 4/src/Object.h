@@ -18,7 +18,7 @@ class Object {
 	static const glm::quat DEFAULT_ROTATION;
 	static const glm::vec3 DEFAULT_SCALE;
 
-protected:
+public:
 	
 	typedef struct {
 		float XYZW[4];
@@ -32,6 +32,7 @@ protected:
 		glm::vec3 scale;
 	} Properties;
 
+protected:
 	std::string _name;
 	float _color[4];
 	ShaderManager *_shaderManager;
@@ -50,7 +51,6 @@ protected:
 
 
 public:
-	Object();
 	Object(std::string name);
 	Object(std::string name, glm::vec3 position);
 	Object(std::string name, glm::vec3 position, glm::vec3 rotarion);
@@ -68,6 +68,7 @@ public:
 	void removeProperty();
 	void nextProperty();
 	void prevProperty();
+	void calculateModelMatrix();
 
 	//Selecting functions
 	void select();
@@ -106,7 +107,6 @@ public:
 
 protected:
 	void vertexToVec3();
-	void calculateModelMatrix();
 	
 };
 

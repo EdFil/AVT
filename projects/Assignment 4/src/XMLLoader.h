@@ -7,13 +7,15 @@
 class XMLLoader {
 
 	ObjectManager* _objectManager;
-	std::string _filename;
 
 public:
-	XMLLoader(std::string, ObjectManager*);
-	
-private:
+
+	XMLLoader();
+	XMLLoader(ObjectManager*);
+
 	void loadGame(std::string);
+
+private:
 	void explode(std::string const & s, char delim, float* result);
 };
 #endif

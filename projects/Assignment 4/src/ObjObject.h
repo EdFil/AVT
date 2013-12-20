@@ -11,6 +11,7 @@ public:
 
 	ObjObject(std::string fileName);
 	ObjObject(std::string, std::string fileName);
+	ObjObject(std::string objDirName, glm::vec4 color, std::string name, int textureID, bool selectable, std::vector<Properties> properties);
 
 	//Getters
 	std::string getObjFileDir();

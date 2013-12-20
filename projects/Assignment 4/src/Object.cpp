@@ -13,6 +13,8 @@ const vec3 Object::DEFAULT_POSITION = vec3(0,0,0);
 const quat Object::DEFAULT_ROTATION = quat();
 const vec3 Object::DEFAULT_SCALE = vec3(1,1,1);
 
+
+
 Object::Object(std::string name) : _currentPropertyIndex(0), _name(name), _selected(false), _selectable(true), _textureID(-1){
 	Properties initialProperty = { DEFAULT_POSITION, DEFAULT_ROTATION, DEFAULT_SCALE };
 	_propertiesArray.push_back(initialProperty);

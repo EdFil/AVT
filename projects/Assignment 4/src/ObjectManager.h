@@ -49,6 +49,7 @@ public:
 	void destroyBufferObjects();
 
 	//Animation Functions
+	void refeshModelMatrix();
 	void addAnimationFrame();
 	void removeAnimationFrame();
 	void nextAnimationFrame();

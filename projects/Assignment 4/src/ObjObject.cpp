@@ -21,6 +21,16 @@ ObjObject::ObjObject(std::string name, std::string fileName) : Object(name){
 	setColor(0.2f, 0.2f, 0.2f, 1.0f);
 }
 
+ObjObject::ObjObject(std::string objDirName, glm::vec4 color, std::string name, int textureID, bool selectable, std::vector<Properties> properties) : Object(name){
+	_objFileDir = objDirName;
+	setColor(&color[0]);
+	_name = name;
+	_textureID = textureID;
+	_selectable = selectable;
+	_propertiesArray = properties;
+	loadMesh(_objFileDir.c_str());
+}
+
 void ObjObject::setPrograms(){
 	_programsToUse.push_back(_shaderManager->getProgram("NormalShader"));
 	_programsToUse.push_back(_shaderManager->getProgram("SelectedShader"));
@@ -130,7 +140,8 @@ void ObjObject::saveObject(std::string filename){
 	outputFile << " color = \"";
 	outputFile << _color[0] << ", ";
 	outputFile << _color[1] << ", ";
-	outputFile << _color[2] << "\"";
+	outputFile << _color[2] << ", ";
+	outputFile << _color[3] << "\"";
 	outputFile << " name = \"";
 	outputFile << std::string(_name) << "\"";
 	outputFile << " texture = \"";
@@ -145,10 +156,10 @@ void ObjObject::saveObject(std::string filename){
 		outputFile << _propertiesArray[i].position.y << ", ";
 		outputFile << _propertiesArray[i].position.z << "\"";
 		outputFile << " rotation = \"";
-		outputFile << _propertiesArray[i].rotation.w << ", ";
 		outputFile << _propertiesArray[i].rotation.x << ", ";
 		outputFile << _propertiesArray[i].rotation.y << ", ";
-		outputFile << _propertiesArray[i].rotation.z << "\"";
+		outputFile << _propertiesArray[i].rotation.z << ", ";
+		outputFile << _propertiesArray[i].rotation.w << "\"";
 		outputFile << " scale = \"";
 		outputFile << _propertiesArray[i].scale.x << ", ";
 		outputFile << _propertiesArray[i].scale.y << ", ";

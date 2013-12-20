@@ -47,6 +47,11 @@ void ObjectManager::createBufferObjects(int index){
 	_objectList[index]->createBufferObjects(_vaoId, _vboId);
 }
 
+void ObjectManager::refeshModelMatrix(){
+	for(size_t i = 0; i < _objectList.size(); i++)
+		_objectList[i]->calculateModelMatrix();
+}
+
 void ObjectManager::addAnimationFrame(){
 	for(size_t i = 0; i < _objectList.size(); i++)
 		_objectList[i]->addProperty();
@@ -143,5 +148,3 @@ void ObjectManager::saveObjects(std::string filename){
 	outputFile << "</Scene>" << std::endl;
 	outputFile.close();
 }
-
-void ObjectManager::loadObjects(std::string filename){}
