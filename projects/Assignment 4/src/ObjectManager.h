@@ -38,7 +38,7 @@ public:
 	ObjectManager(ShaderManager *shaderManager);
 	/* Add a drawable object to the list */
 	void addObject(Object* object);
-	void removeObject(int index);
+	void removeObjects();
 
 	void saveObjects(std::string);
 	void loadObjects(std::string);

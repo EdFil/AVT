@@ -83,10 +83,8 @@ void callDisplay(int value){
 }
 
 void drawScene(){
-	objectManager.createBufferObjects(0);
 	objectManager.drawObjects(camera.getViewMatrix(), camera.getProjectionMatrix());
 	checkOpenGLError("ERROR: Could not draw scene.");
-	
 }
 
 /////////////////////////////////////////////////////////////////////// CALLBACKS
@@ -171,7 +169,8 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'm':
 		case 'M':
-			objectManager.loadObjects("tangram.sav");
+			//objectManager.loadObjects("tangram.sav");
+			objectManager.removeObjects();
 			break;
 		case 'q':
 		case 'Q':

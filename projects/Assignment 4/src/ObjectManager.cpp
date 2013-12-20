@@ -110,24 +110,25 @@ void ObjectManager::destroyBufferObjects(){
 }
 
 void ObjectManager::drawObjects(const glm::mat4 &viewMatrix, const glm::mat4 &projMatrix){ 
-	glBindBuffer(GL_UNIFORM_BUFFER, _vboId[_uniformBlockId]);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float)*16, glm::value_ptr(viewMatrix));
-	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float)*16, sizeof(float)*16, glm::value_ptr(projMatrix));
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	if(!_objectList.empty()){
+		glBindBuffer(GL_UNIFORM_BUFFER, _vboId[_uniformBlockId]);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float)*16, glm::value_ptr(viewMatrix));
+		glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float)*16, sizeof(float)*16, glm::value_ptr(projMatrix));
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	for(unsigned int i = 0; i < _objectList.size(); i++)
-		_objectList[i]->draw(_vaoId);
+		for(unsigned int i = 0; i < _objectList.size(); i++)
+			_objectList[i]->draw(_vaoId);
 
-	glUseProgram(0);
-	glBindVertexArray(0);
-}
-
-void ObjectManager::removeObject(int index){
-	if ((_objectList.size() - 1) >= index){
-		_objectList.erase(_objectList.begin()+index);
-		std::cout<<_objectList.size();
+		glUseProgram(0);
+		glBindVertexArray(0);
 	}
 }
+
+void ObjectManager::removeObjects(){
+	_objectList.clear();
+	destroyBufferObjects();
+}
+
 
 void ObjectManager::saveObjects(std::string filename){
 	std::ofstream outputFile;
