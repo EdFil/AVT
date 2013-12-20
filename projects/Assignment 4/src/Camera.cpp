@@ -61,8 +61,8 @@ void Camera::snapshot(int windowWidth, int windowHeight){
 		ss << "Snapshot" << i << ".bmp";
 		std::string filename = ss.str();
 
-		FILE * filePtr;
-		filePtr = fopen(filename.c_str(), "r");
+		FILE *filePtr;
+		fopen_s(&filePtr, filename.c_str(), "r");
 		if(!filePtr){
 			_snapshotNumber = i;
 			break;
@@ -74,7 +74,8 @@ void Camera::snapshot(int windowWidth, int windowHeight){
 	ss << "Snapshot" << _snapshotNumber << ".bmp";
 	std::string filename = ss.str();
 
-	FILE *filePtr = fopen(filename.c_str(), "wb");
+	FILE *filePtr;
+	fopen_s(&filePtr, filename.c_str(), "wb");
 
 	if (!filePtr)
 	return;

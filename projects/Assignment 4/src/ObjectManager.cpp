@@ -144,7 +144,3 @@ void ObjectManager::saveObjects(std::string filename){
 }
 
 void ObjectManager::loadObjects(std::string filename){}
-
-void ObjectManager::createBufferObjects(int index){
-	_objectList[index]->createBufferObjects(_vaoId, _vboId);
-}

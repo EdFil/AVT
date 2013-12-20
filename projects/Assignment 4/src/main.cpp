@@ -163,17 +163,15 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'p':
 		case 'P':
-			camera.snapshot(WinX, WinY);
-			break;
-		case 'm':
-		case 'M':
-			//test
-			objectManager.loadObjects("tangram.sav");
+			camera.snapshot(WinX,WinY);
 			break;
 		case 'n':
 		case 'N':
 			objectManager.saveObjects("tangram.sav");
 			break;
+		case 'm':
+		case 'M':
+			objectManager.loadObjects("tangram.sav");
 			break;
 		case 'q':
 		case 'Q':
@@ -433,3 +431,5 @@ int main(int argc, char* argv[]){
 	glutMainLoop();
 	exit(EXIT_SUCCESS);
 }
+
+///////////////////////////////////////////////////////////////////////

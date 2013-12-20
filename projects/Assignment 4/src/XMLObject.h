@@ -7,22 +7,19 @@ class XMLObject : public Object {
 
 
 public:
-<<<<<<< HEAD
-
-	XMLObject(std::string xmlNodeName) : Object(xmlNodeName){
-		parseVertexInfo(xmlNodeName);
-		vertexToVec3();
-	}
+	XMLObject(std::string xmlNodeName);
 
 	XMLObject(std::string filename, bool ola) : Object("bary"){
 		loadGame(filename);
 		vertexToVec3();
+		setColor(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
-	XMLObject(std::string xmlNodeName, glm::vec3 position) : Object(xmlNodeName, position){
-		parseVertexInfo(xmlNodeName);
-		vertexToVec3();
-	}
+	XMLObject(std::string xmlNodeName, glm::vec3 position);
+
+	void draw (GLuint*);
+	void setPrograms();
+
 
 private:
 	void loadGame(std::string);

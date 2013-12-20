@@ -193,35 +193,36 @@ void Object::printPropertyArray(int i){
 void Object::saveObject(std::string filename){
 	std::ofstream outputFile;
 	outputFile.open(filename, std::fstream::app);
-	outputFile << "   <Object" << ">" << std::endl;
-	for(int i = 0; i < _vertexArray.size(); i++){
-		outputFile << "      <VertexInfo position = \"";
-		outputFile << _vertexArray[i].XYZW[0] << ", ";
-		outputFile << _vertexArray[i].XYZW[1] << ", ";
-		outputFile << _vertexArray[i].XYZW[2] << ", ";
-		outputFile << _vertexArray[i].XYZW[3] << "\"";
-		outputFile << " color = \"";
-		outputFile << _vertexArray[i].RGBA[0] << ", ";
-		outputFile << _vertexArray[i].RGBA[1] << ", ";
-		outputFile << _vertexArray[i].RGBA[2] << ", ";
-		outputFile << _vertexArray[i].RGBA[3] << "\"></VertexInfo>" << std::endl;
-	}
+	outputFile << "   <Object";
+	outputFile << " color = \"";
+	outputFile << _color[0] << ", ";
+	outputFile << _color[1] << ", ";
+	outputFile << _color[2] << "\"";
+	outputFile << " name = \"";
+	outputFile << std::string(_name) << "\"";
+	outputFile << " texture = \"";
+	outputFile << _textureID << "\"";
+	outputFile << " selectable = \"";
+	outputFile << _selectable << "\">" << std::endl;
+
 	for(int i = 0; i < getPropertiesArraySize(); i++){
 		outputFile << "      <Frame";
-		outputFile << " scale = \"";
-		outputFile << _propertiesArray[i].scale.x << ", ";
-		outputFile << _propertiesArray[i].scale.y << ", ";
-		outputFile << _propertiesArray[i].scale.z << "\"";
+		outputFile << " position = \"";
+		outputFile << _propertiesArray[i].position.x << ", ";
+		outputFile << _propertiesArray[i].position.y << ", ";
+		outputFile << _propertiesArray[i].position.z << "\"";
 		outputFile << " rotation = \"";
 		outputFile << _propertiesArray[i].rotation.w << ", ";
 		outputFile << _propertiesArray[i].rotation.x << ", ";
 		outputFile << _propertiesArray[i].rotation.y << ", ";
 		outputFile << _propertiesArray[i].rotation.z << "\"";
-		outputFile << " position = \"";
-		outputFile << _propertiesArray[i].position.x << ", ";
-		outputFile << _propertiesArray[i].position.y << ", ";
-		outputFile << _propertiesArray[i].position.z << "\">";
-		outputFile << "</Frame>" << std::endl;
+		outputFile << " scale = \"";
+		outputFile << _propertiesArray[i].scale.x << ", ";
+		outputFile << _propertiesArray[i].scale.y << ", ";
+		outputFile << _propertiesArray[i].scale.z << "\"";
+		outputFile << "/>" << std::endl;
 	}
+
 	outputFile << "   </Object>" << std::endl;
 	outputFile.close();
+}
