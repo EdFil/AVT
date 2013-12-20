@@ -32,6 +32,7 @@ ShaderManager shaderManager;
 Line axisLine;
 
 Object* selectedObject = NULL;
+ButtonObject *selectedButton = NULL;
 bool editingMode = false;
 bool objectSelected = false;
 bool objectWasDoubleClicked = false;
@@ -191,9 +192,10 @@ void mouse(int button, int state, int x, int y) {
 			leftMouseButton = true;
 			float x_clip = (2.0f * x) / WinX - 1.0f;
 			float y_clip = 1.0f - (2.0f * y) / WinY;
-			ButtonObject* buttonObject = objectManager.checkButtonIntersection(vec2(x_clip,y_clip));
-			if(buttonObject != NULL){
-				buttonObject->select();
+			selectedButton = objectManager.checkButtonIntersection(vec2(x_clip,y_clip));
+			if(selectedButton != NULL){
+				selectedButton->select();
+
 			}
 			else{
 				Object* object = objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y, WinX, WinY));
@@ -215,6 +217,8 @@ void mouse(int button, int state, int x, int y) {
 				lastMouseLeftClick = glutGet(GLUT_ELAPSED_TIME);
 			}
 		}else{
+			if(selectedButton != NULL)
+				selectedButton->unselect();
 			if(!objectWasDoubleClicked){
 				objectSelected = false;
 				if(selectedObject != NULL){
@@ -236,11 +240,11 @@ void mouse(int button, int state, int x, int y) {
 	if(button == 3){ //UP WHEEL
 		if(objectSelected && (xPressed || yPressed || zPressed) && axisLine.isVisible()){
 			if(xPressed)
-				selectedObject->rotate(5,vec3(1,0,0));
+				selectedObject->rotate(45,vec3(1,0,0));
 			else if(yPressed)
-				selectedObject->rotate(5,vec3(0,1,0));
+				selectedObject->rotate(45,vec3(0,1,0));
 			else if(zPressed)
-				selectedObject->rotate(5,vec3(0,0,1));
+				selectedObject->rotate(45,vec3(0,0,1));
 		}else{
 			camera.addToDist(0.2);
 			camera.updateViewMatrix();
@@ -249,11 +253,11 @@ void mouse(int button, int state, int x, int y) {
 	if(button == 4){ //DOWN WHEEL
 		if(objectSelected && (xPressed || yPressed || zPressed) && axisLine.isVisible()){
 			if(xPressed)
-				selectedObject->rotate(-5,vec3(1,0,0));
+				selectedObject->rotate(-45,vec3(1,0,0));
 			else if(yPressed)
-				selectedObject->rotate(-5,vec3(0,1,0));
+				selectedObject->rotate(-45,vec3(0,1,0));
 			else if(zPressed)
-				selectedObject->rotate(-5,vec3(0,0,1));
+				selectedObject->rotate(-45,vec3(0,0,1));
 		}else{
 			camera.addToDist(-0.2);
 			camera.updateViewMatrix();
@@ -436,11 +440,25 @@ void init(int argc, char* argv[]){
 	bigTri2->setTexture(TextureManager::YELLOW);
 	objectManager.addObject(bigTri2);
 
-	//Button1
-	ButtonObject* button = new ButtonObject("botao1", TextureManager::BLUE, 1, 0.5, 0.5, vec2(0.5,0.5));
-	button->setAsNonSelectable();
-	button->setTexture(TextureManager::WOOD_TEXTURE);
-	objectManager.addButtonObject(button);
+	ButtonObject* button1 = new ButtonObject("Play", TextureManager::PLAY, 1, 0.1, 0.1, vec2(0.0,0.9));
+	button1->setAsNonSelectable();
+	objectManager.addButtonObject(button1);
+
+	ButtonObject* button2 = new ButtonObject("Edit", TextureManager::EDIT, 1, 0.1, 0.1, vec2(0.1,0.9));
+	button2->setAsNonSelectable();
+	objectManager.addButtonObject(button2);
+
+	ButtonObject* button3 = new ButtonObject("Screenshot", TextureManager::SCREENSHOT, 1, 0.1, 0.1, vec2(0.2,0.9));
+	button3->setAsNonSelectable();
+	objectManager.addButtonObject(button3);
+
+	ButtonObject* button4 = new ButtonObject("Save", TextureManager::SAVE, 1, 0.1, 0.1, vec2(-0.1,0.9));
+	button4->setAsNonSelectable();
+	objectManager.addButtonObject(button4);
+
+	ButtonObject* button5 = new ButtonObject("Load", TextureManager::LOAD, 1, 0.1, 0.1, vec2(-0.2,0.9));
+	button5->setAsNonSelectable();
+	objectManager.addButtonObject(button5);
 
 	objectManager.createBufferObjects();
 	setupCallbacks();

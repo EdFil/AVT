@@ -7,10 +7,10 @@ ButtonObject::ButtonObject(std::string name, int textureID, bool selectable, flo
 	_textureID = textureID;
 	setColor(0,0,0,1);
 	_selectable = selectable;
-	Vertex vertex1 = {{position[0],position[1],0,1},{0,0,0,0},{0,0}};					// bottom left
-	Vertex vertex2 = {{position[0]+width,position[1]+height, 0, 1}, {0,0,0,0},{1,1}};	// top right
-	Vertex vertex3 = {{position[0],position[1]+height, 0, 1}, {0,0,0,0},{1,0}};			//top left
-	Vertex vertex4 = {{position[0]+width, position[1], 0, 1}, {0,0,0,0},{0,1}};			//bottom right
+	Vertex vertex1 = {{position[0],position[1],0,1},{0,0,0,0},{0,1}};					// bottom left
+	Vertex vertex2 = {{position[0]+width,position[1]+height, 0, 1}, {0,0,0,0},{1,0}};	// top right
+	Vertex vertex3 = {{position[0],position[1]+height, 0, 1}, {0,0,0,0},{0,0}};			//top left
+	Vertex vertex4 = {{position[0]+width, position[1], 0, 1}, {0,0,0,0},{1,1}};			//bottom right
 
 	_vertexArray.push_back(vertex1);
 	_vertexArray.push_back(vertex2);

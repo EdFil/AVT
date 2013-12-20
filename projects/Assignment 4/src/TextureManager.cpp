@@ -9,6 +9,11 @@ const GLuint TextureManager::WHITE = 4;
 const GLuint TextureManager::BROWN = 5;
 const GLuint TextureManager::GRAY = 6;
 const GLuint TextureManager::YELLOW = 7;
+const GLuint TextureManager::PLAY = 8;
+const GLuint TextureManager::EDIT = 9;
+const GLuint TextureManager::SCREENSHOT = 10;
+const GLuint TextureManager::SAVE = 11;
+const GLuint TextureManager::LOAD = 12;
 
 
 TextureManager* TextureManager::_inst(0);
@@ -22,8 +27,8 @@ TextureManager* TextureManager::Inst()
 }
 
 TextureManager::TextureManager(){
-	_texID = std::vector<GLuint>(8);
-	glGenTextures(8, &_texID[0]); 
+	_texID = std::vector<GLuint>(13);
+	glGenTextures(13, &_texID[0]); 
 	loadTexture("../src/objs/wood.jpg", WOOD_TEXTURE);
 	loadTexture("../src/objs/red.png", RED);
 	loadTexture("../src/objs/green.png", GREEN); 
@@ -32,6 +37,11 @@ TextureManager::TextureManager(){
 	loadTexture("../src/objs/brown.png", BROWN);
 	loadTexture("../src/objs/gray.png", GRAY);
 	loadTexture("../src/objs/yellow.png", YELLOW);
+	loadTexture("../src/objs/Play.png", PLAY);
+	loadTexture("../src/objs/Edit.png", EDIT);
+	loadTexture("../src/objs/Screenshot.png", SCREENSHOT);
+	loadTexture("../src/objs/Save.png", SAVE);
+	loadTexture("../src/objs/Load.png", LOAD);
 }
 
 void TextureManager::loadTexture(const char* dirName, int textID){

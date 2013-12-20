@@ -18,6 +18,11 @@ public:
 	static const GLuint BROWN;
 	static const GLuint GRAY;
 	static const GLuint YELLOW;
+	static const GLuint PLAY;
+	static const GLuint EDIT;
+	static const GLuint SCREENSHOT;
+	static const GLuint SAVE;
+	static const GLuint LOAD;
 
 	static TextureManager* Inst();
 	virtual ~TextureManager();
