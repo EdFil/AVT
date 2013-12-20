@@ -25,6 +25,9 @@ class Camera {
 	static const float DEFAULT_RIGHT;
 	static const float DEFAULT_BOTTOM;
 	static const float DEFAULT_TOP;
+	static const float DEFAULT_DIST;
+	static const float DEFAULT_RX;
+	static const float DEFAULT_RY;
 	static const vec3 WORLD_CENTER;
     static const vec3 WORLD_XAXIS;
     static const vec3 WORLD_YAXIS;
@@ -63,6 +66,7 @@ public:
 	void addToRX(float value){ _rX += value; }
 	void addToRY(float value){ _rY += value; }
 	void addToDist(float value){ _dist += value; }
+	void resetToDefault();
 
 	//-----GETTERS
 

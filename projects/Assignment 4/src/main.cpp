@@ -5,6 +5,7 @@
 #include "GL/glew.h"
 #include "GL/freeglut.h"
 #include "Camera.h"
+#include "TextureManager.h"
 #include "ShaderManager.h"
 #include "ObjectManager.h"
 #include "ObjObject.h"
@@ -29,6 +30,7 @@ ShaderManager shaderManager;
 Line axisLine;
 
 Object* selectedObject = NULL;
+bool editingMode = false;
 bool objectSelected = false;
 bool objectWasDoubleClicked = false;
 bool xPressed = false, yPressed = false, zPressed = false;
@@ -36,7 +38,6 @@ bool rightMouseButton = false;
 bool leftMouseButton = false;
 int lastMouseLeftClick;
 bool middleMouseButton = false;
-
 
 /////////////////////////////////////////////////////////////////////// ERRORS
 
@@ -57,8 +58,8 @@ void checkOpenGLError(std::string error)
 	if(isOpenGLError()) {
 		std::cerr << error << std::endl;
 		std::cerr << "EXITING" << std::endl;
-		system("pause");
-		exit(EXIT_FAILURE);
+		//system("pause");
+		//exit(EXIT_FAILURE);
 	}
 }
 
@@ -85,6 +86,7 @@ void drawScene(){
 	objectManager.createBufferObjects(0);
 	objectManager.drawObjects(camera.getViewMatrix(), camera.getProjectionMatrix());
 	checkOpenGLError("ERROR: Could not draw scene.");
+	
 }
 
 /////////////////////////////////////////////////////////////////////// CALLBACKS
@@ -131,7 +133,7 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'x':
 		case 'X':
-			xPressed = !xPressed; yPressed = false; zPressed = false;
+			xPressed = true; yPressed = false; zPressed = false;
 			if(selectedObject != NULL)
 				if(xPressed)
 					axisLine.setVisible(true);
@@ -141,7 +143,7 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'y':
 		case 'Y':
-			yPressed = !yPressed; xPressed = false; zPressed = false;
+			yPressed = true; xPressed = false; zPressed = false;
 			if(selectedObject != NULL)
 				if(yPressed)
 					axisLine.setVisible(true);
@@ -151,7 +153,7 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'z':
 		case 'Z':
-			zPressed = !zPressed; xPressed = false; yPressed = false;
+			zPressed = true; xPressed = false; yPressed = false;
 			if(selectedObject != NULL)
 				if(zPressed)
 					axisLine.setVisible(true);
@@ -161,7 +163,6 @@ void keyPressed(unsigned char key, int x, int y){
 			break;
 		case 'p':
 		case 'P':
-			//snapshot(640, 640, "ScreenShot.bmp");
 			camera.snapshot(WinX, WinY);
 			break;
 		case 'm':
@@ -172,6 +173,7 @@ void keyPressed(unsigned char key, int x, int y){
 		case 'n':
 		case 'N':
 			objectManager.saveObjects("tangram.sav");
+			break;
 			break;
 		case 'q':
 		case 'Q':
@@ -221,9 +223,7 @@ void mouse(int button, int state, int x, int y) {
 			rightMouseButton = false;
 	}
 	if(button == 3){ //UP WHEEL
-		//std::cout<<objectSelected<<xPressed<<yPressed<<zPressed<<axisLine.isVisible();
 		if(objectSelected && (xPressed || yPressed || zPressed) && axisLine.isVisible()){
-			std::cout<<"olaaaa";
 			if(xPressed)
 				selectedObject->rotate(5,vec3(1,0,0));
 			else if(yPressed)
@@ -231,7 +231,6 @@ void mouse(int button, int state, int x, int y) {
 			else if(zPressed)
 				selectedObject->rotate(5,vec3(0,0,1));
 		}else{
-			//std::cout<<"olaaaa";
 			camera.addToDist(0.2);
 			camera.updateViewMatrix();
 		}
@@ -262,7 +261,7 @@ void mouseMotion(int x, int y) {
 		camera.updateViewMatrix();
 		objectManager.updateModifiedVertexArray();
 	}
-	else if(leftMouseButton && objectSelected){
+	else if(leftMouseButton && objectSelected && axisLine.isVisible()){
 		if(xPressed)
 			selectedObject->translate((x - oldX)/(WinX*0.175),0.0f, 0.0f);
 		else if(yPressed)
@@ -367,29 +366,62 @@ void init(int argc, char* argv[]){
 	setupGLUT(argc, argv);
 	setupGLEW();
 	setupOpenGL();
+	TextureManager::Inst();
 	shaderManager = ShaderManager();
-	shaderManager.addProgram("NormalShader", "../src/MVPVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
-	shaderManager.addProgram("SelectedShader", "../src/OtherVertexShader.glsl", "../src/SimpleFragmentShader.glsl");
+	shaderManager.addTextureProgram("NormalShader", "../src/shaders/VertexShader.glsl", "../src/shaders/FragmentShader.glsl");
+	shaderManager.addTextureProgram("SelectedShader", "../src/shaders/SelectedVertexShader.glsl", "../src/shaders/FragmentShader.glsl");
+	shaderManager.addSimpleProgram("SimpleShader", "../src/shaders/SimpleVertexShader.glsl", "../src/shaders/SimpleFragmentShader.glsl");
 	shaderManager.createShaderProgram();
 	axisLine = Line();
 	camera = Camera();
 	camera.lookAt(glm::vec3(0,5,5), glm::vec3(0,0,0), glm::vec3(0,1,0));
-	camera.perspective(45, 1.0f, 0.1f, 20.0f);
+	camera.perspective(45, 1.0f, 0.1f, 10020.0f);
 	objectManager = ObjectManager(&shaderManager);
+	TextureManager::Inst();
 	objectManager.addObject(&axisLine);
-	objectManager.addObject(new Grid(4,0.2f));
-	//objectManager.addObject(new ObjObject("../src/gourd.obj"));
-	objectManager.addObject(new XMLObject("Neck", glm::vec3(0,.2,0)));
-	objectManager.addObject(new XMLObject("Neck", glm::vec3(-0.8,.2,0)));
-	objectManager.addObject(new XMLObject("tangram.sav", true));
-	//objectManager.addObject(new XMLObject("Neck", glm::vec3(0.8,-.2,0)));
-	//objectManager.addObject(new Torso());
-	//objectManager.addObject(new Back());
-	//objectManager.addObject(new Tail());
-	//objectManager.addObject(new RightLeg());
-	//objectManager.addObject(new Neck());
-	//objectManager.addObject(new Head());
-	//objectManager.addObject(new LeftLeg());
+	
+	//objectManager.addObject(new Grid(4,0.2f));
+
+	ObjObject* plane = new ObjObject("../src/objs/plane.obj");
+	plane->setAsNonSelectable();
+	plane->setTexture(TextureManager::WOOD_TEXTURE);
+	objectManager.addObject(plane);
+	
+	ObjObject* cube = new ObjObject("../src/objs/cube.obj");
+	cube->setTexture(TextureManager::RED);
+	cube->translate(0.0f,0.2f,0.0f);
+	objectManager.addObject(cube);
+
+	ObjObject* trapezoid = new ObjObject("../src/objs/trapezoid.obj");
+	trapezoid->setTexture(TextureManager::BROWN);
+	trapezoid->translate(-0.9f,0.2f,0.0f);
+	objectManager.addObject(trapezoid);
+
+	ObjObject* smallTri1 = new ObjObject("../src/objs/smallTri.obj");
+	smallTri1->translate(0.5f,0.2f,0.0f);
+	smallTri1->setTexture(TextureManager::GRAY);
+	objectManager.addObject(smallTri1);
+
+	ObjObject* smallTri2 = new ObjObject("../src/objs/smallTri.obj");
+	smallTri2->translate(1.0f,0.2f,0.0f);
+	smallTri2->setTexture(TextureManager::GREEN);
+	objectManager.addObject(smallTri2);
+
+	ObjObject* medTri = new ObjObject("../src/objs/medTri.obj");
+	medTri->translate(0.5f,0.7f,0.0f);
+	medTri->setTexture(TextureManager::BLUE);
+	objectManager.addObject(medTri);
+
+	ObjObject* bigTri1 = new ObjObject("../src/objs/bigTri.obj");
+	bigTri1->translate(-1.5f,0.4f,0.0f);
+	bigTri1->setTexture(TextureManager::WHITE);
+	objectManager.addObject(bigTri1);
+
+	ObjObject* bigTri2 = new ObjObject("../src/objs/bigTri.obj");
+	bigTri1->translate(1.5f,0.4f,0.0f);
+	bigTri2->setTexture(TextureManager::YELLOW);
+	objectManager.addObject(bigTri2);
+
 	objectManager.createBufferObjects();
 	setupCallbacks();
 	objectManager.updateModifiedVertexArray();
@@ -401,5 +433,3 @@ int main(int argc, char* argv[]){
 	glutMainLoop();
 	exit(EXIT_SUCCESS);
 }
-
-///////////////////////////////////////////////////////////////////////

@@ -12,9 +12,6 @@
 #include <glm\gtc\quaternion.hpp>
 #include <glm\gtx\quaternion.hpp>
 
-#define VERTICES 0
-#define COLORS 1
-
 class Object {
 
 	static const glm::vec3 DEFAULT_POSITION;
@@ -25,7 +22,8 @@ protected:
 	
 	typedef struct {
 		float XYZW[4];
-		float RGBA[4];
+		float NORMAL[4];
+		float UV[2];
 	} Vertex;
 
 	typedef struct {
@@ -35,11 +33,15 @@ protected:
 	} Properties;
 
 	std::string _name;
+	float _color[4];
 	ShaderManager *_shaderManager;
 	GLuint _vaoId;
 	GLuint _vboId;
 	bool _selected;
+	bool _selectable;
 	int _currentPropertyIndex;
+
+	int _textureID;
 	std::vector<Program*> _programsToUse;
 	std::vector<Vertex> _vertexArray;
 	std::vector<glm::vec3> _modifiedVertexArray;
@@ -54,12 +56,12 @@ public:
 	Object(std::string name, glm::vec3 position, glm::vec3 rotarion);
 	Object(std::string name, glm::vec3 position, glm::vec3 rotarion, glm::vec3 scale);
 
-
 	//Virtual Functions
     virtual void createBufferObjects(GLuint* vaoId, GLuint* vboId);
-	virtual void draw(GLuint* vaoId);
+	virtual void draw(GLuint* vaoId) = 0;
 	virtual bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
 	virtual void updateModifiedVertex();
+	virtual void setPrograms() = 0;
 	
 	//Animation Functions
 	void addProperty();
@@ -70,6 +72,8 @@ public:
 	//Selecting functions
 	void select();
 	void unselect();
+	void setAsNonSelectable();
+	void setAsSelectable();
 
 	//Moving functions
 	void translate(float, float, float);
@@ -87,8 +91,10 @@ public:
 	//Setters
 	void setVaoId(int value);
 	void setVboId(int value);
+	void setColor(const float color[4]);
+	void setColor(const float r, const float g, const float b, const float a);
 	void setShaderManager(ShaderManager *shaderManager);
-	void setPrograms();
+	void setTexture(const int id);
 
 
 	//Debug

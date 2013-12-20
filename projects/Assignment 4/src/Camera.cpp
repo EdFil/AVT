@@ -14,6 +14,9 @@ const float Camera::DEFAULT_LEFT = -2.0f;
 const float Camera::DEFAULT_RIGHT = 2.0f;
 const float Camera::DEFAULT_BOTTOM = -2.0f;
 const float Camera::DEFAULT_TOP = 2.0f;
+const float Camera::DEFAULT_DIST = -7.0f;
+const float Camera::DEFAULT_RX = 10.0f;
+const float Camera::DEFAULT_RY = 0.0f;
 
 const vec3 Camera::WORLD_CENTER = vec3(0.0f, 0.0f, 0.0f);
 const vec3 Camera::WORLD_XAXIS = vec3(1.0f, 0.0f, 0.0f);
@@ -32,14 +35,14 @@ Camera::Camera(){
 	_top = DEFAULT_TOP;
 	_aspect = 1;
 
-	_dist = -5;
+	_dist = DEFAULT_DIST;
     _eye = vec3(0.0f, 0.0f, 0.0f);
 	_target = vec3(0.0f, 0.0f, 0.0f);
 	_viewMatrix = mat4();
 	_projMatrix = mat4();
 
-	_rX = 90;
-	_rY = 0;
+	_rX = DEFAULT_RX;
+	_rY = DEFAULT_RY;
 }
 
 void Camera::snapshot(int windowWidth, int windowHeight){
@@ -192,4 +195,10 @@ void Camera::toggleProjection(){
 
 void Camera::updateViewMatrix(){
 	lookAt(_eye, _target, _up);
+}
+
+void Camera::resetToDefault(){
+	_dist = DEFAULT_DIST;
+	_rX = DEFAULT_RX;
+	_rY = DEFAULT_RY;
 }

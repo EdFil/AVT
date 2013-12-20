@@ -7,14 +7,14 @@ const float Line::LINE_WIDTH = 0.01f;
 const float Line::LINE_LENGTH = 10.0f;
 
 Line::Line() : Object("Axis Line"), _isVisible(false), _axis(glm::vec3(0,0,0)){
-	Vertex bottomBackLeft = { {-LINE_WIDTH, -LINE_WIDTH,  -LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex bottomBackRight= { { LINE_WIDTH, -LINE_WIDTH,  -LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex bottomTopLeft  = { {-LINE_WIDTH, -LINE_WIDTH,   LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex bottomTopRight = { { LINE_WIDTH, -LINE_WIDTH,   LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex topBackLeft    = { {-LINE_WIDTH,  LINE_WIDTH,  -LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex topBackRight   = { { LINE_WIDTH,  LINE_WIDTH,  -LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex topTopLeft     = { {-LINE_WIDTH,  LINE_WIDTH,   LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
-	Vertex topTopRight    = { { LINE_WIDTH,  LINE_WIDTH,   LINE_LENGTH, 1.0f}, {1.0, 1.0f, 1.0f, 1.0f} };
+	Vertex bottomBackLeft = {{-LINE_WIDTH, -LINE_WIDTH,  -LINE_LENGTH, 1.0f}};
+	Vertex bottomBackRight= {{ LINE_WIDTH, -LINE_WIDTH,  -LINE_LENGTH, 1.0f}};
+	Vertex bottomTopLeft  = {{-LINE_WIDTH, -LINE_WIDTH,   LINE_LENGTH, 1.0f}};
+	Vertex bottomTopRight = {{ LINE_WIDTH, -LINE_WIDTH,   LINE_LENGTH, 1.0f}};
+	Vertex topBackLeft    = {{-LINE_WIDTH,  LINE_WIDTH,  -LINE_LENGTH, 1.0f}};
+	Vertex topBackRight   = {{ LINE_WIDTH,  LINE_WIDTH,  -LINE_LENGTH, 1.0f}};
+	Vertex topTopLeft     = {{-LINE_WIDTH,  LINE_WIDTH,   LINE_LENGTH, 1.0f}};
+	Vertex topTopRight    = {{ LINE_WIDTH,  LINE_WIDTH,   LINE_LENGTH, 1.0f}};
 	//Bottom
 	_vertexArray.push_back(bottomBackLeft);
 	_vertexArray.push_back(bottomTopRight);
@@ -43,10 +43,15 @@ Line::Line() : Object("Axis Line"), _isVisible(false), _axis(glm::vec3(0,0,0)){
 	_vertexArray.push_back(topBackRight);
 	_vertexArray.push_back(topTopRight);
 	_vertexArray.push_back(bottomTopRight);
+	setColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void Line::bindToObject(Object* obj){
 	_object = obj;
+}
+
+void Line::setPrograms(){
+	_programsToUse.push_back(_shaderManager->getProgram("SimpleShader"));
 }
 
 void Line::setToAxis(glm::vec3 axis){
@@ -76,12 +81,14 @@ bool Line::isVisible(){
 void Line::updateModifiedVertex(){}
 
 void Line::draw(GLuint* vaoId) {
+	SimpleProgram* program = (SimpleProgram*)_programsToUse[0];
 	if(_isVisible && (_object != NULL) && _axis != glm::vec3(0,0,0)){
 		_propertiesArray[_currentPropertyIndex].position = _object->getPosition();
 		calculateModelMatrix();
-		_programsToUse[0]->bind();
+		program->bind();
 		glBindVertexArray(vaoId[_vaoId]);
-		glUniformMatrix4fv(_programsToUse[0]->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+		glUniformMatrix4fv(program->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+		glUniform4fv(program->getColorUniformId(), 1, _color);
 		glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
 	}
 }

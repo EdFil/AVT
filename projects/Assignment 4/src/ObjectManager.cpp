@@ -3,10 +3,7 @@
 #include <sstream>
 #include "ObjectManager.h"
 #include <glm/gtc/type_ptr.hpp>
-#include <rapidxml.hpp>
-#include <rapidxml_print.hpp>
 #include "glm/gtx/string_cast.hpp"
-
 
 ObjectManager::ObjectManager(){}
 
@@ -14,6 +11,7 @@ ObjectManager::ObjectManager(ShaderManager *shaderManager) :  _vaoCounter(0), _v
 	_uniformBlockId = _vboCounter++;
 	_shaderManager = shaderManager;
 }
+
 
 Object* ObjectManager::checkIntersection(vec3 rayOrigin, vec3 rayEnd){
 	Object *returnObject = NULL;
@@ -30,9 +28,8 @@ Object* ObjectManager::checkIntersection(vec3 rayOrigin, vec3 rayEnd){
 }
 
 void ObjectManager::updateModifiedVertexArray(){
-	for(unsigned int i = 0; i < _objectList.size(); i++){
+	for(unsigned int i = 0; i < _objectList.size(); i++)
 		_objectList[i]->updateModifiedVertex();
-	}
 }
 
 void ObjectManager::addObject(Object* object){
@@ -42,88 +39,8 @@ void ObjectManager::addObject(Object* object){
 	object->setShaderManager(_shaderManager);
 	object->setPrograms();
 
-	//Add the Object to The object lits
+	//Add the Object to The object list
 	_objectList.push_back(object);
-}
-
-void ObjectManager::removeObject(int index){
-	if ((_objectList.size() - 1) >= index){
-		_objectList.erase(_objectList.begin()+index);
-		std::cout<<_objectList.size();
-	}
-}
-
-void ObjectManager::saveObjects(std::string filename){
-	std::ofstream outputFile;
-	outputFile.open(filename);
-	outputFile << "<?xml version=\"1.0\" encoding=\"utf-8'\"?>" << std::endl;
-	outputFile << "<Scene>" << std::endl;
-	outputFile.close();
-	for(int i = 0; i < _objectList.size(); i++){
-		_objectList[i]->saveObject(filename);
-	}
-	outputFile.open(filename, std::fstream::app);
-	outputFile << "</Scene>" << std::endl;
-	outputFile.close();
-}
-
-void ObjectManager::loadObjects(std::string filename){
-	
-
-	/* tentativa 3 
-	std::vector<Object*> auxObjectList;
-	std::ifstream ifs(filename, std::ios::binary);
-	ifs.read((char *) &auxObjectList, sizeof(auxObjectList));
-
-	//destroyBufferObjects();
-	//_objectList.clear();
-
-	for(int i = 2; i < _objectList.size(); i++){
-		removeObject(i);
-	}
-	for(unsigned int i = 0; i < auxObjectList.size(); i++){
-		//addObject(auxObjectList[i]);
-	}
-	//createBufferObjects();
-	*/
-
-	/*	tentativa2
-	std::vector<Object*> auxObjectList;
-	std::ifstream ifs(filename, std::ios::binary);
-	ifs.read((char *) &auxObjectList, sizeof(auxObjectList));
-
-	destroyBufferObjects();
-	//_objectList.clear();
-	for(unsigned int i = 0; i < auxObjectList.size(); i++){
-		addObject(auxObjectList[i]);
-	}
-	createBufferObjects();
-	*/
-
-
-	/*	tentativa1
-	
-	std::ifstream ifs(filename, std::ios::binary);
-	while(true){
-		//Object* object;
-	
-	Object* object = new Object();
-		ifs.read((char *) &(*object), sizeof(*object));
-		addObject(obje	ct);
-		if(ifs.eof()){
-			break;
-		}		
-	}
-	 */
-
-	/* tentativa 0
-	std::ifstream ifs(filename, std::ios::binary);
-	for(unsigned int i = 0; i < _objectList.size(); i++){
-		ifs.read((char *) &(*_objectList[i]), sizeof(*_objectList[i]));
-	}
-	*/
-	//_objectList[2]->printPropertyArray(0);
-
 }
 
 void ObjectManager::createBufferObjects(int index){
@@ -175,13 +92,15 @@ void ObjectManager::createBufferObjects(){
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDisableVertexAttribArray(VERTICES);
-	glDisableVertexAttribArray(COLORS);
+	glDisableVertexAttribArray(0); //Vertices
+	glDisableVertexAttribArray(1); //Normals
+	glDisableVertexAttribArray(2); //UVs
 }
 
 void ObjectManager::destroyBufferObjects(){
-	glDisableVertexAttribArray(VERTICES);
-	glDisableVertexAttribArray(COLORS);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -201,4 +120,31 @@ void ObjectManager::drawObjects(const glm::mat4 &viewMatrix, const glm::mat4 &pr
 
 	glUseProgram(0);
 	glBindVertexArray(0);
+}
+
+void ObjectManager::removeObject(int index){
+	if ((_objectList.size() - 1) >= index){
+		_objectList.erase(_objectList.begin()+index);
+		std::cout<<_objectList.size();
+	}
+}
+
+void ObjectManager::saveObjects(std::string filename){
+	std::ofstream outputFile;
+	outputFile.open(filename);
+	outputFile << "<?xml version=\"1.0\" encoding=\"utf-8'\"?>" << std::endl;
+	outputFile << "<Scene>" << std::endl;
+	outputFile.close();
+	for(int i = 0; i < _objectList.size(); i++){
+		_objectList[i]->saveObject(filename);
+	}
+	outputFile.open(filename, std::fstream::app);
+	outputFile << "</Scene>" << std::endl;
+	outputFile.close();
+}
+
+void ObjectManager::loadObjects(std::string filename){}
+
+void ObjectManager::createBufferObjects(int index){
+	_objectList[index]->createBufferObjects(_vaoId, _vboId);
 }

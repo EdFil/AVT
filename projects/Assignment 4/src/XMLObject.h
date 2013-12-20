@@ -7,6 +7,7 @@ class XMLObject : public Object {
 
 
 public:
+<<<<<<< HEAD
 
 	XMLObject(std::string xmlNodeName) : Object(xmlNodeName){
 		parseVertexInfo(xmlNodeName);
@@ -22,8 +23,6 @@ public:
 		parseVertexInfo(xmlNodeName);
 		vertexToVec3();
 	}
-
-	
 
 private:
 	void loadGame(std::string);
