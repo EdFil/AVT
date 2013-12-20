@@ -195,19 +195,21 @@ void mouse(int button, int state, int x, int y) {
 				selectedButton->select();
 				if(selectedButton->getName() == "Screenshot")
 					camera.snapshot(WinX, WinY);
-				else if(selectedButton->getName() == "Play")
+				else if(selectedButton->getName() == "Play"){
+					std::cout<<"ola";
 					objectManager.loop(true);
+				}
 				else if(selectedButton->getName() == "Edit")
 					objectManager.loop(false);
 				else if(selectedButton->getName() == "Load"){
-					//selectedButton->unselect();
-					//objectManager.removeObjects();
+					selectedButton->unselect();
+					objectManager.removeObjects();
 					//axisLine = Line();
 					//objectManager.addObject(&axisLine);
-					//xmlLoader.loadGame("tangram.sav");
-					//initButtons();
-					//objectManager.createBufferObjects();
-					//objectManager.refeshModelMatrix();
+					xmlLoader.loadGame("tangram.sav");
+					initButtons();
+					objectManager.createBufferObjects();
+					objectManager.refeshModelMatrix();
 				}
 				else if(selectedButton->getName() == "Save")
 					objectManager.saveObjects("tangram.sav");

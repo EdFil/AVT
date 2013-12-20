@@ -14,13 +14,15 @@ ObjObject::ObjObject(std::string fileName) : Object("null"){
 	setColor(0.2f, 0.2f, 0.2f, 1.0f);
 	loadMesh(fileName.c_str());
 	_lerpStartTime = 0;
-	_timeToRun = 500;
+	_timeToRun = 200;
 }
 
 ObjObject::ObjObject(std::string name, std::string fileName) : Object(name){
 	_objFileDir = fileName;
 	loadMesh(fileName.c_str());
 	setColor(0.2f, 0.2f, 0.2f, 1.0f);
+	_lerpStartTime = 0;
+	_timeToRun = 500;
 }
 
 ObjObject::ObjObject(std::string objDirName, glm::vec4 color, std::string name, int textureID, bool selectable, std::vector<Properties> properties) : Object(name){
@@ -31,6 +33,8 @@ ObjObject::ObjObject(std::string objDirName, glm::vec4 color, std::string name, 
 	_selectable = selectable;
 	_propertiesArray = properties;
 	loadMesh(_objFileDir.c_str());
+	_lerpStartTime = 0;
+	_timeToRun = 500;
 }
 
 void ObjObject::setPrograms(){
@@ -44,6 +48,11 @@ std::string ObjObject::getObjFileDir(){
 
 void ObjObject::draw(GLuint* vaoId) {
 	if(_loop){
+		if(_propertiesArray.size() < 2){ 
+			_loop = false;
+			return;
+		}
+		std::cout << "From " << _lerpFrom << " to " << _lerpTo << " alpha " << ((float)(glutGet(GLUT_ELAPSED_TIME) - _lerpStartTime )/(float)_timeToRun) << std::endl;
 		if((glutGet(GLUT_ELAPSED_TIME) - _lerpStartTime) <= _timeToRun){
 			lerpModelMatrix((float)(glutGet(GLUT_ELAPSED_TIME) - _lerpStartTime )/(float)_timeToRun);
 		}
@@ -67,10 +76,12 @@ void ObjObject::draw(GLuint* vaoId) {
 		}
 	}
 	TextureProgram* program;
-	if(_selected)
+	if(_selected) {
 		program = ((TextureProgram*)_programsToUse[1]);
-	else
+	}
+	else {
 		program = ((TextureProgram*)_programsToUse[0]);
+	}
 	program->bind();
 	glBindVertexArray(vaoId[_vaoId]);
 	glUniformMatrix4fv(program->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));

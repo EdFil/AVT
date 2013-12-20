@@ -32,6 +32,9 @@ public:
 	//Virtual Methods
 	virtual void createShaderProgram() = 0;
 
+	//Getters
+	std::string getName();
+
 protected:
 	GLuint loadShaderFromFile(std::string fileName, GLenum shaderType);
 

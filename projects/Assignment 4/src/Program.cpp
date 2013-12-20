@@ -19,6 +19,10 @@ void Program::bind() const {
 	glUseProgram(_programId);
 }
 
+std::string Program::getName(){
+	return _name;
+}
+
 GLuint Program::loadShaderFromFile(std::string fileName, GLenum shaderType){
 	//Open file
 	GLuint shaderID = 0;

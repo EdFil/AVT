@@ -106,7 +106,7 @@ public:
 	void setShaderManager(ShaderManager *shaderManager);
 	void setTexture(const int id);
 	void setLoop(bool value);
-
+	void clearPropertiesArray();
 
 	//Debug
 	void printPropertyArray(int);

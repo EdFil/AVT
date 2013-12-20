@@ -137,6 +137,7 @@ void ObjectManager::destroyBufferObjects(){
 
 void ObjectManager::drawObjects(const glm::mat4 &viewMatrix, const glm::mat4 &projMatrix){ 
 	if(!_objectList.empty()){
+		
 		glBindBuffer(GL_UNIFORM_BUFFER, _vboId[_uniformBlockId]);
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float)*16, glm::value_ptr(viewMatrix));
 		glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float)*16, sizeof(float)*16, glm::value_ptr(projMatrix));
@@ -151,8 +152,8 @@ void ObjectManager::drawObjects(const glm::mat4 &viewMatrix, const glm::mat4 &pr
 }
 
 void ObjectManager::removeObjects(){
-	for(size_t i = 0; i < _objectList.size(); i++)
-		delete _objectList[i];
+	//for(size_t i = 0; i < _objectList.size(); i++){}
+		//delete _objectList[i];
 	_objectList.clear();
 	destroyBufferObjects();
 }

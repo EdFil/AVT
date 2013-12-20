@@ -85,6 +85,8 @@ void Object::prevProperty(){
 }
 
 void Object::nextProperty(){
+	//std::cout<<_propertiesArray.size();
+	std::cout << _name << " : " << (int)_propertiesArray.size() << std::endl;
 	if(_currentPropertyIndex < (int)_propertiesArray.size() - 1)
 		_currentPropertyIndex++;
 	calculateModelMatrix();
@@ -133,6 +135,10 @@ std::string Object::getName() const{
 
 int Object::getPropertiesArraySize() const {
 	return _propertiesArray.size();
+}
+
+void Object::clearPropertiesArray() {
+	_propertiesArray.clear();
 }
 
 int Object::getCurrentPropertyIndex() const {

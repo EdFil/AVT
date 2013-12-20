@@ -96,16 +96,20 @@ void Line::createBufferObjects(GLuint* vaoId, GLuint* vboId){
 }
 
 void Line::draw(GLuint* vaoId) {
-	SimpleProgram* program = (SimpleProgram*)_programsToUse[0];
-	if(_isVisible && (_object != NULL) && _axis != glm::vec3(0,0,0)){
-		_propertiesArray[_currentPropertyIndex].position = _object->getPosition();
-		calculateModelMatrix();
-		program->bind();
-		glBindVertexArray(vaoId[_vaoId]);
-		glUniformMatrix4fv(program->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
-		glUniform4fv(program->getColorUniformId(), 1, _color);
-		glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
+	/*
+	if(_programsToUse.empty()){
+		SimpleProgram* program = (SimpleProgram*)_programsToUse[0];
+		if(_isVisible && (_object != NULL) && _axis != glm::vec3(0,0,0)){
+			_propertiesArray[_currentPropertyIndex].position = _object->getPosition();
+			calculateModelMatrix();
+			program->bind();
+			glBindVertexArray(vaoId[_vaoId]);
+			glUniformMatrix4fv(program->getModelMatrixUniformId(), 1, GL_FALSE, glm::value_ptr(_currentModelMatrix));
+			glUniform4fv(program->getColorUniformId(), 1, _color);
+			glDrawArrays(GL_TRIANGLES,0,_vertexArray.size());
+		}
 	}
+	*/
 }
 
 void Line::saveObject(std::string filename){}
