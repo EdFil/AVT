@@ -42,6 +42,13 @@ protected:
 	bool _selectable;
 	int _currentPropertyIndex;
 
+	bool _loop;
+	int _lerpStartTime;
+	int _timeToRun;
+	int _lerpFrom;
+	int _lerpTo;
+	glm::mat4 _lerpedModelMatrix;
+
 	int _textureID;
 	std::vector<Program*> _programsToUse;
 	std::vector<Vertex> _vertexArray;
@@ -69,6 +76,8 @@ public:
 	void nextProperty();
 	void prevProperty();
 	void calculateModelMatrix();
+	void lerpModelMatrix(float alpha);
+	void lerpProperties(int index1, int index2, int time);
 
 	//Selecting functions
 	void select();

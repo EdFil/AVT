@@ -13,6 +13,8 @@ ObjObject::ObjObject(std::string fileName) : Object("null"){
 	_name = explode(path[path.size()-1], '.')[0];
 	setColor(0.2f, 0.2f, 0.2f, 1.0f);
 	loadMesh(fileName.c_str());
+	_lerpStartTime = 0;
+	_timeToRun = 0;
 }
 
 ObjObject::ObjObject(std::string name, std::string fileName) : Object(name){
@@ -41,6 +43,15 @@ std::string ObjObject::getObjFileDir(){
 }
 
 void ObjObject::draw(GLuint* vaoId) {
+	if(_loop){
+		if((glutGet(GLUT_ELAPSED_TIME) - _lerpStartTime) <= _timeToRun){
+			printf("Running for %d and alpha is %f.\n", (glutGet(GLUT_ELAPSED_TIME) - _lerpStartTime ), ((float)(glutGet(GLUT_ELAPSED_TIME) - _lerpStartTime )/(float)_timeToRun));
+			lerpModelMatrix((float)(glutGet(GLUT_ELAPSED_TIME) - _lerpStartTime )/(float)_timeToRun);
+		}
+		else{
+			
+		}
+	}
 	TextureProgram* program;
 	if(_selected)
 		program = ((TextureProgram*)_programsToUse[1]);

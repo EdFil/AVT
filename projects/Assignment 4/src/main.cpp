@@ -196,7 +196,7 @@ void mouse(int button, int state, int x, int y) {
 				if(selectedButton->getName() == "Screenshot")
 					camera.snapshot(WinX, WinY);
 				else if(selectedButton->getName() == "Play")
-					;
+					selectedObject->lerpProperties(0,1,1000);
 				else if(selectedButton->getName() == "Edit")
 					;
 				else if(selectedButton->getName() == "Load"){
@@ -422,45 +422,45 @@ void init(int argc, char* argv[]){
 }
 
 void initObjects(){
-	ObjObject* plane = new ObjObject("../src/objs/plane.obj");
-	plane->setAsNonSelectable();
-	plane->setTexture(TextureManager::WOOD_TEXTURE);
-	objectManager.addObject(plane);
+	//ObjObject* plane = new ObjObject("../src/objs/plane.obj");
+	//plane->setAsNonSelectable();
+	//plane->setTexture(TextureManager::WOOD_TEXTURE);
+	//objectManager.addObject(plane);
 	
 	ObjObject* cube = new ObjObject("../src/objs/cube.obj");
 	cube->setTexture(TextureManager::RED);
 	cube->translate(0.0f,0.2f,0.0f);
 	objectManager.addObject(cube);
 
-	ObjObject* trapezoid = new ObjObject("../src/objs/trapezoid.obj");
-	trapezoid->setTexture(TextureManager::BROWN);
-	trapezoid->translate(-0.9f,0.2f,0.0f);
-	objectManager.addObject(trapezoid);
+	//ObjObject* trapezoid = new ObjObject("../src/objs/trapezoid.obj");
+	//trapezoid->setTexture(TextureManager::BROWN);
+	//trapezoid->translate(-0.9f,0.2f,0.0f);
+	//objectManager.addObject(trapezoid);
 
-	ObjObject* smallTri1 = new ObjObject("../src/objs/smallTri.obj");
-	smallTri1->translate(0.5f,0.2f,0.0f);
-	smallTri1->setTexture(TextureManager::GRAY);
-	objectManager.addObject(smallTri1);
+	//ObjObject* smallTri1 = new ObjObject("../src/objs/smallTri.obj");
+	//smallTri1->translate(0.5f,0.2f,0.0f);
+	//smallTri1->setTexture(TextureManager::GRAY);
+	//objectManager.addObject(smallTri1);
 
-	ObjObject* smallTri2 = new ObjObject("../src/objs/smallTri.obj");
-	smallTri2->translate(1.0f,0.2f,0.0f);
-	smallTri2->setTexture(TextureManager::GREEN);
-	objectManager.addObject(smallTri2);
+	//ObjObject* smallTri2 = new ObjObject("../src/objs/smallTri.obj");
+	//smallTri2->translate(1.0f,0.2f,0.0f);
+	//smallTri2->setTexture(TextureManager::GREEN);
+	//objectManager.addObject(smallTri2);
 
-	ObjObject* medTri = new ObjObject("../src/objs/medTri.obj");
-	medTri->translate(0.5f,0.7f,0.0f);
-	medTri->setTexture(TextureManager::BLUE);
-	objectManager.addObject(medTri);
+	//ObjObject* medTri = new ObjObject("../src/objs/medTri.obj");
+	//medTri->translate(0.5f,0.7f,0.0f);
+	//medTri->setTexture(TextureManager::BLUE);
+	//objectManager.addObject(medTri);
 
-	ObjObject* bigTri1 = new ObjObject("../src/objs/bigTri.obj");
-	bigTri1->translate(-1.5f,0.4f,0.0f);
-	bigTri1->setTexture(TextureManager::WHITE);
-	objectManager.addObject(bigTri1);
+	//ObjObject* bigTri1 = new ObjObject("../src/objs/bigTri.obj");
+	//bigTri1->translate(-1.5f,0.4f,0.0f);
+	//bigTri1->setTexture(TextureManager::WHITE);
+	//objectManager.addObject(bigTri1);
 
-	ObjObject* bigTri2 = new ObjObject("../src/objs/bigTri.obj");
-	bigTri1->translate(1.5f,0.4f,0.0f);
-	bigTri2->setTexture(TextureManager::YELLOW);
-	objectManager.addObject(bigTri2);
+	//ObjObject* bigTri2 = new ObjObject("../src/objs/bigTri.obj");
+	//bigTri1->translate(1.5f,0.4f,0.0f);
+	//bigTri2->setTexture(TextureManager::YELLOW);
+	//objectManager.addObject(bigTri2);
 }
 
 void initButtons(){

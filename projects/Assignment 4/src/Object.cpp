@@ -15,13 +15,13 @@ const vec3 Object::DEFAULT_SCALE = vec3(1,1,1);
 
 
 
-Object::Object(std::string name) : _currentPropertyIndex(0), _name(name), _selected(false), _selectable(true), _textureID(-1){
+Object::Object(std::string name) : _currentPropertyIndex(0), _name(name), _selected(false), _selectable(true), _textureID(-1), _lerpStartTime(0), _loop(false){
 	Properties initialProperty = { DEFAULT_POSITION, DEFAULT_ROTATION, DEFAULT_SCALE };
 	_propertiesArray.push_back(initialProperty);
 	calculateModelMatrix();
 }
 
-Object::Object(std::string name, glm::vec3 position) : _currentPropertyIndex(0), _name(name), _selected(false), _selectable(true), _textureID(-1){
+Object::Object(std::string name, glm::vec3 position) : _currentPropertyIndex(0), _name(name), _selected(false), _selectable(true), _textureID(-1), _lerpStartTime(0), _loop(false){
 	Properties initialProperty = { position, DEFAULT_ROTATION, DEFAULT_SCALE };
 	_propertiesArray.push_back(initialProperty);
 	calculateModelMatrix();
@@ -175,4 +175,22 @@ void Object::printPropertyArray(int i){
 	std::cout << _propertiesArray[i].position.x << std::endl;
 	std::cout << _propertiesArray[i].rotation.x << std::endl;
 	std::cout << _propertiesArray[i].scale.b << std::endl;
+}
+
+void Object::lerpProperties(int index1, int index2, int time){
+	_lerpStartTime = glutGet(GLUT_ELAPSED_TIME);
+	_timeToRun = time;
+	_lerpFrom = index1;
+	_lerpTo = index2;
+}
+
+
+void Object::lerpModelMatrix(float alpha){
+	glm::vec3 lerpedScale = mix(_propertiesArray[_lerpFrom].scale, _propertiesArray[_lerpTo].scale, alpha);
+	glm::quat lerpedQuaternion = slerp(_propertiesArray[_lerpFrom].rotation, _propertiesArray[_lerpTo].rotation, alpha);
+	glm::vec3 lerpedPosition = mix(_propertiesArray[_lerpFrom].position, _propertiesArray[_lerpTo].position, alpha);
+	mat4 transformation1 = glm::scale(lerpedScale);
+	mat4 transformation2 = glm::toMat4(lerpedQuaternion);
+	mat4 transformation3 = glm::translate(lerpedPosition);
+	_currentModelMatrix = transformation3 * transformation2 * transformation1 * mat4();
 }
