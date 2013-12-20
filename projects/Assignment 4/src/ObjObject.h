@@ -20,6 +20,7 @@ public:
 	void draw(GLuint* vaoId);
 	void setPrograms();
 	void saveObject(std::string);
+	void createBufferObjects(GLuint*, GLuint*);
 
 
 private:

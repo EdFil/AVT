@@ -2,10 +2,10 @@
 #define SHADER_MANAGER_H
 
 #include <map>
-
 #include "Program.h"
 #include "SimpleProgram.h"
 #include "TextureProgram.h"
+#include "ButtonTextureProgram.h"
 
 class ShaderManager {
 
@@ -24,6 +24,8 @@ public:
 	void addSimpleProgram(std::string name, std::string vertexFile, std::string fragmentFile);
 	void addTextureProgram(std::string vertexFile, std::string fragmentFile);
 	void addTextureProgram(std::string name, std::string vertexFile, std::string fragmentFile);
+	void addButtonTextureProgram(std::string vertexFile, std::string fragmentFile);
+	void addButtonTextureProgram(std::string name, std::string vertexFile, std::string fragmentFile);
 	
 	//Compile and destroy shaders
 	void createShaderProgram();

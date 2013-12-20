@@ -24,7 +24,23 @@ bool Grid::checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &o
 	return false;
 }
 
+
 void Grid::updateModifiedVertex(){}
+
+void Grid::createBufferObjects(GLuint* vaoId, GLuint* vboId){
+	glBindVertexArray(vaoId[_vaoId]);
+	glBindBuffer(GL_ARRAY_BUFFER, vboId[_vboId]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*_vertexArray.size(), &_vertexArray[0], GL_STATIC_DRAW);
+	//Vertex Position
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+	//Vertex Normal
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(_vertexArray[0].XYZW));
+	//Vertex UV
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(_vertexArray[0].NORMAL)*2));
+}
 
 void Grid::draw(GLuint* vaoId) {
 	SimpleProgram* program = (SimpleProgram*)_programsToUse[0];

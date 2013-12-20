@@ -5,6 +5,7 @@
 
 #include "Object.h"
 #include "Camera.h"
+#include "ButtonObject.h"
 
 class ObjectManager {
 	
@@ -15,6 +16,7 @@ class ObjectManager {
 
 	/* A List where all objects are stored */
 	std::vector<Object*> _objectList;
+	std::vector<ButtonObject*> _buttonObjectList;
 	ShaderManager *_shaderManager;
 
 	GLuint _goIndex;
@@ -37,6 +39,7 @@ public:
 	ObjectManager();
 	ObjectManager(ShaderManager *shaderManager);
 	/* Add a drawable object to the list */
+	void addButtonObject(ButtonObject*);
 	void addObject(Object* object);
 	void removeObjects();
 
@@ -61,6 +64,7 @@ public:
 
 	// Intersections
 	Object* checkIntersection(vec3 rayOrigin, vec3 rayDir);
+	ButtonObject* checkButtonIntersection(glm::vec2);
 	void updateModifiedVertexArray();
 
 private:

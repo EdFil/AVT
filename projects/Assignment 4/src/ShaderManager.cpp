@@ -24,6 +24,16 @@ void ShaderManager::addTextureProgram(std::string name, std::string vertexFile, 
 		_programList.insert(std::pair<std::string, Program*>(name, new TextureProgram(name, vertexFile, fragmentFile)));
 }
 
+void ShaderManager::addButtonTextureProgram(std::string vertexFile, std::string fragmentFile){
+	int foundIndex = std::string(vertexFile).find_last_of("/");
+	addButtonTextureProgram(std::string(vertexFile).substr(foundIndex+1), vertexFile, fragmentFile);
+}
+
+void ShaderManager::addButtonTextureProgram(std::string name, std::string vertexFile, std::string fragmentFile){
+	if(_programList.find(name) == _programList.end())
+		_programList.insert(std::pair<std::string, Program*>(name, new ButtonTextureProgram(name, vertexFile, fragmentFile)));
+}
+
 void ShaderManager::createShaderProgram(){
 	for(std::map<std::string, Program*>::iterator it=_programList.begin(); it!=_programList.end(); ++it)
 		it->second->createShaderProgram();

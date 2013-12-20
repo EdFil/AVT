@@ -10,6 +10,7 @@
 #include "ShaderManager.h"
 #include "ObjectManager.h"
 #include "ObjObject.h"
+#include "ButtonObject.h"
 #include "Grid.h"
 #include "Line.h"
 
@@ -188,23 +189,31 @@ void mouse(int button, int state, int x, int y) {
 	if(button == GLUT_LEFT_BUTTON){
 		if(state == GLUT_DOWN){
 			leftMouseButton = true;
-			Object* object = objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y, WinX, WinY));
-			if (object != NULL){ // If we hit an object
-				if((glutGet(GLUT_ELAPSED_TIME) - lastMouseLeftClick) < 300)
-					objectWasDoubleClicked = true;
-				else
-					objectWasDoubleClicked = false;
-				if(selectedObject != NULL)
-					selectedObject->unselect();
-				selectedObject = object;
-				selectedObject->select();
-				axisLine.bindToObject(selectedObject);
-				objectSelected = true;
+			float x_clip = (2.0f * x) / WinX - 1.0f;
+			float y_clip = 1.0f - (2.0f * y) / WinY;
+			ButtonObject* buttonObject = objectManager.checkButtonIntersection(vec2(x_clip,y_clip));
+			if(buttonObject != NULL){
+				buttonObject->select();
 			}
 			else{
-				objectWasDoubleClicked = false;
+				Object* object = objectManager.checkIntersection(camera.getEye(), camera.rayCasting(x, y, WinX, WinY));
+				if (object != NULL){ // If we hit an object
+					if((glutGet(GLUT_ELAPSED_TIME) - lastMouseLeftClick) < 300)
+						objectWasDoubleClicked = true;
+					else
+						objectWasDoubleClicked = false;
+					if(selectedObject != NULL)
+						selectedObject->unselect();
+					selectedObject = object;
+					selectedObject->select();
+					axisLine.bindToObject(selectedObject);
+					objectSelected = true;
+				}
+				else{
+					objectWasDoubleClicked = false;
+				}
+				lastMouseLeftClick = glutGet(GLUT_ELAPSED_TIME);
 			}
-			lastMouseLeftClick = glutGet(GLUT_ELAPSED_TIME);
 		}else{
 			if(!objectWasDoubleClicked){
 				objectSelected = false;
@@ -373,6 +382,8 @@ void init(int argc, char* argv[]){
 	shaderManager.addTextureProgram("NormalShader", "../src/shaders/VertexShader.glsl", "../src/shaders/FragmentShader.glsl");
 	shaderManager.addTextureProgram("SelectedShader", "../src/shaders/SelectedVertexShader.glsl", "../src/shaders/FragmentShader.glsl");
 	shaderManager.addSimpleProgram("SimpleShader", "../src/shaders/SimpleVertexShader.glsl", "../src/shaders/SimpleFragmentShader.glsl");
+	shaderManager.addButtonTextureProgram("NormalButtonShader", "../src/shaders/OverlayVertexShader.glsl", "../src/shaders/FragmentShader.glsl");
+	shaderManager.addButtonTextureProgram("SelectedButtonShader", "../src/shaders/SelectedOverlayVertexShader.glsl", "../src/shaders/FragmentShader.glsl");
 	shaderManager.createShaderProgram();
 	axisLine = Line();
 	camera = Camera();
@@ -424,6 +435,12 @@ void init(int argc, char* argv[]){
 	bigTri1->translate(1.5f,0.4f,0.0f);
 	bigTri2->setTexture(TextureManager::YELLOW);
 	objectManager.addObject(bigTri2);
+
+	//Button1
+	ButtonObject* button = new ButtonObject("botao1", TextureManager::BLUE, 1, 0.5, 0.5, vec2(0.5,0.5));
+	button->setAsNonSelectable();
+	button->setTexture(TextureManager::WOOD_TEXTURE);
+	objectManager.addButtonObject(button);
 
 	objectManager.createBufferObjects();
 	setupCallbacks();

@@ -13,6 +13,14 @@ ObjectManager::ObjectManager(ShaderManager *shaderManager) :  _vaoCounter(0), _v
 }
 
 
+ButtonObject* ObjectManager::checkButtonIntersection(glm::vec2 mouseClick){
+	for(unsigned int i = 0; i < _buttonObjectList.size(); i++)
+		if(_buttonObjectList[i]->checkIntersection(mouseClick))
+			return _buttonObjectList[i];
+	return NULL;
+}
+
+
 Object* ObjectManager::checkIntersection(vec3 rayOrigin, vec3 rayEnd){
 	Object *returnObject = NULL;
 	vec3 interceptVector(100,100,100), aux;
@@ -30,6 +38,11 @@ Object* ObjectManager::checkIntersection(vec3 rayOrigin, vec3 rayEnd){
 void ObjectManager::updateModifiedVertexArray(){
 	for(unsigned int i = 0; i < _objectList.size(); i++)
 		_objectList[i]->updateModifiedVertex();
+}
+
+void ObjectManager::addButtonObject(ButtonObject* buttonObject){
+	_buttonObjectList.push_back(buttonObject);
+	addObject(buttonObject);
 }
 
 void ObjectManager::addObject(Object* object){

@@ -14,6 +14,7 @@ public:
 	void updateModifiedVertex();
 	void setPrograms();
 	void saveObject(std::string);
+	void createBufferObjects(GLuint*, GLuint*);
 
 private:
 

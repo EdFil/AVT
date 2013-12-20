@@ -57,7 +57,7 @@ public:
 	Object(std::string name, glm::vec3 position, glm::vec3 rotarion, glm::vec3 scale);
 
 	//Virtual Functions
-    virtual void createBufferObjects(GLuint* vaoId, GLuint* vboId);
+    virtual void createBufferObjects(GLuint* vaoId, GLuint* vboId) = 0;
 	virtual void draw(GLuint* vaoId) = 0;
 	virtual bool checkIntersection(glm::vec3 rayOrigin, glm::vec3 rayDir, glm::vec3 &outputVec);
 	virtual void updateModifiedVertex();
